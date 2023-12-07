@@ -56,32 +56,6 @@ def get_structure_factor(grid, real_dens, for_pair_corr=False):
     return struct_dists, s_fact_1d, s_fact_2d
 
 
-# TODO: Remove this, it was only meant to check that the pseudospectral method works
-# and is now redundant
-def naive_pair_correlation(grid, real_dens):
-    # Only 2D for now
-    print(grid.grid)
-    mag_l = cp.sum(grid.grid**2, axis=0)
-    i = mag_l.shape[0]
-    j = mag_l.shape[1]
-    if i % 2 != 0 or j % 2 != 0:
-        raise ValueError("Shape of array should be even")
-
-    g2d_array = cp.zeros((i, j))
-
-    work_dens = real_dens.real / cp.average(real_dens.real)
-    for i in range(g2d_array.shape[0]):
-        print(i)
-        for j in range(g2d_array.shape[0]):
-            g2d_array[i, j] = (
-                cp.sum(cp.roll(work_dens, (i, j), axis=(0, 1)) * work_dens)
-                / work_dens.size
-            )
-    #    g2d_array.flat[0] = 0
-
-    return 1, 1, g2d_array
-
-
 def pair_correlation(grid, real_dens):
     """
     Calculate the pair correlation function of a density grid
