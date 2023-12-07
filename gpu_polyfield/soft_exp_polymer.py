@@ -10,13 +10,6 @@ from se_MDE import *
 from se_CL_ETD import *
 from se_C_kernels import *
 
-np.random.seed(1)
-"""
-This is going to just do uncharged things with equal volume monomers
-in version 1.0 to make debugging easier
-"""
-
-
 class PolymerSystem(object):
     """
     Polymer system that is used to store and conduct most of the operations
