@@ -10,6 +10,7 @@ from se_MDE import *
 from se_CL_ETD import *
 from se_C_kernels import *
 
+
 class PolymerSystem(object):
     """
     Polymer system that is used to store and conduct most of the operations
@@ -898,17 +899,10 @@ class PolymerSystem(object):
                 self.normal_w[i]
             )
 
-            mu_energy += cp.sum(
-                -(1 / (2 * self.normal_evalues[i]))
-                * cp.square(self.normal_w[i])
-                * self.grid.dV
-            )
-
         # psi term
         psi_k = cufft.fftn(self.psi)
         grad_psi_k = psi_k * 1j * self.grid.k1
         grad_psi = cufft.ifftn(grad_psi_k, s=psi_k.shape)
-        psi_energy = cp.sum(cp.abs(grad_psi) ** 2 / (2 * E)) * self.grid.dV
 
         free_energy += cp.abs(grad_psi) ** 2 / (2 * E)
 
@@ -976,15 +970,7 @@ class PolymerSystem(object):
         total_free_energy += (
             (avg_conc @ self.red_FH_mat @ avg_conc).real * self.grid.V / 2
         )
-        conc_energy = (avg_conc @ self.red_FH_mat @ avg_conc).real * self.grid.V / 2
-        return (
-            total_free_energy,
-            ig_entropy,
-            conc_energy,
-            partition_energy,
-            mu_energy,
-            psi_energy,
-        )
+        return total_free_energy
         # TODO: remove the contributions for the final outcome or institutionalize them
 
     def get_chemical_potential(self):
