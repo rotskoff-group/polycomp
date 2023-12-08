@@ -196,7 +196,7 @@ class CL_RK2(object):
         self.ps.update_density_from_normal()
 
         # Set psi to zero if E is zero
-        if self.E is 0:
+        if self.E == 0:
             self.ps.psi = cp.zeros_like(self.ps.psi, dtype=complex)
             return
 
@@ -366,7 +366,7 @@ class CL_RK2(object):
 
         # In this case psi is going to get wiped anyways but we don't want division by
         # zero
-        if self.E is 0:
+        if self.E == 0:
             return
         self.c_k_psi.flat[0] = 1 / self.E
 
