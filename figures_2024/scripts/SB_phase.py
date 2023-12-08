@@ -34,7 +34,7 @@ plt.imshow(processed_L_order_grid, cmap='Reds', origin='lower', extent=[np.min(u
 #plt.colorbar(label='Processed L_order Value')
 plt.xlabel('B Values')
 plt.ylabel('S Values')
-plt.title('Lipid Ordering Parameter')
+plt.title('Lipid Order Parameter')
 
 # Plot for the C_order value
 plt.subplot(222)
@@ -43,7 +43,7 @@ plt.imshow(processed_C_order_grid, cmap='Greens', origin='lower', extent=[np.min
 #plt.colorbar(label='Processed C_order Value')
 plt.xlabel('B Values')
 plt.ylabel('S Values')
-plt.title('Ion Ordering Parameter')
+plt.title('Ion Order Parameter')
 
 # Overlay plot for the L_order and C_order values
 plt.subplot(223)
@@ -83,9 +83,10 @@ cmap = ListedColormap(colors)
 
 b, s = np.meshgrid(unique_b_values, unique_s_values)
 
-scatter_plot = plt.scatter(b, s, c=phase.flatten(), cmap=cmap, edgecolors='black', linewidth=0.5)
+scatter_plot = plt.scatter(b, s, c=phase.flatten(), cmap=cmap, edgecolors='black', linewidth=0.5, s=200)
 cbar = plt.colorbar(scatter_plot, ticks=[3/8.0, 9/8.0, 15/8.0, 21/8.0])
 cbar.set_ticklabels(['Lamellar', 'Coacervate-Core', 'Lipid-Core', 'Homogeneous'], rotation=90, ha='center', va='center')
+plt.axis('auto')
 
 plt.xlabel('B values')
 plt.ylabel('S values')
