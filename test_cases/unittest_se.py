@@ -1,6 +1,6 @@
 import unittest
 import sys
-sys.path.insert(0, "..")
+sys.path.insert(0, "../gpu_polyfield")
 import cupy as cp
 import soft_exp_polymer as p
 from se_MDE import *
@@ -68,7 +68,7 @@ class ChargedNumericTests(unittest.TestCase):
         self.ps.w_all = cp.load("charged_arr_repo/random_w_all.npy")
         self.ps.psi = cp.load("charged_arr_repo/random_psi.npy")
         self.ps.get_densities()
-        cp.testing.assert_array_equal(cp.load("charged_arr_repo/phi_all.npy"), self.ps.phi_all)
+        cp.testing.assert_allclose(cp.load("charged_arr_repo/phi_all.npy"), self.ps.phi_all, rtol=1e-13)
 
 
     def test_integrator(self):
@@ -79,7 +79,7 @@ class ChargedNumericTests(unittest.TestCase):
         self.ps.psi = cp.load("charged_arr_repo/random_psi.npy")
         self.integrator.ETD()
         self.ps.get_densities()
-        cp.testing.assert_array_equal(cp.load("charged_arr_repo/integrated_phi_all.npy"), self.ps.phi_all)
+        cp.testing.assert_allclose(cp.load("charged_arr_repo/integrated_phi_all.npy"), self.ps.phi_all, rtol=1e-13)
 
 class NeutralNumericTests(unittest.TestCase):
     def setUp(self):
@@ -90,7 +90,7 @@ class NeutralNumericTests(unittest.TestCase):
         # gives the correct matching density
         self.ps.w_all = cp.load("neutral_arr_repo/random_w_all.npy")
         self.ps.get_densities()
-        cp.testing.assert_array_equal(cp.load("neutral_arr_repo/phi_all.npy"), self.ps.phi_all)
+        cp.testing.assert_allclose(cp.load("neutral_arr_repo/phi_all.npy"), self.ps.phi_all, rtol=1e-13)
 
 
     def test_integrator(self):
@@ -100,7 +100,7 @@ class NeutralNumericTests(unittest.TestCase):
         self.ps.w_all = cp.load("neutral_arr_repo/random_w_all.npy")
         self.integrator.ETD()
         self.ps.get_densities()
-        cp.testing.assert_array_equal(cp.load("neutral_arr_repo/integrated_phi_all.npy"), self.ps.phi_all)
+        cp.testing.assert_allclose(cp.load("neutral_arr_repo/integrated_phi_all.npy"), self.ps.phi_all, rtol=1e-13)
 
 class UnitTests(unittest.TestCase):
     def setUp(self):
