@@ -28,7 +28,7 @@ for b, s, L_order_value, C_order_value in zip(b_values, s_values, processed_L_or
     processed_C_order_grid[row_idx, col_idx] = C_order_value
 
 # Plot for the L_order value
-plt.figure(figsize=(12, 12))
+plt.figure(figsize=(8, 8))
 plt.subplot(221)
 plt.imshow(processed_L_order_grid, cmap='Reds', origin='lower', extent=[np.min(unique_b_values), np.max(unique_b_values), np.min(unique_s_values), np.max(unique_s_values)], aspect='auto')
 #plt.colorbar(label='Processed L_order Value')
@@ -83,9 +83,9 @@ cmap = ListedColormap(colors)
 
 b, s = np.meshgrid(unique_b_values, unique_s_values)
 
-scatter_plot = plt.scatter(b, s, c=phase.flatten(), cmap=cmap, edgecolors='black', linewidth=0.5, s=200)
+scatter_plot = plt.scatter(b, s, c=phase.flatten(), cmap=cmap, edgecolors='black', linewidth=0.5, s=70)
 cbar = plt.colorbar(scatter_plot, ticks=[3/8.0, 9/8.0, 15/8.0, 21/8.0])
-cbar.set_ticklabels(['Lamellar', 'Coacervate-Core', 'Lipid-Core', 'Homogeneous'], rotation=90, ha='center', va='center')
+cbar.set_ticklabels(['Lamellar', 'Coacervate-Core', 'Lipid-Core', 'Homogeneous'], rotation=45, ha='left', va='bottom')
 plt.axis('auto')
 
 plt.xlabel('B values')

@@ -1,6 +1,6 @@
 import unittest
 import sys
-sys.path.insert(0, "../gpu_polyfield")
+sys.path.insert(0, "../gpu_polycomp")
 import cupy as cp
 import soft_exp_polymer as p
 from se_MDE import *

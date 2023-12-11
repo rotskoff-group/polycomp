@@ -8,23 +8,21 @@ def get_structure_factor(grid, real_dens, for_pair_corr=False):
     """
     Calculate the structure factor of a density grid.
 
-    Parameters
-    ----------
-    grid : Grid
-        The grid object
-    real_dens : cparray
-        The density grid
-    for_pair_corr : bool
-        If True, return the structure factor without averaging over shells
+    Parameters:
+        grid (Grid):
+            The grid object.
+        real_dens (cparray):
+            The density grid.
+        for_pair_corr (bool):
+            If True, return the structure factor without averaging over shells.
 
-    Returns
-    -------
-    struct_dists : cparray
-        The distances of the shells.
-    s_fact_1d : cparray
-        The structure factor averaged over shells.
-    s_fact_2d : cparray
-        The structure factor without averaging over shells.
+    Returns:
+        struct_dists (cparray):
+            The distances of the shells.
+        s_fact_1d (cparray):
+            The structure factor averaged over shells.
+        s_fact_2d (cparray):
+            The structure factor without averaging over shells.
     """
 
     # Normalize Densities
@@ -58,23 +56,21 @@ def get_structure_factor(grid, real_dens, for_pair_corr=False):
 
 def pair_correlation(grid, real_dens):
     """
-    Calculate the pair correlation function of a density grid
+    Calculate the pair correlation function of a density grid.
 
-    Parameters
-    ----------
-    grid : Grid
-        The grid object
-    real_dens : cparray
-        The density grid
+    Parameters:
+        grid (Grid):
+            The grid object.
+        real_dens (cparray):
+            The density grid.
 
-    Returns
-    -------
-    where_bins : cparray
-        The distances of the shells
-    g_1d : cparray
-        The pair correlation function averaged over shells
-    g_2d : cparray
-        The pair correlation function without averaging over shells
+    Returns:
+        where_bins (cparray):
+            The distances of the shells.
+        g_1d (cparray):
+            The pair correlation function averaged over shells.
+        g_2d (cparray):
+            The pair correlation function without averaging over shells.
     """
 
     s2d = get_structure_factor(grid, real_dens, for_pair_corr=True)

@@ -3,32 +3,29 @@ import cupy as cp
 
 class Grid(object):
     """
-    Grid object for a polymer simulation
+    Grid object for a polymer simulation.
 
-    Attributes
-    ----------
-    grid_spec : tuple
-        number of grid points along each axis
-    ndims : int
-        dimension of system
-    l : cparray
-        cparray for length of box along each axis
-    dl : cparray
-        cparray for length of box along each axis for unit cell
-    V : float
-        total box volume
-    dV : float
-        volume of unit cell
-    grid : cparray
-        float array of the (x, ...) position at each grid point
-    kgrid : cparray
-        complex grid of (x, ...) k fourier transformed positions
-        at each k point
-    k1 : cparray
-        complex grid of (x, ...) L1 norm distances at each k point
-    k2 : cparray
-        complex grid of (x, ...) L2 norm distances at each k point
-
+    Attributes:
+        grid_spec (tuple):
+            Number of grid points along each axis.
+        ndims (int):
+            Dimension of the system.
+        l (cparray):
+            CPArray for the length of the box along each axis.
+        dl (cparray):
+            CPArray for the length of the box along each axis for the unit cell.
+        V (float):
+            Total box volume.
+        dV (float):
+            Volume of the unit cell.
+        grid (cparray):
+            Float array of the (x, ...) position at each grid point.
+        kgrid (cparray):
+            Complex grid of (x, ...) k Fourier-transformed positions at each k point.
+        k1 (cparray):
+            Complex grid of (x, ...) L1 norm distances at each k point.
+        k2 (cparray):
+            Complex grid of (x, ...) L2 norm distances at each k point.
     """
 
     def __init__(self, box_length, grid_spec):
@@ -37,17 +34,14 @@ class Grid(object):
 
         Builds grid object for given input values
 
-        Parameters
-        ----------
-        box_length : tuple
-            tuple of floats representing the length of each axis of box
-        grid_spec : tuple
-            tuple of ints representing the number of grid points along each axis
+        Parameters:
+            box_length (tuple): tuple of floats representing the length of each axis of box
+            grid_spec (tuple): tuple of ints representing the number of grid points along each axis
 
-        Raises
-        ------
-        ValueError:
-            Raises error if the box length is not a tuple
+        Raises:
+            
+            ValueError:
+                Raises error if the box length is not a tuple
         """
         super(Grid, self).__init__()
 
@@ -61,16 +55,20 @@ class Grid(object):
 
     def update_l(self, new_l):
         """
-        Set up everything inside of the grid
+        Set up everything inside the grid.
 
-        Builds a number or useful structures providing information about the
-        grid including fourier transformed positions and real position arrays
+        Builds various useful structures that provide information about the
+        grid, including Fourier-transformed positions and real position arrays.
 
-        Parameters
-        ----------
-        new_l : tuple
-            tuple of floats representing the new box lengths
+        Parameters:
+            new_l (tuple of float): Tuple of floats representing the new box lengths.
+
+        Raises:
+
+            ValueError: 
+                Raises error if the box length is not a tuple
         """
+
         self.l = cp.array(new_l)
 
         # Total volume
