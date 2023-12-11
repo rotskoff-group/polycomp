@@ -1,0 +1,60 @@
+site_name: Polycomp
+# site_url: https://mtzgroup.github.io/chemcloud-client/
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+  features:
+    - search.suggest
+    - search.highlight
+    - navigation.instant
+      #    - navigation.expand
+#   icon:
+#     repo: fontawesome/brands/github-alt
+
+# repo_url: https://github.com/mtzgroup/chemcloud-client
+# edit_uri: edit/develop/docs/
+# site_author: Colton Hicks
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [gpu_polycomp]
+          rendering:
+            show_root_heading: False
+            show_root_full_path: True
+            show_category_heading: True
+            show_signature_annotations: True
+            show_if_no_docstring: True
+            group_by_category: True
+            heading_level: 2
+
+          selection:
+            new_path_syntax: True
+            inherited_members: True
+            filters:
+              - "!^_"
+              - "^__init__$"
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - admonition
+  - toc:
+      permalink: 🔗
+  - markdown_include.include:
+      base_path: docs
+
+nav:
+  - Home: 'index.md'
+  - Detailed Documentation: 
+      - Grid: 'grid.md'
+      - Integration Schemes: 'integrator.md'
+      - Modified Diffusion Equation: 'MDE.md'
+      - PolySystem Method: 'soft_explicit.md'
+      - Species Inventory: 'inventory.md'
+      - Structure Factor: 'struct_fact.md'
+    

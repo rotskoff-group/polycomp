@@ -5,21 +5,20 @@ from se_C_kernels import *
 
 def s_step(q_r, h, w_P, grid):
     """
-    Function to run one step of Modified diffusion integration
+    Function to run one step of Modified diffusion integration.
 
     Uses cupy custom functions to more efficiently compute the products with C
-    code, otherwise just products and fourier transforms.
+    code, otherwise just products and Fourier transforms.
 
-    Parameters
-    ----------
-    q_r : cparray
-        sys_dim array of complex128 representing single q value
-    h : float
-        integration step size
-    w_P : cparray
-        sysdim array of complex 128 representing effective chemical potential
-    grid : Grid object
-        system grid
+    Parameters:
+        q_r (cparray):
+            sys_dim array of complex128 representing a single q value.
+        h (float):
+            Integration step size.
+        w_P (cparray):
+            sys_dim array of complex128 representing effective chemical potential.
+        grid (Grid object):
+            System grid.
     """
 
     # Run a single step of Equation 13
@@ -44,28 +43,28 @@ def integrate_s(
     fastener=None,
 ):
     """
-    Function to integrate one polymer
+    Function to integrate one polymer.
 
     Takes the polymer structure and underlying chemical potential and generates
-    values for the modified diffusion equation at every step along the polymer
+    values for the modified diffusion equation at every step along the polymer.
 
-    Parameters
-    ----------
-    struct : ndarray
-        ndarray of Monomers containing the corresponding monomer type along the
-        polymer
-    h_struct : cparray
-        cparray of floats containing the length of each segment along the polymer
-    species_dict : dict
-        dict of species to ints representing the mapping between monomer types
-        the index for their corresponding density and potentia
-    q_r_start : cparray
-        cparray of complex128 representing the initial value of q
-    q_r_dag_start : cparray
-        cparray of complex 128 representing the intial value of q_dagger
-    grid : Grid object
-        system grid
+    Parameters:
+        struct (ndarray):
+            ndarray of Monomers containing the corresponding monomer type along the
+            polymer.
+        h_struct (cparray):
+            cparray of floats containing the length of each segment along the polymer.
+        species_dict (dict):
+            Dictionary of species to ints representing the mapping between monomer types
+            and the index for their corresponding density and potential.
+        q_r_start (cparray):
+            cparray of complex128 representing the initial value of q.
+        q_r_dag_start (cparray):
+            cparray of complex128 representing the initial value of q_dagger.
+        grid (Grid object):
+            System grid.
     """
+
     # integrates using each point in struct as an integration point
     # returns the q_r, q_r_dagger, and the key designating point along struct
     # they belong too

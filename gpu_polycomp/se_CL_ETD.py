@@ -6,57 +6,53 @@ import math
 class CL_RK2(object):
     """
     Class for storing all of the necessary functions to run the Complex
-    Langevin integration using Exponential Time differencing
+    Langevin integration using Exponential Time Differencing.
 
-    Attributes
-    ----------
-    ps : PolymerSystem Object
-        The polymer system integration is supposed to occur on
-    relax_rates : cparray
-        cparray of floats for the relaxation rate of each species
-    relax_temps : cparray
-        cparray of floats for the relaxation temps of each diagonalized w
-    psi_relax_rate : float
-        float for the relaxation rate of psi
-    psi_temp : float
-        float for the relaxation temp of psi
-    E : float
-        float for the E (rescaled bjerrum length) of the system
-    c_k_w : cparray
-        cparray of complex128 for the linear approximation of the response of force from
-        fields derived using the weak inhomogeneity expansion
-    c_k_w : cparray
-        cparray of complex128 for the linear approximation of the response of force from
-        charge field derived using the weak inhomogeneity expansion
-
-
+    Attributes:
+        ps (PolymerSystem Object):
+            The polymer system integration is supposed to occur on.
+        relax_rates (cparray):
+            cparray of floats for the relaxation rate of each species.
+        relax_temps (cparray):
+            cparray of floats for the relaxation temps of each diagonalized w.
+        psi_relax_rate (float):
+            Float for the relaxation rate of psi.
+        psi_temp (float):
+            Float for the relaxation temp of psi.
+        E (float):
+            Float for the E (rescaled Bjerrum length) of the system.
+        c_k_w (cparray):
+            cparray of complex128 for the linear approximation of the response of force from
+            fields derived using the weak inhomogeneity expansion.
+        c_k_w (cparray):
+            cparray of complex128 for the linear approximation of the response of force from
+            charge field derived using the weak inhomogeneity expansion.
     """
 
     def __init__(self, poly_sys, relax_rates, relax_temps, psi_relax_rate, psi_temp, E):
         """
-        Intialize integrator
+        Initialize integrator.
 
-        Parameters
-        ----------
-        poly_sys : PolymerSystem object
-            Polymer system that integration is supposed to occur on
-        relax_rates : cparray
-            cparray of floats for the relaxation rates of each diagonalized w
-        relax_temps : cparray
-            cparray of floats for the relaxation temps of each diagonalized w
-        psi_relax_rate : float
-            float for the relaxation rate of psi
-        psi_temp : float
-            float for the relaxation temp of psi
-        E : float
-            float for the E (rescaled bjerrum length) of the system
+        Parameters:
+            poly_sys (PolymerSystem object):
+                Polymer system that integration is supposed to occur on.
+            relax_rates (cparray):
+                cparray of floats for the relaxation rates of each diagonalized w.
+            relax_temps (cparray):
+                cparray of floats for the relaxation temps of each diagonalized w.
+            psi_relax_rate (float):
+                Float for the relaxation rate of psi.
+            psi_temp (float):
+                Float for the relaxation temp of psi.
+            E (float):
+                Float for the E (rescaled Bjerrum length) of the system.
 
-        Raises
-        ------
-        ValueError:
-            Raised if the shape of the relax rates doesn't match the shape
-            of poly_sys
+        Raises:
+            ValueError:
+                Raised if the shape of the relax rates doesn't match the shape
+                of poly_sys.
         """
+ 
         super(CL_RK2, self).__init__()
 
         self.ps = poly_sys
@@ -71,14 +67,13 @@ class CL_RK2(object):
 
     def ETD(self, for_pressure=False):
         """
-        Integrate one step of time with ETD algorithm
+        Integrate one step of time with ETD algorithm.
 
-        Parameters
-        ----------
-        for_pressure : bool, optional
-            Boolean for whether or not the integration will be followed by pressure
-            calculations, this adds about 25% to the runtime so should be set as rarely
-            as possible, by default False
+        Parameters:
+            for_pressure (bool, optional):
+                Boolean for whether or not the integration will be followed by pressure
+                calculations. This adds about 25% to the runtime, so it should be set as rarely
+                as possible. Default is False.
         """
 
         # Get the densities
@@ -204,18 +199,18 @@ class CL_RK2(object):
 
     def fourier_along_axes(self, array, axis):
         """
-        Fourier transform each grid separately along the first axis
+        Fourier transform each grid separately along the first axis.
 
         Needed when each grid is stored as a stacked array. Uses cufft for
-        Fourier transforms
+        Fourier transforms.
 
-        Parameters
-        ----------
-        array : cparray
-            array to be fourier transformed over
-        axis : int
-            axis to be treated separately
+        Parameters:
+            array (cparray):
+                Array to be Fourier transformed over.
+            axis (int):
+                Axis to be treated separately.
         """
+
         f_array = cp.zeros_like(array, dtype=complex)
 
         # code to slice out everything correctly
@@ -227,18 +222,18 @@ class CL_RK2(object):
 
     def inverse_fourier_along_axes(self, array, axis):
         """
-        Inverse Fourier transform each grid separately along the first axis
+        Inverse Fourier transform each grid separately along the first axis.
 
         Needed when each grid is stored as a stacked array. Uses cufft for
-        Inverse Fourier transforms
+        Inverse Fourier transforms.
 
-        Parameters
-        ----------
-        array : cparray
-            array to be inverse fourier transformed over
-        axis : int
-            axis to be treated separately
+        Parameters:
+            array (cparray):
+                Array to be inverse Fourier transformed over.
+            axis (int):
+                Axis to be treated separately.
         """
+
         inf_array = cp.zeros_like(array, dtype=complex)
 
         # code to slice out everything correctly
@@ -252,39 +247,36 @@ class CL_RK2(object):
 
     def debye(self, k2):
         """
-        Debye function on a discrete grid
+        Debye function on a discrete grid.
 
-        Parameters
-        ----------
-        k2 : cparray
-            cparray representing k^2 at each grid point in k-space
+        Parameters:
+            k2 (cparray):
+                cparray representing k^2 at each grid point in k-space.
         """
-        # Exact Fourier transformed Debye function
+
         debye = 2 / (k2**2) * (cp.exp(-k2) - 1 + k2)
         return debye
 
     def draw_gauss(self, variance):
         """
-        Draw gaussian distribution independently at each point in space
+        Draw Gaussian distribution independently at each point in space.
 
-        Parameters
-        ----------
-        variance : float
-            Variance of the guassian to be drawn
+        Parameters:
+            variance (float):
+                Variance of the Gaussian to be drawn.
         """
-        # helper function to quickly generate arrays of random noise
+
         return cp.random.normal(0, variance.real)
 
     def build_c_k(self, u0_eig, debye_k):
         """
-        Build the c_k coefficients for the ETD integrator
+        Build the c_k coefficients for the ETD integrator.
 
-        Parameters
-        ----------
-        u0_eig : cparray
-            Eigenvalues of the u0 matrix
-        debye_k : cparray
-            Fourier transformed Debye function
+        Parameters:
+            u0_eig (cparray):
+                Eigenvalues of the u0 matrix.
+            debye_k (cparray):
+                Fourier-transformed Debye function.
         """
 
         self.c_k_w = cp.zeros_like(self.ps.normal_w)

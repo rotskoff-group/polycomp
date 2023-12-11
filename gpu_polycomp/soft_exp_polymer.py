@@ -3,6 +3,7 @@ import numpy as np
 import cupy as cp
 import cupyx.scipy.fft as cufft
 import warnings
+# from typing import list
 
 from se_grid import *
 from se_inventory import *
@@ -14,87 +15,86 @@ from se_C_kernels import *
 class PolymerSystem(object):
     """
     Polymer system that is used to store and conduct most of the operations
-    associated with a specific configuration
+    associated with a specific configuration.
 
-    Attributes
-    ----------
-    n_species : int
-        number of monomer species in simulation
-    integration_width : float
-        maximum integration width along polymer
-    FH_dict : dict
-        dict of frozenset(Monomer object):float representing the interaction
-        potentials between all possible pairs of monomers
-    polymers : tuple
-        list of Polymer objects representing all polymers in the system
-    poly_dict : dict
-        dict of Polymer objects representing the amount of each polymer
-        in solution
-    solvent_dict : dict
-        dict of Monomer objects representing the amount of each solvent
-        species in solition
-    Q_dict : dict
-        dict for storing the Q values of each polymer and monomer during the
-        density collection step
-    dQ_dV_dict : dict
-        dict for storing the dQ/dV values of each polymer and monomer for pressure
-        calculations
-    FH_matrix : cparray
-        cparray of floats representing the interaction potentials between all
-        species
-    grid : Grid object
-        Grid object for the simulation
-    w_all : cparray
-        cparray of complex128 representing the chemical potential field for
-        each monomer species at every grid point in the real density
-        representation
-    normal_w : cparray
-        cparray of complex128 representing the chemical potential field at
-        each grid point for fields in the normal mode representation
-    psi : cparray
-        cparray of floats representing the electrostatic potential at each grid point
-    smear_const : float
-        smearing constant for the simulation
-    monomers : tuple
-        tuple of Monomer objects with ordered representation of monomers
-    red_FH_mat : cparray
-        FH matrix with degenerate modes removed
-    degen_dict : dict
-        dictionary mapping the identical species in the non-degenerate
-        representation to their equivalents in the degenerate representation
-    rev_degen_dict : dict
-        dict listing the indices of species in the non-degenerate representaion
-        given their degenerate representation
-    normal_evalues : cparray
-        cparray of floats representing the eigenvalues of the normal mode
-        decomposition
-    normal_modes : cparray
-        cparray of floats representing the matrix of eigenvalues of the normal
-        mode decomposition
-    A_ij : cparray
-        same as normal modes
-    A_inv : cp array
-        inverse of A_ij
-    gamma : cparray
-        cparray of complex128 with 1 for eigenvales less than 1 and 1j for
-        eigenvalues more than 1
-    phi_all : cparray
-        density of each monomer species at every grid point in the real density
-        representation
-    phi_salt : cparray
-        density of each salt species at every grid point in the real density
-    has_nanps : bool
-        True if there are nanoparticles in the system
-    N : float
-        characteristic length of the system
-    use_salts : bool
-        True if there are salts in the system
-    ordered_spec : tuple
-        tuple of species in the order they are stored in the density matrix
-    c_s : float
-        Total salt concentration
-    chem_pot_dict : dict
-        dict of complex128 representing the chemical potential of each species
+    Attributes:
+        n_species (int):
+            Number of monomer species in simulation.
+        integration_width (float):
+            Maximum integration width along the polymer.
+        FH_dict (dict):
+            Dict of frozenset(Monomer object):float representing the interaction
+            potentials between all possible pairs of monomers.
+        polymers (tuple):
+            List of Polymer objects representing all polymers in the system.
+        poly_dict (dict):
+            Dict of Polymer objects representing the amount of each polymer
+            in solution.
+        solvent_dict (dict):
+            Dict of Monomer objects representing the amount of each solvent
+            species in solution.
+        Q_dict (dict):
+            Dict for storing the Q values of each polymer and monomer during the
+            density collection step.
+        dQ_dV_dict (dict):
+            Dict for storing the dQ/dV values of each polymer and monomer for pressure
+            calculations.
+        FH_matrix (cparray):
+            CPArray of floats representing the interaction potentials between all
+            species.
+        grid (Grid object):
+            Grid object for the simulation.
+        w_all (cparray):
+            CPArray of complex128 representing the chemical potential field for
+            each monomer species at every grid point in the real density
+            representation.
+        normal_w (cparray):
+            CPArray of complex128 representing the chemical potential field at
+            each grid point for fields in the normal mode representation.
+        psi (cparray):
+            CPArray of floats representing the electrostatic potential at each grid point.
+        smear_const (float):
+            Smearing constant for the simulation.
+        monomers (tuple):
+            Tuple of Monomer objects with an ordered representation of monomers.
+        red_FH_mat (cparray):
+            FH matrix with degenerate modes removed.
+        degen_dict (dict):
+            Dictionary mapping the identical species in the non-degenerate
+            representation to their equivalents in the degenerate representation.
+        rev_degen_dict (dict):
+            Dict listing the indices of species in the non-degenerate representation
+            given their degenerate representation.
+        normal_evalues (cparray):
+            CPArray of floats representing the eigenvalues of the normal mode
+            decomposition.
+        normal_modes (cparray):
+            CPArray of floats representing the matrix of eigenvalues of the normal
+            mode decomposition.
+        A_ij (cparray):
+            Same as normal modes.
+        A_inv (cp array):
+            Inverse of A_ij.
+        gamma (cparray):
+            CPArray of complex128 with 1 for eigenvalues less than 1 and 1j for
+            eigenvalues more than 1.
+        phi_all (cparray):
+            Density of each monomer species at every grid point in the real density
+            representation.
+        phi_salt (cparray):
+            Density of each salt species at every grid point in the real density.
+        has_nanps (bool):
+            True if there are nanoparticles in the system.
+        N (float):
+            Characteristic length of the system.
+        use_salts (bool):
+            True if there are salts in the system.
+        ordered_spec (tuple):
+            Tuple of species in the order they are stored in the density matrix.
+        c_s (float):
+            Total salt concentration.
+        chem_pot_dict (dict):
+            Dict of complex128 representing the chemical potential of each species.
     """
 
     def __init__(
@@ -111,39 +111,37 @@ class PolymerSystem(object):
         nanoparticles=None,
     ):
         """
-        Initialize polymer system
+        Initialize polymer system.
 
-        Parameters
-        ----------
-        monomers : list/tuple
-            list of monomer species
-        polymers : list/tuple
-            list of polymer species
-        spec_dict : dict
-            dict listing the amount of each polymer and solvent species in
-            solution
-        FH_dict : dict
-            dict corresponding each pair of frozenset of two monomers and their
-            FH interaction term
-        grid : Grid object
-            Grid object for the simulation
-        smear_const : float
-            gaussian smearing constant
-        salt_conc : float
-            Total salt concentration, default 0.0
-        integration_width : float
-            maximum integration width, default 4
-        custom_salts : list/tuple
-            list of salt species, default None leads to salts with charge +/- 1
-        nanoparticles : list/tuple
-            list of nanoparticle species, default None
+        Parameters:
+            monomers (list/tuple):
+                List of monomer species.
+            polymers (list/tuple):
+                List of polymer species.
+            spec_dict (dict):
+                Dict listing the amount of each polymer and solvent species in solution.
+            FH_dict (dict):
+                Dict corresponding each pair of frozenset of two monomers and their
+                FH interaction term.
+            grid (Grid object):
+                Grid object for the simulation.
+            smear_const (float):
+                Gaussian smearing constant.
+            salt_conc (float):
+                Total salt concentration, default 0.0.
+            integration_width (float):
+                Maximum integration width, default 4.
+            custom_salts (list/tuple):
+                List of salt species, default None leads to salts with charge +/- 1.
+            nanoparticles (list/tuple):
+                List of nanoparticle species, default None.
 
-        Raises
-        ------
-        ValueError:
-            Raised if there is a species that is not a polymer or monomer in
-            the species dictionary
+        Raises:
+            ValueError:
+                Raised if there is a species that is not a polymer or monomer in
+                the species dictionary.
         """
+
         super(PolymerSystem, self).__init__()
 
         # add grid
@@ -251,17 +249,16 @@ class PolymerSystem(object):
 
     def set_monomer_order(self, monomers):
         """
-        Permanently affixes the order of the monomers
+        Permanently affixes the order of the monomers.
 
         Orders the monomers so that solvents tend to be last and then writes
-        them into a tuple
+        them into a tuple.
 
-        Parameters
-        ----------
-        monomers : list
-            list of Monomer objects to be ordered
+        Parameters:
+            monomers (list):
+                List of Monomer objects to be ordered.
         """
-        # permanently affix the monomer order in the form of a tuple
+
         forward_count = 0
         reverse_count = len(monomers) - 1
         temp_list = monomers.copy()
@@ -277,13 +274,19 @@ class PolymerSystem(object):
 
     def find_degeneracy(self):
         """
-        Function to identify and combine degenerate species
+        Function to identify and combine degenerate species.
 
         Any species that have identical FH parameters need to be combined and
         operated on by a single chemical potential field. This function
-        identifies them, combines them and then creates the dictionaries needed
-        to map in and out of the non-degenerate representation as needed
+        identifies them, combines them, and then creates the dictionaries needed
+        to map in and out of the non-degenerate representation as needed.
+
+        Raises:
+            ValueError:
+                If the degeneracy cannot be reduced (usually caused by more complicated
+                degeneracies than just identical FH parameters).
         """
+
         # Only works if two components have identical FH parameters (for now)
         # TODO: probably can rewrite this to handle cases where two parameters
         # are scaled or linear combinations but that would require more work
@@ -346,20 +349,17 @@ class PolymerSystem(object):
 
     def remove_degeneracy(self, array):
         """
-        This function sums over degenerate elements
+        This function sums over degenerate elements.
 
-        In the real density represenation degenerate eleents should often be
-        summed over and this function does that
+        In the real density representation, degenerate elements should often be
+        summed over, and this function does that.
 
-        Parameters
-        ----------
-        array : cparray
-            Array like w_all to be have degenerate elements summed over. Must
-            be ordered the same way as w_all
+        Parameters:
+            array (cparray):
+                Array like w_all to have degenerate elements summed over. Must
+                be ordered the same way as w_all.
         """
-        # Helper function to sum convert an array of all species with correct
-        # ordering into a corresponding array with the degenerate entries
-        # summed over
+
         fixed_array = cp.zeros(
             [len(self.degen_dict)] + list(array.shape[1:]), dtype=complex
         )
@@ -410,32 +410,30 @@ class PolymerSystem(object):
 
     def randomize_array(self, array, noise):
         """
-        Generate a random array
+        Generate a random array.
 
-        Noise is gaussian distributed around zero with variance of noise
+        Noise is Gaussian distributed around zero with a variance of noise.
 
-        Parameters
-        ----------
-        array : cparray
-            Array used to determine shape of output noise
-        noise : float
-            variance of noise
+        Parameters:
+            array (cparray):
+                Array used to determine the shape of the output noise.
+            noise (float):
+                Variance of noise.
         """
-        # randomize given array, used for initialization
         array = cp.random.random_sample(size=array.shape) * noise + 0j
         return array
 
     def map_dens_from_norm(self, w_like_array):
         """
-        Map any array from real density to normal representation
+        Map any array from real density to normal representation.
 
-        First axis of w_like_array must be shaped like w_all first axis
+        The first axis of w_like_array must be shaped like w_all's first axis.
 
-        Parameters
-        ----------
-        w_like_array : cparray
-            Array real density space to be transformed
+        Parameters:
+            w_like_array (cparray):
+                Array in real density space to be transformed.
         """
+    
         new_array = (w_like_array.T @ (self.A_inv.T).T).T
         return new_array
 
@@ -448,15 +446,15 @@ class PolymerSystem(object):
 
     def map_norm_from_dens(self, w_like_array):
         """
-        Map any array from normal to real density representation
+        Map any array from normal to real density representation.
 
-        First axis of w_like_array must be shaped like w_all first axis
+        The first axis of w_like_array must be shaped like w_all's first axis.
 
-        Parameters
-        ----------
-        w_like_array : cparray
-            Array in normal space to be transformed
+        Parameters:
+            w_like_array (cparray):
+                Array in normal space to be transformed.
         """
+
         new_array2 = (w_like_array.T @ (self.A_ij)).T
         return new_array2
 
@@ -471,12 +469,11 @@ class PolymerSystem(object):
 
     def reduce_phi_all(self, phi_all):
         """
-        Reduce phi_all to only the non-degenerate elements
+        Reduce phi_all to only the non-degenerate elements.
 
-        Parameters
-        ----------
-        phi_all : cparray
-            Array like phi_all to be reduced
+        Parameters:
+            phi_all (cparray):
+                Array like phi_all to be reduced.
         """
 
         red_phi_all = cp.zeros(
@@ -489,18 +486,16 @@ class PolymerSystem(object):
 
     def convolve(self, array, kernel_k):
         """
-        Convolve any array with a given kernel
+        Convolve any array with a given kernel.
 
-        The kernel is in k-space and the array is in real space, uses a cupy C kernel
+        The kernel is in k-space, and the array is in real space, uses a cupy C kernel.
 
-        Parameters
-        ----------
-        array : cparray
-            Real space array to be convolved
-        kernel_k : cparray
-            Kernel of same last dimensions in k-space
+        Parameters:
+            array (cparray):
+                Real space array to be convolved.
+            kernel_k (cparray):
+                Kernel of the same last dimensions in k-space.
         """
-        # Generic convolution with a fourier transformed kernel
 
         # standard FFT
         array_k = cufft.fftn(array, s=array.shape)
@@ -521,18 +516,14 @@ class PolymerSystem(object):
 
     def gaussian_smear(self, array, alpha):
         """
-        Smear an array by a gaussian
+        Smear an array by a Gaussian pseudospectrally.
 
-        Done by convolving in k-space
-        Parameters
-        ----------
-        array : cparray
-            Array to be smeared
-        alpha : float
-            Variance of guassian to be smeared by
+        Parameters:
+            array (cparray):
+                Array to be smeared.
+            alpha (float):
+                Variance of Gaussian to be smeared by.
         """
-        # Smear a given array by a gaussian with given variance and zero mean
-        # alpha = sqrt(variance)
 
         # generate convolution kernel
         gauss_k = cp.exp(-self.grid.k2 * alpha**2 / 2)
@@ -564,13 +555,13 @@ class PolymerSystem(object):
 
     def get_total_charge(self, include_salt=True):
         """
-        Get the total charge of the system
+        Get the total charge of the system.
 
-        Parameters
-        ----------
-        include_salt : bool
-            Whether to include salt in the total charge
+        Parameters:
+            include_salt (bool):
+                Whether to include salt in the total charge.
         """
+
         total_charge = cp.zeros_like(self.psi)
         for i in range(len(self.monomers)):
             total_charge += self.monomers[i].charge * self.phi_all[i]
@@ -585,25 +576,23 @@ class PolymerSystem(object):
 
     def get_densities(self, for_pressure=False):
         """
-        Function to get the densities from a given set of potentials
+        Function to get the densities from a given set of potentials.
 
         Uses all of the configurations in the polysystem to determine the
         integration scheme.
 
-        Parameters
-        ----------
-        for_pressure : bool
-            Whether to calculate the densities for pressure calculation defaults to False
+        Parameters:
+            for_pressure (bool):
+                Whether to calculate the densities for pressure calculation, defaults to False.
 
-        Raises
-        ------
-        ValueError:
-            Raised if Q_c is not the same for all points along polymer. This
-            is usually the case because either there is something wrong with
-            the integration plan or the fields have gone unstable and achieved
-            unphysical values
+        Raises:
+            ValueError:
+                Raised if Q_c is not the same for all points along the polymer. This
+                is usually the case because either there is something wrong with
+                the integration plan or the fields have gone unstable and achieved
+                unphysical values.
         """
-        # Function to get the phis by solving the modified diffusion equation
+
         q_r0 = cp.ones_like(self.w_all[0])
         q_r_dag0 = cp.ones_like(self.w_all[0])
         self.phi_all = cp.zeros(
@@ -825,14 +814,14 @@ class PolymerSystem(object):
 
     def get_salt_concs(self):
         """
-        Computes the salt concentrations needed to correct the charge imbalance
+        Computes the salt concentrations needed to correct the charge imbalance.
 
         Raises:
-        ------
-        ValueError
-            Raised if the amount of total salt is not enough to correct the charge
-            imbalance
+            ValueError:
+                Raised if the amount of total salt is not enough to correct the charge
+                imbalance.
         """
+
         self.salt_concs = {}
 
         net_saltless_charge = self.get_net_saltless_charge()
@@ -855,18 +844,18 @@ class PolymerSystem(object):
 
     def reindex_Q_c(self, Q_c):
         """
-        Function to reindex Q_c to correctly handle edges of polymers
+        Function to reindex Q_c to correctly handle edges of polymers.
 
         Because the integration takes place over the polymer beads but the
-        values are recorded at the joints we need to reindex the joints back
+        values are recorded at the joints, we need to reindex the joints back
         to the beads. This could also be used for more complicated integration
         schemes later.
 
-        Parameters
-        ----------
-        Q_c : cparray
-            Q_c with a shape that is associated with the joints
+        Parameters:
+            Q_c (cparray):
+                Q_c with a shape that is associated with the joints.
         """
+
         shape = list(Q_c.shape)
         shape[0] -= 1
         new_Q_c = cp.zeros(shape, dtype=complex)
@@ -876,18 +865,17 @@ class PolymerSystem(object):
 
     def get_free_energy(self, E):
         """
-        Function to compute the free energy of the system
+        Function to compute the free energy of the system.
 
-        Parameters
-        ----------
-        E : float
-            The scaled bjerrum length for the system
+        Parameters:
+            E (float):
+                The scaled Bjerrum length for the system.
 
-        Returns
-        -------
-        total_free_energy : float
-            The total free energy of the system
+        Returns:
+            total_free_energy (float):
+                The total free energy of the system.
         """
+
         self.update_normal_from_density()
         # initialize free energy array
         free_energy = cp.zeros_like(self.normal_w[0])
@@ -975,12 +963,11 @@ class PolymerSystem(object):
 
     def get_chemical_potential(self):
         """
-        Function to compute the chemical potential of the system
+        Function to compute the chemical potential of the system.
 
-        Returns
-        -------
-        chem_pot_dict : dict
-            Dictionary of chemical potentials for each species
+        Returns:
+            chem_pot_dict (dict):
+                Dictionary of chemical potentials for each species.
         """
 
         self.chem_pot_dict = {}
@@ -1024,12 +1011,11 @@ class PolymerSystem(object):
 
     def get_pressure(self):
         """
-        Function to compute the pressure of the system
+        Function to compute the pressure of the system.
 
-        Returns
-        -------
-        pressure : float
-            Pressure of the system
+        Returns:
+            pressure (float):
+                Pressure of the system.
         """
 
         # since the ideal mixture terms are extensive but their underlying
