@@ -4,34 +4,30 @@ import numpy as np
 
 class Monomer(object):
     """
-    Class for the monomer of one species in the simulation
+    Class for the monomer of one species in the simulation.
 
-    Attributes
-    ----------
-    name : string
-        unique monomer name
-    has_volume : bool
-        whether the monomer occupies volume
-    identity : string
-        identity of the monomer, probably {polymer, solvent, salt}
-    charge : float
-        charge of the monomer
+    Attributes:
+        name (string):
+            Unique monomer name.
+        has_volume (bool):
+            Whether the monomer occupies volume.
+        identity (string):
+            Identity of the monomer, probably {polymer, solvent, salt}.
+        charge (float):
+            Charge of the monomer.
     """
 
     def __init__(self, name, charge, identity="solvent", has_volume=True):
         """
-        Initialize Monomer object
+        Initialize Monomer object.
 
-        Parameters
-        ----------
-        name : string
-            unique monomer name
-        seg_len : float
-            length of each segment
-        identity : string
-            what type of species the monomer is
-        has_volume : bool
-            whether the monomer occupies volue
+        Parameters:
+            name (string):
+                Unique monomer name.
+            identity (string):
+                What type of species the monomer is.
+            has_volume (bool):
+                Whether the monomer occupies volume.
         """
 
         self.name = name
@@ -45,38 +41,37 @@ class Monomer(object):
 
 class Polymer(object):
     """
-    Class to store all the information for one type of polymer
+    Class to store all the information for one type of polymer.
 
-    Attributes
-    ----------
-    name : string
-        unique name of a polymer
-    total_length : float
-        total length of polymer for integration
-    block_structure : tuple
-        tuple of dicts containing the length of component blocks within the
-        polymer
-    struct : ndarray
-        array of Monomer objects representing linear polymer structure
-    h_struct : cparray
-        array of floats for the length of each section of the structure
-    fastener : cparray
-        cparray indicating where the polymer is fastened
+    Attributes:
+        name (string):
+            Unique name of a polymer.
+        total_length (float):
+            Total length of the polymer for integration.
+        block_structure (tuple):
+            Tuple of dicts containing the length of component blocks within the
+            polymer.
+        struct (ndarray):
+            Array of Monomer objects representing linear polymer structure.
+        h_struct (cparray):
+            Array of floats for the length of each section of the structure.
+        fastener (cparray):
+            cparray indicating where the polymer is fastened.
     """
 
     def __init__(self, name, total_length, block_structure, fastener=None):
         """
-        Initialize Polymer object
+        Initialize Polymer object.
 
-        Parameters
-        ----------
-        name : string
-            unique name
-        total_length : float
-            total length along polymer
-        block_structure : tuple
-            tuple of dictionaries mapping monomer objects to lengths along polymer
+        Parameters:
+            name (string):
+                Unique name.
+            total_length (float):
+                Total length along the polymer.
+            block_structure (tuple):
+                Tuple of dictionaries mapping monomer objects to lengths along the polymer.
         """
+
         super(Polymer, self).__init__()
         self.name = name
         self.total_length = total_length
@@ -96,23 +91,22 @@ class Polymer(object):
 
     def build_working_polymer(self, h, total_h):
         """
-        Build the polymer structure that will be used for integration
+        Build the polymer structure that will be used for integration.
 
         Built-in method to construct a working polymer during integration
-        according to parameters specific to the simulation run
+        according to parameters specific to the simulation run.
 
-        Parameters
-        ----------
-        h : float
-            maximum integration segment length
+        Parameters:
+            h (float):
+                Maximum integration segment length.
 
-        Raises
-        ------
-        ValueError:
-            Raises an error if the polymer already has a built structure. At
-            present there is no reason that a polymer structure should be built
-            more than once in a single simulation
+        Raises:
+            ValueError:
+                Raises an error if the polymer already has a built structure. At
+                present, there is no reason that a polymer structure should be built
+                more than once in a single simulation.
         """
+
         # Used to generate a string of h lengths and polymer species identities
         if self.struct is not None:
             raise ValueError("polymer structure should only be built once")

@@ -1,0 +1,19 @@
+# Exponential Time Integrator
+
+```sh
+mkdocs serve # serves website
+mkdocs build # builds static website
+mkdocs gh-deploy # deploys to GitHub Pages
+```
+
+```python
+import requests
+r = requests.get('www.google.com')
+r.text
+```
+<!-- ::: gpu_polycomp.soft_exp_polymer.PolymerSystem -->
+
+
+
+::: gpu_polycomp.se_CL_ETD
+
