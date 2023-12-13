@@ -30,8 +30,8 @@ for b, s, L_order_value, C_order_value in zip(
     processed_C_order_grid[row_idx, col_idx] = C_order_value
 
 # Plot for the L_order value
-plt.figure(figsize=(8, 8))
-plt.subplot(221)
+plt.figure(figsize=(14, 4))
+plt.subplot(131)
 plt.imshow(
     processed_L_order_grid,
     cmap="Reds",
@@ -50,7 +50,7 @@ plt.ylabel("S Values")
 plt.title("Lipid Order Parameter")
 
 # Plot for the C_order value
-plt.subplot(222)
+plt.subplot(132)
 print(np.amin(processed_C_order_grid))
 plt.imshow(
     processed_C_order_grid,
@@ -70,7 +70,7 @@ plt.ylabel("S Values")
 plt.title("Ion Order Parameter")
 
 # Overlay plot for the L_order and C_order values
-plt.subplot(223)
+plt.subplot(133)
 plt.imshow(
     processed_L_order_grid,
     cmap="Reds",
@@ -101,6 +101,8 @@ plt.xlabel("B Values")
 plt.ylabel("S Values")
 plt.title("Overlay of Both Parameters")
 
+plt.figure(figsize=(6, 6))
+
 phase = np.zeros_like(processed_L_order_grid)
 where_1 = np.where((processed_L_order_grid < 2.4))
 phase[where_1] = 1
@@ -113,7 +115,7 @@ where_3 = np.where(
     )
 )
 phase[where_3] = 3
-plt.subplot(224)
+plt.subplot(111)
 ## Define your custom colors for the 4 values
 # colors = ['salmon', 'skyblue', 'wheat', 'grey']
 
@@ -156,4 +158,3 @@ plt.tight_layout()
 
 plt.show()
 
-exit()
