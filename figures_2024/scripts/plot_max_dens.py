@@ -13,7 +13,7 @@ plt.style.use("stylefile.mplstyle")
 
 nrows=2
 ncols=2
-fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(9,7), dpi=170)
+fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(8,20/3), dpi=1000)
 
 
 im = []
@@ -68,9 +68,9 @@ colors[2] = yellow_color
 colors[3] = green_color
 
 colors[0] = 'beige'
-colors[1] = 'cornflowerblue'
-colors[2] = 'firebrick'
-colors[3] = 'forestgreen'
+colors[1] = 'skyblue'
+colors[2] = 'salmon'
+colors[3] = 'lightseagreen'
 
 #Start of actual plot
 for i in range(ncols):
@@ -251,7 +251,7 @@ plt.title("Phase Diagram")
 # cbar.set_ticklabels(['Lamellar', 'Coacervate-Core', 'Lipid-Core', 'Homogeneous'], rotation=90, ha='center', va='center')
 from matplotlib.colors import ListedColormap
 
-colors = ["salmon", "skyblue", "wheat", "grey"]
+colors = ["salmon", "skyblue", "wheat", "gainsboro"]
 cmap = ListedColormap(colors)
 
 # Create meshgrid for scatter plot
@@ -282,7 +282,7 @@ plt.savefig("phase_diagram.png", dpi=300)
 
 #Start the second plot
 # Plot for the L_order value
-plt.figure(figsize=(14, 4))
+plt.figure(figsize=(12, 4.2),dpi=500)
 plt.subplot(131)
 plt.imshow(
     processed_L_order_grid,
@@ -319,7 +319,7 @@ plt.imshow(
 # plt.colorbar(label='Processed C_order Value')
 plt.xlabel("$B$")
 plt.ylabel("$C_s$")
-plt.title("Ion Order Parameter")
+plt.title(r"$\textrm{Ion Order Parameter}$")
 
 # Overlay plot for the L_order and C_order values
 plt.subplot(133)
@@ -356,5 +356,5 @@ plt.title("Overlay of Both Parameters")
 fig.tight_layout()
 plt.savefig("order_parameters.png", dpi=300)
 
-plt.show()
+#plt.show()
 
