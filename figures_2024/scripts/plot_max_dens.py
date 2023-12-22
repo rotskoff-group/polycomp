@@ -13,7 +13,7 @@ plt.style.use("stylefile.mplstyle")
 
 nrows=2
 ncols=2
-fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(8,20/3), dpi=1000)
+fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(8/1.1,20/3.3), dpi=1000)
 
 
 im = []
@@ -80,15 +80,15 @@ for i in range(ncols):
         if i==1 and j==0:
             dens_traj = cp.load("raw_data/B0.5S0_last_frame.npy")
             dens_traj = np.flip(np.roll(dens_traj, (150,0), axis=(1,2)), axis=1)
-            axes[i][j].set_title('Coacervate Phase at $B=0.5$ and $C_s=0.0$')
+            axes[i][j].set_title(r"$\textrm{Coacervate Phase at $B=0.5$ and $C_s=0.0$}$", fontsize=12)
         if i==1 and j==1:
             dens_traj = cp.load("raw_data/B4S0_last_frame.npy")
             dens_traj = np.flip(np.roll(dens_traj, 240, axis=2), axis=1)
-            axes[i][j].set_title('Lamellar Phase at $B=4.0$ and $C_s=0.0$')
+            axes[i][j].set_title(r"$\textrm{Lamellar Phase at $B=4.0$ and $C_s=0.0$}$", fontsize=12)
         if i==0 and j==1:
             dens_traj = cp.load("raw_data/B5S3_last_frame.npy")
             dens_traj = np.flip(np.roll(dens_traj, 130, axis=2), axis=1)
-            axes[i][j].set_title('Lipid-Core Phase at $B=5.0$ and $C_s=3.0$')
+            axes[i][j].set_title(r"$\textrm{Lipid-Core Phase at $B=5.0$ and $C_s=3.0$}$", fontsize=12)
         
 #        im[i][j] = axes[i,j].imshow(np.flip(np.roll(max_species_indices_np, 240, axis=1), axis=0), cmap=cmap, origin='lower')
         S_traj = dens_traj[0]
@@ -236,7 +236,7 @@ where_3 = np.where(
 )
 phase[where_3] = 3
 plt.subplot(221)
-plt.title("Phase Diagram")
+plt.title(r"$\textrm{Phase Diagram}$")
 ## Define your custom colors for the 4 values
 # colors = ['salmon', 'skyblue', 'wheat', 'grey']
 
@@ -254,14 +254,20 @@ from matplotlib.colors import ListedColormap
 colors = ["salmon", "skyblue", "wheat", "gainsboro"]
 cmap = ListedColormap(colors)
 
+markers = ['*', 'o', 's', '^']
+
 # Create meshgrid for scatter plot
 
 
 b, s = np.meshgrid(unique_b_values, unique_s_values)
 
 scatter_plot = plt.scatter(
-    b, s, c=phase.flatten(), cmap=cmap, edgecolors="black", linewidth=0.5, s=30
+    b, s, c=phase.flatten(), cmap=cmap, edgecolors="black", linewidth=0.5, s=0.0001
 )
+
+for i in range(4):
+    where = np.where(phase == i)
+    plt.scatter(b[where], s[where], c=colors[i], marker=markers[i], s=20)
 cbar = plt.colorbar(scatter_plot, ticks=[3 / 8.0, 9 / 8.0, 15 / 8.0, 21 / 8.0], aspect = 25)
 cbar.set_ticklabels(
     ["Lamellar", "Coacervate", "Lipid-Core", "Homogeneous"],
@@ -271,22 +277,34 @@ cbar.set_ticklabels(
     fontsize=8
 )
 
-
-
 plt.axis("auto")
 
 plt.xlabel("$B$")
 plt.ylabel("$C_s$")
 fig.tight_layout()
-plt.savefig("phase_diagram.png", dpi=300)
+plt.savefig("phase_diagram.pdf", dpi=300)
 
 #Start the second plot
 # Plot for the L_order value
-plt.figure(figsize=(12, 4.2),dpi=500)
+
+
+colors = [(1, 0.6, 0.4, 0), (1, 0.6, 0.4, 1)]  # White to Salmon
+
+# Create the colormap
+cmap_name = 'white_to_salmon'
+cmap1 = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
+
+colors = [(0.125, 0.689, 0.667, 0), (0.125, 0.698, 0.667,1)]  # White to LightSeaGreen
+
+# Create the colormap
+cmap_name = 'white_to_lightseagreen'
+cmap2 = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
+
+plt.figure(figsize=(12/1.1, 4.2/1.1),dpi=500)
 plt.subplot(131)
 plt.imshow(
     processed_L_order_grid,
-    cmap="Reds",
+    cmap=cmap1,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -299,14 +317,14 @@ plt.imshow(
 # plt.colorbar(label='Processed L_order Value')
 plt.xlabel("$B$")
 plt.ylabel("$C_s$")
-plt.title("Lipid Order Parameter")
+plt.title(r"$\textrm{Lipid Order Parameter}$")
 
 # Plot for the C_order value
 plt.subplot(132)
 print(np.amin(processed_C_order_grid))
 plt.imshow(
     processed_C_order_grid,
-    cmap="Greens",
+    cmap=cmap2,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -325,7 +343,7 @@ plt.title(r"$\textrm{Ion Order Parameter}$")
 plt.subplot(133)
 plt.imshow(
     processed_L_order_grid,
-    cmap="Reds",
+    cmap=cmap1,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -337,7 +355,7 @@ plt.imshow(
 )
 plt.imshow(
     processed_C_order_grid,
-    cmap="Greens",
+    cmap=cmap2,
     alpha=0.5,
     origin="lower",
     extent=[
@@ -351,10 +369,10 @@ plt.imshow(
 # plt.colorbar(label='Processed Values')
 plt.xlabel("$B$")
 plt.ylabel("$C_s$")
-plt.title("Overlay of Both Parameters")
+plt.title(r"$\textrm{Overlay of Both Parameters}$")
 
 fig.tight_layout()
-plt.savefig("order_parameters.png", dpi=300)
+plt.savefig("order_parameters.pdf", dpi=300)
 
 #plt.show()
 
