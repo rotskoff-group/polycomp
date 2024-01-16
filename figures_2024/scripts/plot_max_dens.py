@@ -15,7 +15,6 @@ nrows=2
 ncols=2
 fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(8/1.1,20/3.3), dpi=1000)
 
-
 im = []
 div = []
 cax = [] 
@@ -277,12 +276,25 @@ cbar.set_ticklabels(
     fontsize=8
 )
 
+axes[0][0].tick_params(axis='both', labelsize=15)
 plt.axis("auto")
-
 plt.xlabel("$B$")
 plt.ylabel("$C_s$")
 fig.tight_layout()
 plt.savefig("phase_diagram.pdf", dpi=300)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Start the second plot
 # Plot for the L_order value
@@ -299,12 +311,34 @@ colors = [(0.125, 0.689, 0.667, 0), (0.125, 0.698, 0.667,1)]  # White to LightSe
 # Create the colormap
 cmap_name = 'white_to_lightseagreen'
 cmap2 = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
+const2 = 18
+green_col = [
+    (0.9686274509803922, 0.9882352941176471, 0.9607843137254902, 1.0/const2),
+    (0.8980392156862745, 0.9607843137254902, 0.8784313725490196, 2.0/const2),
+    (0.7803921568627451, 0.9137254901960784, 0.7529411764705882, 3.0/const2),
+    (0.6313725490196078, 0.8509803921568627, 0.6078431372549019, 4.0/const2),
+    (0.4549019607843137, 0.7686274509803922, 0.4627450980392157, 5.0/const2),
+    (0.2549019607843137, 0.6705882352941176, 0.36470588235294116, 6.0/const2),
+    (0.13725490196078433, 0.5450980392156862, 0.27058823529411763, 7.0/const2),
+    (0.0, 0.42745098039215684, 0.17254901960784313, 8.0/const2),
+    (0.0, 0.26666666666666666, 0.10588235294117647, 9.0/const2)
+]
+green_col = [
+    (0.0, 0.26666666666666666, 0.10588235294117647, 0.0/const2),
+    (0.0, 0.26666666666666666, 0.10588235294117647, 9.0/const2)
+]
 
-plt.figure(figsize=(12/1.1, 4.2/1.1),dpi=500)
+green_transp = LinearSegmentedColormap.from_list(cmap_name, green_col, N=256) 
+
+
+fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(12/1.1, 4.2/1.1),dpi=500)
+for ax in axes2:
+    ax.tick_params(axis='both', labelsize=15)
+
 plt.subplot(131)
 plt.imshow(
     processed_L_order_grid,
-    cmap=cmap1,
+    cmap="Greens",
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -320,11 +354,26 @@ plt.ylabel("$C_s$")
 plt.title(r"$\textrm{Lipid Order Parameter}$")
 
 # Plot for the C_order value
+const = 9
+red_col = [
+    (1.0, 0.9607843137254902, 0.9411764705882353, 0.0),
+    (1.0, 0.9607843137254902, 0.9411764705882353, 1.0/const),
+    (0.996078431372549, 0.8784313725490196, 0.8235294117647058, 2.0/const),
+    (0.9882352941176471, 0.7333333333333333, 0.6313725490196078, 3.0/const),
+    (0.9882352941176471, 0.5725490196078431, 0.4470588235294118, 4.0/const),
+    (0.984313725490196, 0.41568627450980394, 0.2901960784313726, 5.0/const),
+    (0.9372549019607843, 0.23137254901960785, 0.17254901960784313, 6.0/const),
+    (0.796078431372549, 0.09411764705882353, 0.11372549019607843, 7.0/const),
+    (0.6470588235294118, 0.058823529411764705, 0.08235294117647059, 8.0/const),
+    (0.403921568627451, 0.0, 0.050980392156862744, 9.0/const)
+]
+
+red_transp = LinearSegmentedColormap.from_list(cmap_name, red_col, N=256) 
 plt.subplot(132)
 print(np.amin(processed_C_order_grid))
 plt.imshow(
     processed_C_order_grid,
-    cmap=cmap2,
+    cmap=red_transp,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -342,8 +391,8 @@ plt.title(r"$\textrm{Ion Order Parameter}$")
 # Overlay plot for the L_order and C_order values
 plt.subplot(133)
 plt.imshow(
-    processed_L_order_grid,
-    cmap=cmap1,
+    processed_C_order_grid,
+    cmap=red_transp,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -354,9 +403,8 @@ plt.imshow(
     aspect="auto",
 )
 plt.imshow(
-    processed_C_order_grid,
-    cmap=cmap2,
-    alpha=0.5,
+    processed_L_order_grid,
+    cmap=green_transp,
     origin="lower",
     extent=[
         np.min(unique_b_values),
