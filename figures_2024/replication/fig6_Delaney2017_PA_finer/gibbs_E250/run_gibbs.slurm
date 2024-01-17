@@ -2,7 +2,7 @@
 #
 #SBATCH --job-name=CART_SCAN
 #
-#SBATCH --time=30:00:00
+#SBATCH --time=48:00:00
 #SBATCH --gpus=1
 #SBATCH --partition=rotskoff,owners,gpu,hns
 

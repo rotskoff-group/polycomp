@@ -2,7 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import re
+#import sys
 
+#sys.path.insert(0, "/polycomp_main/figures_2024")
+plt.style.use("stylefile.mplstyle")
 
 #get all directories that start with 'gibbs'
 dirs = [d for d in os.listdir('.') if re.match(r'gibbs_E', d)]
@@ -34,6 +37,8 @@ ref = np.genfromtxt('ref.txt', delimiter=',')
 
 #plot the number versus means of the original directory
 fig, ax = plt.subplots()
+ax.set_title(r"$\textrm{Coacervate Phase at $B=0.5$ and $C_s=0.0$}$", fontsize=12)
+
 ax.errorbar([m[0] for m in means], nums, yerr=[v[0] for v in variances], fmt='o', label='x', color='blue')
 ax.errorbar([m[1] for m in means], nums, yerr=[v[1] for v in variances], fmt='o', label='y', color='blue')
 
