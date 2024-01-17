@@ -65,21 +65,21 @@ ps.update_density_from_normal()
 relax_rates = cp.array([2 * 2 * corr * ps.grid.dV]*(ps.w_all.shape[0])) 
 relax_temps = cp.array([0.001]*(ps.w_all.shape[0])) 
 #relax_temps *= ps.gamma.real
-psi_rate = 20 * ps.grid.dV 
+psi_rate =210 * ps.grid.dV 
 psi_temp = 1
 E = 250 
 ps.update_normal_from_density()
 ps.update_density_from_normal()
 integrator_1 = p.CL_RK2(ps, relax_rates, relax_temps, psi_rate, psi_temp, E)
 
-gibbs_time = 0.04
-volume_time = 0.1
+gibbs_time = 0.02
+volume_time = 0.05
 gibbs_sys = g_e.GibbsEnsemble(ps, integrator_1, gibbs_time, volume_time, spec_dict_2 = spec_dict_2, grid_2 = grid_2)
 gibbs_sys.part_2.get_densities()
 gibbs_sys.burn(500)
 traj = []
 vol_traj = []
-for i in range(1000):
+for i in range(3000):
     gibbs_sys.burn(20)
     gibbs_sys.sample_pot(40, 1)
     gibbs_sys.gibbs_step()
