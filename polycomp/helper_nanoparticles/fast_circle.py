@@ -1,4 +1,4 @@
-import se_grid
+import polycomp.grid as grid
 import matplotlib.pyplot as plt
 import cupy as cp
 import math
@@ -9,7 +9,7 @@ import math
 # the corresponding density on some grid
 grid_spec = (1000, 1000)
 box_length = (60, 60)
-grid = se_grid.Grid(box_length=box_length, grid_spec=grid_spec)
+grid = grid.Grid(box_length=box_length, grid_spec=grid_spec)
 
 # we are going to want the area and the arc length, but we will collect the
 # chord length for now

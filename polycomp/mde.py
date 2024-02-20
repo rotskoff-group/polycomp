@@ -1,6 +1,6 @@
 import cupy as cp
 import cupyx.scipy.fft as cufft
-from se_C_kernels import *
+from polycomp.kernels import *
 
 
 def s_step(q_r, h, w_P, grid):
