@@ -1,4 +1,4 @@
-name: fresh_polypy
+name: polycomp
 channels:
   - conda-forge
   - defaults
@@ -80,4 +80,3 @@ dependencies:
   - xorg-libxdmcp=1.1.3=h7f98852_0
   - xz=5.4.5=h5eee18b_0
   - zstd=1.5.5=hfc55251_0
-prefix: /home/emmit/anaconda3/envs/fresh_polypy

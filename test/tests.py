@@ -1,9 +1,7 @@
 import unittest
-import sys
-sys.path.insert(0, "../gpu_polycomp")
 import cupy as cp
-import soft_exp_polymer as p
-from se_MDE import *
+import polycomp.ft_system as p
+from polycomp.mde import *
 
 def build_polysystem(charge):
     cp.random.seed(0)

@@ -2,7 +2,7 @@ import copy
 import cupy as cp
 import math
 import numpy as np
-import soft_exp_polymer as p
+import polycomp.ft_system as p
 import time
 
 

@@ -1,4 +1,4 @@
-import se_grid
+import polycomp.grid as grid
 import matplotlib.pyplot as plt
 import cupy as cp
 import math
