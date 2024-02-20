@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import re
+from pymbar import timeseries
+from pymbar import testsystems
 
 plt.style.use("stylefile.mplstyle")
 
@@ -24,18 +26,27 @@ for file in right_files:
     T = 10
     A_amt = float(re.findall(r"[-+]?(?:\d*\.*\d+)", file)[0]) 
     traj = np.loadtxt(file, dtype=complex).real
-    points.append([A_amt, np.average(traj[burn_in:,1]), np.var(traj[burn_in:,1])**(0.5), 
-        -np.average(traj[burn_in:,2]), -np.var(traj[burn_in:,2])**(0.5),
-        np.average(traj[burn_in:,3]), np.var(traj[burn_in:,3])**(0.5)])
-
+    t0, g, Neff_max = timeseries.detect_equilibration(traj[:,1], nskip=20)
+    indices = timeseries.subsample_correlated_data(traj[t0:,1], g=g)
+    indices = [i+t0 for i in indices]
+#    print(g)
+#    print(Neff_max)
+#    print(indices)
+    points.append([A_amt, np.average(traj[indices,1]), np.var(traj[indices,1])**(0.5), 
+        -np.average(traj[indices,2]), -np.var(traj[indices,2])**(0.5),
+        np.average(traj[indices,3]), np.var(traj[indices,3])**(0.5), len(indices)])
+    #points.append([A_amt, np.average(traj[indices,1]), np.var(traj[indices,1])**(0.5), 
+    #    -np.average(traj[indices,2]), -np.var(traj[indices,2])**(0.5),
+    #    np.average(traj[indices,3]), np.var(traj[indices,3])**(0.5)])
 ref = np.genfromtxt('ref.txt', delimiter=',')
 points = np.asarray(points)
 #ax_en.plot(points[:,0], points[:,1], color='blue')
-ax_mu.plot(points[:,0], points[:,5], color='blue', label='Calculated $\mu$')
-#ax_mu.errorbar(points[:,0], points[:,5], yerr=points[:,6], ls='none', color='blue')
+#ax_mu.plot(points[:,0], points[:,5], color='blue', label='Calculated $\mu$')
+ax_mu.scatter(ref[:,0], ref[:,1], color='black', label=r"$\textrm{Villet et al.}$",marker = '_')
+ax_mu.scatter(points[:,0], points[:,5], color='red', marker = '_', label= r"$\textrm{Numeric $\mu$ (95\% confidence interval)}$")
+ax_mu.errorbar(points[:,0], points[:,5], yerr=points[:,6] / points[:,-1]**(1/2) * 1.69, ls='none', color='red')
 #ax_mu.plot(points[:,0], -points[:,3], color='red', label='total pi')
 #ax_mu.errorbar(points[:,0], -points[:,3], yerr=points[:,4], ls='none', color='red')
-ax_mu.scatter(ref[:,0], ref[:,1], color='black', label="Selected Reference $\mu$")
 print(points[:,2])
 print(points)
 #ax_en.errorbar(points[:,0], points[:,1], yerr=points[:,2], ls='none', label= "Numeric Free Energy", color='blue')
@@ -54,4 +65,5 @@ ax_mu.set_xscale("log")
 ax_mu.set_title(r"$\textrm{Chemical potential and Pressure Replication at $E=400$}$")
 #ax_para.plot(points[:,3], points[:,5])
 #ax_para.set_xlabel("$\mu$")
+plt.savefig("fig_5B.pdf",format='pdf')
 plt.show()
