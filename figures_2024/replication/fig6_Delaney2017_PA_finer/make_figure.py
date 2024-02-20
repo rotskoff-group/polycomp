@@ -37,19 +37,25 @@ ref = np.genfromtxt('ref.txt', delimiter=',')
 
 #plot the number versus means of the original directory
 fig, ax = plt.subplots()
-ax.set_title(r"$\textrm{Coacervate Phase at $B=0.5$ and $C_s=0.0$}$", fontsize=12)
+ax.set_title(r"$\textrm{Coacervate Phase for Polyampholyte at $B=0.5$ and $C_s=0.0$}$", fontsize=15)
+print([m[0].real for m in means])
+print(nums)
+ax.scatter([m[0].real for m in means], nums, label='Supernatant Concentration', color='blue')
+ax.scatter([m[1].real for m in means], nums, label='Coacervate Concentration', color='red')
+#ax.errorbar([m[0] for m in means], nums, yerr=[v[0] for v in variances], fmt='o', label='x', color='blue')
+#ax.errorbar([m[1] for m in means], nums, yerr=[v[1] for v in variances], fmt='o', label='y', color='blue')
 
-ax.errorbar([m[0] for m in means], nums, yerr=[v[0] for v in variances], fmt='o', label='x', color='blue')
-ax.errorbar([m[1] for m in means], nums, yerr=[v[1] for v in variances], fmt='o', label='y', color='blue')
-
-ax.scatter(ref[:,0], ref[:,1], color='black', label='Fredrickson Result', marker='x')
+ax.scatter(ref[:,0], ref[:,1], color='black', label='Reference Result', marker='x')
 
 #set x axis log
 ax.set_xscale('log')
-ax.set_ylabel('E')
-ax.set_xlabel('reduced concentration')
-fig.suptitle('Phase coexistence for polyampholyte in implicit solvent')
+ax.legend()
+ax.set_ylabel(r"$\textrm{E}$", fontsize=12)
+ax.set_xlabel(r"$\textrm{C (reduced concentration)}$", fontsize=12)
+
+#fig.suptitle(r"$\textrm{Phase coexistence for polyampholyte in implicit solvent}$")
 
 
+fig.savefig('Fig6_rep.pdf', format='pdf')
 plt.show()
 
