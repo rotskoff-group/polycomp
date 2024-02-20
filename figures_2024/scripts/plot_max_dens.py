@@ -4,6 +4,9 @@ sys.path.insert(0, "/scratch/users/epert/nice_plotting/salt_tests/nanobrush")
 import cupy as cp
 import numpy as np
 import math
+#import matplotlib
+#matplotlib.use('AGG')  #or PDF, SVG, or PS
+
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FuncFormatter
 import matplotlib.colors as mcolors
@@ -331,7 +334,7 @@ green_col = [
 green_transp = LinearSegmentedColormap.from_list(cmap_name, green_col, N=256) 
 
 
-fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(12/1.1, 4.2/1.1),dpi=500)
+fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(12/1.1, 5.5/1.1),dpi=500)
 for ax in axes2:
     ax.tick_params(axis='both', labelsize=15)
 
@@ -422,5 +425,5 @@ plt.title(r"$\textrm{Overlay of Both Parameters}$")
 fig.tight_layout()
 plt.savefig("order_parameters.pdf", dpi=300)
 
-#plt.show()
+plt.show()
 

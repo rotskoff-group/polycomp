@@ -65,7 +65,7 @@ ps.update_density_from_normal()
 relax_rates = cp.array([2 * 2 * corr * ps.grid.dV]*(ps.w_all.shape[0])) 
 relax_temps = cp.array([0.001]*(ps.w_all.shape[0])) 
 #relax_temps *= ps.gamma.real
-psi_rate =210 * ps.grid.dV 
+psi_rate = 20 * ps.grid.dV 
 psi_temp = 1
 E = 250 
 ps.update_normal_from_density()
