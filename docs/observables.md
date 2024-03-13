@@ -1,0 +1,3 @@
+# Structure Factor
+
+::: polycomp.observables
