@@ -50,11 +50,12 @@ markdown_extensions:
 
 nav:
   - Home: 'index.md'
+  - Getting Started: 'getting_started.md'
   - Detailed Documentation: 
       - Grid: 'grid.md'
       - Integration Schemes: 'integrator.md'
-      - Modified Diffusion Equation: 'MDE.md'
-      - PolySystem Method: 'soft_explicit.md'
+      - Modified Diffusion Equation: 'mde.md'
+      - PolySystem Method: 'polymersystem.md'
       - Species Inventory: 'inventory.md'
-      - Structure Factor: 'struct_fact.md'
+      - Observables: 'observables.md'
     

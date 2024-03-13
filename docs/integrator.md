@@ -1,19 +1,7 @@
 # Exponential Time Integrator
 
-```sh
-mkdocs serve # serves website
-mkdocs build # builds static website
-mkdocs gh-deploy # deploys to GitHub Pages
-```
+Currently we only use exponential time integration (first order) which is the preferred
+method with other implementations. The details are described below. 
 
-```python
-import requests
-r = requests.get('www.google.com')
-r.text
-```
-<!-- ::: gpu_polycomp.soft_exp_polymer.PolymerSystem -->
-
-
-
-::: gpu_polycomp.se_CL_ETD
+::: polycomp.complex_langevin_ETD
 
