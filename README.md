@@ -1,3 +1,4 @@
-Flesh this out with further info. 
+polycomp 
+========
 
 install with pip install -e . 
