@@ -6,4 +6,5 @@ under construction.
 
 
 install with 
-    pip install -e . 
+
+    pip install -e
