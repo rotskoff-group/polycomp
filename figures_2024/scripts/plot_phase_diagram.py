@@ -334,7 +334,7 @@ green_col = [
 green_transp = LinearSegmentedColormap.from_list(cmap_name, green_col, N=256) 
 
 
-fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(12/1.1, 5.5/1.1),dpi=500)
+fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(14.0/1.1, 5.5/1.1),dpi=500)
 for ax in axes2:
     ax.tick_params(axis='both', labelsize=15)
 
@@ -422,8 +422,8 @@ plt.xlabel("$B$")
 plt.ylabel("$C_s$")
 plt.title(r"$\textrm{Overlay of Both Parameters}$")
 
-fig.tight_layout()
+#fig.tight_layout()
 plt.savefig("order_parameters.pdf", dpi=300)
 
-plt.show()
+#plt.show()
 
