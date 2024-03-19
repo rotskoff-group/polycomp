@@ -16,6 +16,8 @@ can be installed via
 
     conda env create --file polycomp.yml
 
+The package will also require a working CUDA installation. 
+
 ## Running the tests
 
 You can make sure that your installation has worked by running 
@@ -24,4 +26,4 @@ You can make sure that your installation has worked by running
 
 from the tests directory. 
 
-
+You can also try try running some of the [examples](examples.md). 
