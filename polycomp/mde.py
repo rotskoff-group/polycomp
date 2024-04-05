@@ -79,11 +79,32 @@ def integrate_s(
     q_r_dag_s = cp.zeros((s_seg + 1, *q_r.shape), dtype=complex)
 
     # index to ensure sampling happened at the correct places
-    i = 0
+    i = s_seg
 
     # itialize q_r_s at q_r_start
     q_r_s[0] = q_r
     q_r_dag_s[-1] = q_r_dag
+
+    # retreat, integrate, and write q_r_dag_s
+    for bead in reversed(struct):
+        i -= 1
+        q_r_dag_1 = s_step(q_r_dag, h_struct[i], species_dict[bead], grid)
+        q_r_dag_2 = s_step(q_r_dag, h_struct[i] / 2.0, species_dict[bead], grid)
+        q_r_dag_2 = s_step(q_r_dag_2, h_struct[i] / 2.0, species_dict[bead], grid)
+        q_r_dag = (4 * q_r_dag_2 - q_r_dag_1) / 3
+        q_r_dag_s[i] = q_r_dag
+
+    # If the polymer is symmetric, we can use the symmetry to save time
+    if (
+        cp.array_equal(struct, cp.flip(struct))
+        and cp.array_equal(h_struct, cp.flip(h_struct))
+        and fastener is None
+    ):
+        q_r_s = cp.flip(q_r_dag_s, axis=0)
+        return q_r_s, q_r_dag_s
+
+    if fastener is not None:
+        q_r_s[0] = q_r = cp.array(fastener.density, dtype=complex) / q_r_dag_s[-1]
 
     # advance, integrate and write key and q_r_s
     for bead in struct:
@@ -94,26 +115,5 @@ def integrate_s(
         q_r = (4 * q_r_2 - q_r_1) / 3
         i += 1
         q_r_s[i] = q_r
-
-    # If the polymer is symmetric, we can use the symmetry to save time
-    if (
-        cp.array_equal(struct, cp.flip(struct))
-        and cp.array_equal(h_struct, cp.flip(h_struct))
-        and fastener is None
-    ):
-        q_r_dag_s = cp.flip(q_r_s, axis=0)
-        return q_r_s, q_r_dag_s
-
-    if fastener is not None:
-        q_r_s[0] = q_r = cp.array(fastener.density, dtype=complex) / q_r_dag_s[-1]
-
-    # retreat, integrate, and write q_r_dag_s
-    for bead in reversed(struct):
-        i -= 1
-        q_r_dag_1 = s_step(q_r_dag, h_struct[i], species_dict[bead], grid)
-        q_r_dag_2 = s_step(q_r_dag, h_struct[i] / 2.0, species_dict[bead], grid)
-        q_r_dag_2 = s_step(q_r_dag_2, h_struct[i] / 2.0, species_dict[bead], grid)
-        q_r_dag = (4 * q_r_dag_2 - q_r_dag_1) / 3
-        q_r_dag_s[i] = q_r_dag
 
     return q_r_s, q_r_dag_s

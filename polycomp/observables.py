@@ -114,16 +114,20 @@ def get_free_energy(polymer_system, E):
 
     # mu squared terms
     for i in range(polymer_system.normal_w.shape[0]):
-        free_energy += -(1 / (2 * polymer_system.normal_evalues[i])) * cp.square(
-            polymer_system.normal_w[i]
-        )
+#        free_energy += -(1 / (2 * polymer_system.normal_evalues[i])) * cp.square(
+#            polymer_system.normal_w[i]
+#        )
+        free_energy -= (
+            polymer_system.gamma[i] ** 2 / (2 * polymer_system.normal_evalues[i])
+        ) * cp.square(polymer_system.normal_w[i])
 
     # psi term
     psi_k = cufft.fftn(polymer_system.psi)
     grad_psi_k = psi_k * 1j * polymer_system.grid.k1
     grad_psi = cufft.ifftn(grad_psi_k, s=psi_k.shape)
 
-    free_energy += cp.abs(grad_psi) ** 2 / (2 * E)
+    if E!=0:
+        free_energy += cp.abs(grad_psi) ** 2 / (2 * E)
 
     total_free_energy = cp.sum(free_energy) * polymer_system.grid.dV
 
@@ -152,12 +156,12 @@ def get_free_energy(polymer_system, E):
             partition_energy -= (
                 polymer_system.solvent_dict[species]
                 * polymer_system.grid.V
-                * cp.log(polymer_system.Q_dict[species])
+                * (polymer_system.Q_dict[species])
             )
             species_partition[species] = (
                 -polymer_system.solvent_dict[species]
                 * polymer_system.grid.V
-                * cp.log(polymer_system.Q_dict[species])
+                * (polymer_system.Q_dict[species])
             )
             # Ideal gas entropy contribution
             ig_entropy += (
@@ -178,7 +182,7 @@ def get_free_energy(polymer_system, E):
         else:
             print("Bad Species:", species)
             raise ValueError("Couldn't find species in any dictionary")
-    total_free_energy += partition_energy + ig_entropy
+    total_free_energy += partition_energy #+ ig_entropy
 
     avg_conc = cp.average(
         polymer_system.reduce_phi_all(polymer_system.phi_all), axis=range(1, polymer_system.phi_all.ndim)
@@ -186,9 +190,9 @@ def get_free_energy(polymer_system, E):
 
     # Free energy from homogeneous case (needed for comparing across conditions in
     # gibbs ensemble and others)
-    total_free_energy += (
-        (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real * polymer_system.grid.V / 2
-    )
+#    total_free_energy += (
+#        (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real * polymer_system.grid.V / 2
+#    )
     return total_free_energy
     # TODO: remove the contributions for the final outcome or institutionalize them
 
