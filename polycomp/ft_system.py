@@ -176,7 +176,10 @@ class PolymerSystem(object):
                 raise ValueError("Unknown member of species dictionary")
 
         # The longest species in the mix is designated as having length of N
-        self.N = max([x.total_length for x in self.poly_dict.keys()])
+        if not self.poly_dict.keys():
+            self.N = 1
+        else:
+            self.N = max([x.total_length for x in self.poly_dict.keys()])
         self.integration_width = integration_width
 
         for poly in self.poly_dict.keys():
@@ -758,7 +761,7 @@ class PolymerSystem(object):
                 / self.N
             )
             Q_S = cp.sum(exp_w_S) / (self.grid.k2.size)
-            self.phi_all[idx] += exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S)
+            self.phi_all[idx] += exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S) * Q_S
             self.Q_dict[solvent] = cp.copy(Q_S)
             if for_pressure:
                 self.dQ_dV_dict[solvent] = (
@@ -769,6 +772,12 @@ class PolymerSystem(object):
                     * self.grid.dV
                     / self.grid.V
                 )
+
+        if self.has_nanps:
+            for nanp in self.nanps:
+                idx = self.monomers.index(nanp.type)
+                dens = nanp.density * 1
+                self.phi_all[idx] += dens
 
         # check if we are using salts
         if self.use_salts == False:
@@ -805,11 +814,6 @@ class PolymerSystem(object):
                     / self.grid.V
                 )
 
-        if self.has_nanps:
-            for nanp in self.nanps:
-                idx = self.monomers.index(nanp.type)
-                dens = nanp.density * 1
-                self.phi_all[idx] += dens
         return
 
     def get_salt_concs(self):
