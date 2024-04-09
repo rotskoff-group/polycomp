@@ -136,15 +136,28 @@ def get_free_energy(polymer_system, E):
 
     ig_entropy = 0.0
     species_partition = {}
+    log_Q = lambda Q: cp.log(Q)
+    lin_Q = lambda Q: Q
     for species in polymer_system.Q_dict:
+
+        if polymer_system.ensemble = "canonical":
+            can_func = log_Q
+        elif polymer_system.ensemble_dict[species] = "C":
+            can_func = log_Q
+        elif polymer_system.ensemble_dict[species] = "GC":
+            can_func = lin_Q
+        else: 
+            raise ValueError("Something went wrong with the dictionary of the ensembles in the energy evaluation")
+
+
         if species in polymer_system.poly_dict:
             partition_energy -= (
-                polymer_system.poly_dict[species] * polymer_system.grid.V * cp.log(polymer_system.Q_dict[species])
+                polymer_system.poly_dict[species] * polymer_system.grid.V * can_func(polymer_system.Q_dict[species])
             )
             species_partition[species] = (
                 -polymer_system.poly_dict[species]
                 * polymer_system.grid.V
-                * cp.log(polymer_system.Q_dict[species])
+                * can_func(polymer_system.Q_dict[species])
             )
             # Ideal gas entropy contribution
             ig_entropy += (
@@ -156,12 +169,12 @@ def get_free_energy(polymer_system, E):
             partition_energy -= (
                 polymer_system.solvent_dict[species]
                 * polymer_system.grid.V
-                * (polymer_system.Q_dict[species])
+                * can_func(polymer_system.Q_dict[species])
             )
             species_partition[species] = (
                 -polymer_system.solvent_dict[species]
                 * polymer_system.grid.V
-                * (polymer_system.Q_dict[species])
+                * can_func(polymer_system.Q_dict[species])
             )
             # Ideal gas entropy contribution
             ig_entropy += (
