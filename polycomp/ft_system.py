@@ -172,6 +172,7 @@ class PolymerSystem(object):
             self.nanps = nanoparticles
             self.has_nanps = True
         
+        #Set up the custom ensemble flags 
         if ensemble_dict is None or all(value=="C" for value in ensemble_dict.values()):
             self.ensemble="canonical"
         elif all(value=="GC" or value=="C" for value in ensemble_dict.values()):
@@ -179,7 +180,6 @@ class PolymerSystem(object):
             self.ensemble_dict = ensemble_dict
         else:
             raise ValueError("Malformed ensemble dictionary, all entries should be either \"C\" for canonical or \"GC\" for grand canonical")
-        print(self.ensemble)
         
         # Makes sure everything is a polymer or a monomer and checks the total
         # density
