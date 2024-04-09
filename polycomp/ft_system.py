@@ -33,6 +33,10 @@ class PolymerSystem(object):
         solvent_dict (dict):
             Dict of Monomer objects representing the amount of each solvent
             species in solution.
+        ensemble (str):
+            Flag to tell the system which ensemble we are running in
+        ensemble_dict (dict):
+            Dictionary containing ensembles for each species if they are not all canonical
         Q_dict (dict):
             Dict for storing the Q values of each polymer and monomer during the
             density collection step.
@@ -109,6 +113,7 @@ class PolymerSystem(object):
         integration_width=4,
         custom_salts=None,
         nanoparticles=None,
+        ensemble_dict=None
     ):
         """
         Initialize polymer system.
@@ -135,11 +140,15 @@ class PolymerSystem(object):
                 List of salt species, default None leads to salts with charge +/- 1.
             nanoparticles (list/tuple):
                 List of nanoparticle species, default None.
+            ensemble_dict (dict):
+                Dictionary of which species should be treated as grand canonical using activities 
 
         Raises:
             ValueError:
                 Raised if there is a species that is not a polymer or monomer in
                 the species dictionary.
+            ValueError:
+                Raised if an ensemble dictionary including something other than "C" or "GC" is used
         """
 
         super(PolymerSystem, self).__init__()
@@ -162,7 +171,16 @@ class PolymerSystem(object):
         if nanoparticles is not None:
             self.nanps = nanoparticles
             self.has_nanps = True
-
+        
+        if ensemble_dict is None or all(value=="C" for value in ensemble_dict.values()):
+            self.ensemble="canonical"
+        elif all(value=="GC" or value=="C" for value in ensemble_dict.values()):
+            self.ensemble="special"
+            self.ensemble_dict = ensemble_dict
+        else:
+            raise ValueError("Malformed ensemble dictionary, all entries should be either \"C\" for canonical or \"GC\" for grand canonical")
+        print(self.ensemble)
+        
         # Makes sure everything is a polymer or a monomer and checks the total
         # density
         check_frac = 0
@@ -709,6 +727,8 @@ class PolymerSystem(object):
 
             self.Q_dict[polymer] = cp.copy(Q)
 
+            # first change the ensemble if necessary 
+            Q_c = self.canonicalize(Q_c, polymer)
             # generate phi's by summing over partition function in correct areas
             for i in range(len(self.monomers)):
                 self.phi_all[i] += (
@@ -761,8 +781,8 @@ class PolymerSystem(object):
                 / self.N
             )
             Q_S = cp.sum(exp_w_S) / (self.grid.k2.size)
-            self.phi_all[idx] += exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S) * Q_S
             self.Q_dict[solvent] = cp.copy(Q_S)
+            self.phi_all[idx] += self.canonicalize(exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S), solvent)
             if for_pressure:
                 self.dQ_dV_dict[solvent] = (
                     cp.sum(
@@ -815,6 +835,26 @@ class PolymerSystem(object):
                 )
 
         return
+
+    def canonicalize(self, density, species):
+        """
+        If the system is not completely in the canonical ensemble then, we need to 
+        fix the densities for the species in the grand canonical ensemble.
+
+        Raises:
+            ValueError:
+                Raised if the some species is not labeled as "C" or "GC"
+        """
+       
+        if self.ensemble == "canonical":
+            return density
+        
+        if self.ensemble_dict[species] == "GC":
+            density = density * self.Q_dict[species]
+        return density 
+ 
+        
+
 
     def get_salt_concs(self):
         """
