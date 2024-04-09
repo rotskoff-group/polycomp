@@ -140,11 +140,11 @@ def get_free_energy(polymer_system, E):
     lin_Q = lambda Q: Q
     for species in polymer_system.Q_dict:
 
-        if polymer_system.ensemble = "canonical":
+        if polymer_system.ensemble == "canonical":
             can_func = log_Q
-        elif polymer_system.ensemble_dict[species] = "C":
+        elif polymer_system.ensemble_dict[species] == "C":
             can_func = log_Q
-        elif polymer_system.ensemble_dict[species] = "GC":
+        elif polymer_system.ensemble_dict[species] == "GC":
             can_func = lin_Q
         else: 
             raise ValueError("Something went wrong with the dictionary of the ensembles in the energy evaluation")
