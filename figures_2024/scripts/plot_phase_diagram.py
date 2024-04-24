@@ -82,15 +82,15 @@ for i in range(ncols):
         if i==1 and j==0:
             dens_traj = cp.load("raw_data/B0.5S0_last_frame.npy")
             dens_traj = np.flip(np.roll(dens_traj, (150,0), axis=(1,2)), axis=1)
-            axes[i][j].set_title(r"$\textrm{Coacervate Phase at $B=0.5$ and $C_s=0.0$}$", fontsize=12)
+            axes[i][j].set_title(r"$\textrm{$B=0.5$ and $C_{\textrm{s}}=0.0$}$", fontsize=12)
         if i==1 and j==1:
             dens_traj = cp.load("raw_data/B4S0_last_frame.npy")
             dens_traj = np.flip(np.roll(dens_traj, 240, axis=2), axis=1)
-            axes[i][j].set_title(r"$\textrm{Lamellar Phase at $B=4.0$ and $C_s=0.0$}$", fontsize=12)
+            axes[i][j].set_title(r"$\textrm{$B=4.0$ and $C_{\textrm{s}}=0.0$}$", fontsize=12)
         if i==0 and j==1:
             dens_traj = cp.load("raw_data/B5S3_last_frame.npy")
             dens_traj = np.flip(np.roll(dens_traj, 130, axis=2), axis=1)
-            axes[i][j].set_title(r"$\textrm{Lipid-Core Phase at $B=5.0$ and $C_s=3.0$}$", fontsize=12)
+            axes[i][j].set_title(r"$\textrm{$B=5.0$ and $C_{\textrm{s}}=3.0$}$", fontsize=12)
         
 #        im[i][j] = axes[i,j].imshow(np.flip(np.roll(max_species_indices_np, 240, axis=1), axis=0), cmap=cmap, origin='lower')
         S_traj = dens_traj[0]
@@ -282,7 +282,11 @@ cbar.set_ticklabels(
 axes[0][0].tick_params(axis='both', labelsize=15)
 plt.axis("auto")
 plt.xlabel("$B$")
-plt.ylabel("$C_s$")
+plt.ylabel(r"$C_{\textrm{s}}$")
+for i, ax in enumerate(axes.flat):
+    label = r"$\textrm{(" + chr(97 + i) + r")}$"
+    ax.text(-0.15, 1.15, label, transform=ax.transAxes, va='top', ha='left', fontsize=17)
+
 fig.tight_layout()
 plt.savefig("phase_diagram.pdf", dpi=300)
 
@@ -303,17 +307,20 @@ plt.savefig("phase_diagram.pdf", dpi=300)
 # Plot for the L_order value
 
 
-colors = [(1, 0.6, 0.4, 0), (1, 0.6, 0.4, 1)]  # White to Salmon
+colors = [(0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 0), (0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1)]  # White to Salmon
 
 # Create the colormap
 cmap_name = 'white_to_salmon'
-cmap1 = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
+cmap_salmon = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
 
-colors = [(0.125, 0.689, 0.667, 0), (0.125, 0.698, 0.667,1)]  # White to LightSeaGreen
+colors = [(0.5294117647058824, 0.807843137254902, 0.9215686274509803, 0), (0.5294117647058824, 0.807843137254902, 0.9215686274509803, 1)]  # White to Skyblue
 
 # Create the colormap
 cmap_name = 'white_to_lightseagreen'
-cmap2 = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
+cmap_skyblue = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
+
+colors = [(0.5294117647058824, 0.807843137254902, 0.9215686274509803, 0), (0.5294117647058824, 0.807843137254902, 0.9215686274509803, 0.5)]  # White to Skyblue (half opacity)
+cmap_sb_transp = LinearSegmentedColormap.from_list(cmap_name, colors, N=256)
 const2 = 18
 green_col = [
     (0.9686274509803922, 0.9882352941176471, 0.9607843137254902, 1.0/const2),
@@ -334,14 +341,14 @@ green_col = [
 green_transp = LinearSegmentedColormap.from_list(cmap_name, green_col, N=256) 
 
 
-fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(14.0/1.1, 5.5/1.1),dpi=500)
+fig2, axes2 = plt.subplots(nrows=1, ncols=3, figsize=(14.0/1.25, 5.5/1.25),dpi=500)
 for ax in axes2:
     ax.tick_params(axis='both', labelsize=15)
 
 plt.subplot(131)
 plt.imshow(
     processed_L_order_grid,
-    cmap="Greens",
+    cmap=cmap_skyblue,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -349,11 +356,11 @@ plt.imshow(
         np.min(unique_s_values),
         np.max(unique_s_values),
     ],
-    aspect="auto",
+    aspect=1.2,
 )
 # plt.colorbar(label='Processed L_order Value')
 plt.xlabel("$B$")
-plt.ylabel("$C_s$")
+plt.ylabel(r"$C_{\textrm{s}}$")
 plt.title(r"$\textrm{Lipid Order Parameter}$")
 
 # Plot for the C_order value
@@ -376,7 +383,7 @@ plt.subplot(132)
 print(np.amin(processed_C_order_grid))
 plt.imshow(
     processed_C_order_grid,
-    cmap=red_transp,
+    cmap=cmap_salmon,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -384,18 +391,18 @@ plt.imshow(
         np.min(unique_s_values),
         np.max(unique_s_values),
     ],
-    aspect="auto",
+    aspect=1.2,
 )
 # plt.colorbar(label='Processed C_order Value')
 plt.xlabel("$B$")
-plt.ylabel("$C_s$")
+plt.ylabel(r"$C_{\textrm{s}}$")
 plt.title(r"$\textrm{Ion Order Parameter}$")
 
 # Overlay plot for the L_order and C_order values
 plt.subplot(133)
 plt.imshow(
     processed_C_order_grid,
-    cmap=red_transp,
+    cmap=cmap_salmon,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -403,11 +410,11 @@ plt.imshow(
         np.min(unique_s_values),
         np.max(unique_s_values),
     ],
-    aspect="auto",
+    aspect=1.2,
 )
 plt.imshow(
     processed_L_order_grid,
-    cmap=green_transp,
+    cmap=cmap_sb_transp,
     origin="lower",
     extent=[
         np.min(unique_b_values),
@@ -415,14 +422,17 @@ plt.imshow(
         np.min(unique_s_values),
         np.max(unique_s_values),
     ],
-    aspect="auto",
+    aspect=1.2,
 )
 # plt.colorbar(label='Processed Values')
 plt.xlabel("$B$")
-plt.ylabel("$C_s$")
+plt.ylabel(r"$C_{\textrm{s}}$")
 plt.title(r"$\textrm{Overlay of Both Parameters}$")
 
-#fig.tight_layout()
+for i, ax in enumerate(axes2.flat):
+    label = r"$\textrm{(" + chr(97 + i) + r")}$"
+    ax.text(-0.2, 1.15, label, transform=ax.transAxes, va='top', ha='left', fontsize=17)
+fig.tight_layout()
 plt.savefig("order_parameters.pdf", dpi=300)
 
 #plt.show()
