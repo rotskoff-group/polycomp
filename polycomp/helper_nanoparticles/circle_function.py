@@ -16,7 +16,9 @@ def draw_circle(center, radius, grid):
     ind = cp.zeros_like(grid.k2, dtype=int)
 
     # center position and radius
+    # small correction to position I believe centers everything right, not 100% sure
     pos = center
+    pos = center - grid.dl / 2
     rad = radius
 
     # We want to get the signed distances from the center of the circle to all the

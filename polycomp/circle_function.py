@@ -17,6 +17,7 @@ def draw_circle(center, radius, grid):
 
     # center position and radius
     pos = center
+    #pos = center - grid.dl / 2
     rad = radius
 
     # We want to get the signed distances from the center of the circle to all the
@@ -171,6 +172,11 @@ def draw_circle(center, radius, grid):
         change[cp.isclose(change, 0)] = grid.dl[cp.isclose(change, 0)]
         area_3[i] = grid.dV - change[0] * change[1] / 2
         chord_3[i] = cp.sqrt(cp.sum(change**2))
+        if math.isnan(area_3[i]):
+            print(case_3[i])
+            print(use_int[0])
+            print(use_int[1])
+            raise ValueError
     area[ind == 3] = area_3
     chord[ind == 3] = chord_3
 
