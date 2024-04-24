@@ -106,7 +106,7 @@ for i in range(0,dens_traj.shape[0]):
 
 
 
-    S_val = S_traj[i] / cp.average(S_traj[i])
+    S_val = S_traj[i] /100/ cp.average(S_traj[i])
     A_val = A_traj[i] / cp.average(A_traj[i])
     B_val = B_traj[i] / cp.average(B_traj[i])
     L_val = L_traj[i] / cp.average(L_traj[i])
