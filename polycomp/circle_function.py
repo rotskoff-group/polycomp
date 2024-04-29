@@ -1,6 +1,7 @@
 import polycomp.grid as grid
 import matplotlib.pyplot as plt
 import cupy as cp
+import numpy as np
 import math
 
 
@@ -191,3 +192,140 @@ def draw_circle(center, radius, grid):
     # print(cp.sum(area / (math.pi * rad**2)))
     # print(cp.sum(arc) / (math.pi * 2 * rad))
     return area, chord
+
+
+
+
+##Here is the stuff for the stochastic sphere drawing
+def count_corners(center, radius, grid):
+
+    ind = cp.zeros_like(grid.k2, dtype=int)
+
+    # center position and radius
+    pos = center - grid.dl / 2
+    #pos = center
+    rad = radius
+
+    # We want to get the signed distances from the center of the circle to all the
+    # grid points, we can ignore periodic boundary conditions because the circle is
+    # centered
+    disp = cp.sum(((grid.grid.T - pos).T) ** 2, axis=0) ** (0.5)
+    dist = (((grid.grid.T - pos.T)) % (grid.l)).T
+    sign = cp.sign((dist.T % grid.l.T) - grid.l.T / 2).T
+    sign[sign == 0] = 1
+    dist = cp.abs(dist.T - (grid.l) * (dist.T > (grid.l / 2))).T * sign
+    # we want to get an indicator of how many corners of each grid point are in the
+    # circle
+    for edge in ([1, 1, 1], [1, -1, 1], [1, 1, -1], [1, -1, -1], [-1, 1, 1], [-1, -1, 1], [-1, 1, -1], [-1, -1, -1]):
+        edge_dist = cp.abs(dist.T + (grid.dl / 2 * cp.array(edge))).T
+        disp = cp.sum(edge_dist**2, axis=0) ** (0.5)
+        ind[disp <= rad] += 1
+    # Anything with all 4 corners enclosed is fully enclosed
+
+    return ind
+
+
+def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
+    corners = count_corners(center, radius, grid1)
+    values = corners.get()
+
+
+
+    upsampling = 8
+    sphere = cp.zeros_like(grid1.k2)
+    hold_sphere = cp.zeros_like(grid1.k2)
+    polar_samples = cp.random.uniform(0, 1, (grid1.k2.size * upsampling,3))
+
+
+    polar_samples[:,0] = polar_samples[:,0]**(1/2)
+
+    polar_samples[:,0] *= radius
+    polar_samples[:,1] *= math.pi 
+
+    polar_samples[:,2] *= math.pi * 2
+
+
+
+    samples = cp.random.randn(*(grid1.k2.size * upsampling,3))
+
+    samples/= cp.linalg.norm(samples, axis=1, keepdims=True)
+
+
+    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3), 1, (grid1.k2.size * upsampling,1))
+
+    radius_samples[:,0] = radius_samples[:,0]**(1/3)
+
+    radius_samples[:,0] *= radius
+
+    samples *= radius_samples
+
+
+
+    samples += center
+
+
+    where = samples // grid1.dl
+    where = where % cp.array(grid1.grid_spec)
+
+
+    pairs = [tuple(point) for point in where.get()]
+
+    # Get unique pairs and their counts
+    unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
+
+    # Print unique pairs and their counts
+    for pair, count in zip(unique_pairs, counts):
+        hold_sphere[*pair] = float(count)
+    hold_sphere /= cp.sum(hold_sphere)   
+    sphere += hold_sphere
+
+
+
+
+    sphere[corners==8] = 0
+    enclosed_vol = cp.sum((corners==8) * grid1.dV)
+    target_vol = radius**3 * math.pi * (4/3)
+    annulus_vol = target_vol - enclosed_vol
+    sphere *= annulus_vol / grid1.dV / cp.sum(sphere)
+    sphere[corners==8] = 1
+    return sphere
+
+def draw_surface(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
+    corners = count_corners(center, radius, grid1)
+    values = corners.get()
+
+
+
+    upsampling = 8
+    sphere = cp.zeros_like(grid1.k2)
+    hold_sphere = cp.zeros_like(grid1.k2)
+
+    samples = cp.random.randn(*(grid1.k2.size * upsampling,3))
+
+    samples/= cp.linalg.norm(samples, axis=1, keepdims=True)
+
+
+    samples *= radius
+
+
+
+    samples += center
+
+
+    where = samples // grid1.dl
+    where = where % cp.array(grid_spec)
+
+
+    pairs = [tuple(point) for point in where.get()]
+
+    # Get unique pairs and their counts
+    unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
+    unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
+
+    # Print unique pairs and their counts
+    for pair, count in zip(unique_pairs, counts):
+        hold_sphere[*pair] = float(count)
+    hold_sphere /= cp.sum(hold_sphere)   
+    sphere += hold_sphere
+
+    return sphere
