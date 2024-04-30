@@ -23,19 +23,21 @@ def slider_plot(grid, vol):
     nb_frames = grid.grid_spec[2]
 
     fig1 = go.Figure(frames=[go.Frame(data=go.Surface(
-        z=grid.dl[2].get() * k * np.ones((volume.shape[1], volume.shape[0])),
+        z=(grid.l[2].get() - grid.dl[2].get() * k )* np.ones((volume.shape[1], volume.shape[0])),
         x=x, y=y,
         surfacecolor=(volume[:,:,nb_frames - 1 - k].T),
+        colorscale="Gray",
         cmin=np.amin(vol), cmax=np.amax(vol)),
         name=str(k) # you need to name the frame for the animation to behave properly
         )
         for k in range(nb_frames)])
 
     fig1.add_trace(go.Surface(
-    z=0 * np.ones((volume.shape[1], volume.shape[0])),
+    z=grid.l[2].get() * np.ones((volume.shape[1], volume.shape[0])),
     x=x, y=y,
     surfacecolor=(volume[:,:,0].T),
     cmin=np.amin(vol), cmax=np.amax(vol),
+    colorscale="Gray",
     colorbar=dict(thickness=20, ticklen=4),
     ))
 
@@ -114,6 +116,7 @@ def plot_3D(grid, dens):
         value=dens.flatten(),
         isomin=np.amin(dens),
         isomax=np.amax(dens),
+        colorscale="Gray",
         opacity=0.1, # needs to be small to see through all surfaces
         surface_count=17, # needs to be a large number for good volume rendering
         ))
