@@ -288,19 +288,7 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
     target_vol = radius**3 * math.pi * (4/3)
     annulus_vol = target_vol - enclosed_vol
     sphere *= annulus_vol / grid1.dV / cp.sum(sphere)
-#    sphere *= target_vol / grid1.dV / cp.sum(sphere)
-    print(cp.sum(sphere * grid1.dV))
-    print(target_vol)
-#    print(sphere)
-#    print((cp.sum(sphere) + cp.sum(corners==8)) * grid1.dV)
-#    print(cp.average(sphere > 0.01))
-#    print(cp.sort(sphere.flatten())[-500:])
-    print(cp.sum(sphere > 1.0))
-    print(cp.sum(sphere > 0))
-#    exit()
-#    print(cp.amax(sphere))
     sphere[corners==8] = 1
-    print("Max, ", cp.amax(sphere))
     return sphere
 
 def draw_shell(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
