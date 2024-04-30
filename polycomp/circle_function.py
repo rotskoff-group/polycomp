@@ -231,7 +231,6 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
 
 
-    upsampling = 8
     sphere = cp.zeros_like(grid1.k2)
     hold_sphere = cp.zeros_like(grid1.k2)
     polar_samples = cp.random.uniform(0, 1, (grid1.k2.size * upsampling,3))
@@ -252,6 +251,7 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
 
     radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3), 1, (grid1.k2.size * upsampling,1))
+#    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3) * 0, 1, (grid1.k2.size * upsampling,1))
 
     radius_samples[:,0] = radius_samples[:,0]**(1/3)
 
@@ -272,6 +272,7 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
     # Get unique pairs and their counts
     unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
+    unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
 
     # Print unique pairs and their counts
     for pair, count in zip(unique_pairs, counts):
@@ -287,18 +288,30 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
     target_vol = radius**3 * math.pi * (4/3)
     annulus_vol = target_vol - enclosed_vol
     sphere *= annulus_vol / grid1.dV / cp.sum(sphere)
+#    sphere *= target_vol / grid1.dV / cp.sum(sphere)
+    print(cp.sum(sphere * grid1.dV))
+    print(target_vol)
+#    print(sphere)
+#    print((cp.sum(sphere) + cp.sum(corners==8)) * grid1.dV)
+#    print(cp.average(sphere > 0.01))
+#    print(cp.sort(sphere.flatten())[-500:])
+    print(cp.sum(sphere > 1.0))
+    print(cp.sum(sphere > 0))
+#    exit()
+#    print(cp.amax(sphere))
     sphere[corners==8] = 1
+    print("Max, ", cp.amax(sphere))
     return sphere
 
-def draw_surface(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
+def draw_shell(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
     corners = count_corners(center, radius, grid1)
     values = corners.get()
 
 
 
     upsampling = 8
-    sphere = cp.zeros_like(grid1.k2)
-    hold_sphere = cp.zeros_like(grid1.k2)
+    shell = cp.zeros_like(grid1.k2)
+    hold_shell = cp.zeros_like(grid1.k2)
 
     samples = cp.random.randn(*(grid1.k2.size * upsampling,3))
 
@@ -313,7 +326,7 @@ def draw_surface(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
 
     where = samples // grid1.dl
-    where = where % cp.array(grid_spec)
+    where = where % cp.array(grid1.grid_spec)
 
 
     pairs = [tuple(point) for point in where.get()]
@@ -324,8 +337,10 @@ def draw_surface(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
     # Print unique pairs and their counts
     for pair, count in zip(unique_pairs, counts):
-        hold_sphere[*pair] = float(count)
-    hold_sphere /= cp.sum(hold_sphere)   
-    sphere += hold_sphere
+        hold_shell[*pair] = float(count)
+    hold_shell /= cp.sum(hold_shell)   
+    shell += hold_shell
 
-    return sphere
+    shell /= cp.sum(shell * grid1.dV)
+
+    return shell
