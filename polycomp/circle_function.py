@@ -272,7 +272,7 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
     # Get unique pairs and their counts
     unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
-    unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
+    #unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
 
     # Print unique pairs and their counts
     for pair, count in zip(unique_pairs, counts):
@@ -321,7 +321,7 @@ def draw_shell(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
     # Get unique pairs and their counts
     unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
-    unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
+    #unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
 
     # Print unique pairs and their counts
     for pair, count in zip(unique_pairs, counts):

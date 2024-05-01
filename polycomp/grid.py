@@ -83,7 +83,7 @@ class Grid(object):
                         self.grid_spec,
                         self.l * (1 - 1 / cp.array(self.grid_spec)),
                     )
-                ]
+                ],  indexing='ij'
             )
         )
 
@@ -99,7 +99,7 @@ class Grid(object):
                         axis=None,
                     )
                     for n, l in zip(self.grid_spec, self.l)
-                ]
+                ],  indexing='ij' 
             )
         )
 
