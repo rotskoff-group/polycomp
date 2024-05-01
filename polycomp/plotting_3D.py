@@ -12,8 +12,9 @@ def frame_args(duration):
         }
 
 def slider_plot(grid, vol):
-    #No idea why this transposition works but it does if you use all the following notation
-    volume = vol.transpose(1,0,2)
+    ##No idea why this transposition works but it does if you use all the following notation
+    #volume = vol.transpose(1,0,2)
+    volume = vol
 
     r, c = volume[:,:,0].shape
 
