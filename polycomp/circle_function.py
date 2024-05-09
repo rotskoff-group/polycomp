@@ -12,46 +12,49 @@ def draw_circle(center, radius, grid):
 
     # we are going to want the area and the arc length, but we will collect the
     # chord length for now
-    area = cp.zeros_like(grid.k2)
-    chord = cp.zeros_like(grid.k2)
-    ind = cp.zeros_like(grid.k2, dtype=int)
+
+    #We reindexed things but fixing the underlying function would be a nightmare so we
+    #did this instead
+    adj_k2 = cp.swapaxes(grid.k2, 0,1)
+    adj_grid = cp.swapaxes(grid.grid, 1,2)
+
+
+    area = cp.zeros_like(adj_k2)
+    chord = cp.zeros_like(adj_k2)
+    ind = cp.zeros_like(adj_k2, dtype=int)
 
     # center position and radius
     pos = center
     #pos = center - grid.dl / 2
     rad = radius
-
     # We want to get the signed distances from the center of the circle to all the
     # grid points, we can ignore periodic boundary conditions because the circle is
     # centered
-    disp = cp.sum(((grid.grid.T - pos).T) ** 2, axis=0) ** (0.5)
-    dist = (((grid.grid.T - pos.T)) % (grid.l)).T
+    disp = cp.sum(((adj_grid.T - pos).T) ** 2, axis=0) ** (0.5)
+    dist = (((adj_grid.T - pos.T)) % (grid.l)).T
     sign = cp.sign((dist.T % grid.l.T) - grid.l.T / 2).T
     sign[sign == 0] = 1
     dist = cp.abs(dist.T - (grid.l) * (dist.T > (grid.l / 2))).T * sign
-    # we want to get an indicator of how many corners of each grid point are in the
-    # circle
     for edge in ([1, 1], [-1, 1], [1, -1], [-1, -1]):
         edge_dist = cp.abs(dist.T + (grid.dl / 2 * cp.array(edge))).T
         disp = cp.sum(edge_dist**2, axis=0) ** (0.5)
         ind[disp <= rad] += 1
     # Anything with all 4 corners enclosed is fully enclosed
     area[ind == 4] = grid.dV
-
     # These are the lines that all of the x and y gridlines lie on
     x_vals = dist[0, 0]
     x_lines = cp.append((x_vals + grid.dl[0] / 2), (x_vals[-1] - grid.dl[0] / 2))
     y_vals = dist[1, :, 0]
     y_lines = cp.append((y_vals + grid.dl[1] / 2), (y_vals[-1] - grid.dl[1] / 2))
-
+    
     # These are the unsigned intercept distances to each gridline
     y_ints = cp.sqrt(rad**2 - x_lines**2)
     x_ints = cp.sqrt(rad**2 - y_lines**2)
 
     # We are going to try to assign each gridpoint four intercepts one for each side
     # of the grid cell
-    ints = cp.zeros((*grid.k2.shape, 4, 2))
-    ints_disp = cp.zeros((*grid.k2.shape, 4))
+    ints = cp.zeros((*adj_k2.shape, 4, 2))
+    ints_disp = cp.zeros((*adj_k2.shape, 4))
     ints[:, :, 0, 0] = x_lines[:-1]
     ints[:, :, 0, 1] = cp.abs(y_ints[:-1])
     ints[:, :, 1, 0] = x_lines[1:]
@@ -62,7 +65,6 @@ def draw_circle(center, radius, grid):
     ints[:, :, 3, 1] = y_lines[1:]
     ints[:, :, 3, 0] = x_ints[1:]
     ints = cp.swapaxes(ints, 0, 1)
-
     # We want to replace every intercept that is not within the gridlines with nan
     x_ints = ints[:, :, :, 0]
     y_ints = ints[:, :, :, 1]
@@ -90,14 +92,11 @@ def draw_circle(center, radius, grid):
     y_ints[:, :, 0:2] = y_ints[:, :, 0:2] * (1 - 2 * bad_y)
     ints[:, :, :, 0] = x_ints
     ints[:, :, :, 1] = y_ints
-
     # With all the intercepts defined, we can now solve the case with one corner in
     # the circle
-
     case_1 = ints[ind == 1]
     area_1 = area[ind == 1]
     chord_1 = chord[ind == 1]
-
     use_int = cp.zeros((2, 2))
     # the basic plan is the find the area of the triangle in the corner, add that to
     # the area, then record the hypotenuse length for later as the chord length
@@ -110,14 +109,11 @@ def draw_circle(center, radius, grid):
         chord_1[i] = cp.sqrt(cp.sum(change**2))
     area[ind == 1] = area_1
     chord[ind == 1] = chord_1
-
     # Solve the case with two corners in the circle
     case_2 = ints[ind == 2]
     area_2 = area[ind == 2]
     chord_2 = chord[ind == 2]
-
     get_nan = cp.sum(cp.isnan(case_2), axis=1)
-
     use_ints = cp.zeros((case_2.shape[0], 2, 2))
     # General plan, determine whether the cell is to the side of the circle of over/
     # under. Then find the two intercepts and the bottom and use those to get the
@@ -147,13 +143,10 @@ def draw_circle(center, radius, grid):
             chord_2[i] = cp.sum((use_int[0] - use_int[1]) ** 2) ** (0.5)
     area[ind == 2] = area_2
     chord[ind == 2] = chord_2
-
     # Solve case with 3 corners
-
     case_3 = ints[ind == 3]
     area_3 = area[ind == 3]
     chord_3 = chord[ind == 3]
-
     use_int = cp.zeros((2, 2))
     # Essentially the same as the 1 case, except we will subtract off the triangle
     # from the area of the whole cell
@@ -180,19 +173,19 @@ def draw_circle(center, radius, grid):
             raise ValueError
     area[ind == 3] = area_3
     chord[ind == 3] = chord_3
-
     # Use some simple trig to calculate the arc length
     arc = rad * 2 * cp.arcsin(chord / (2 * rad))
     theta = 2 * cp.arcsin(chord / (2 * rad))
-
     # Add the segment area corresponding to each chord
     area += (1 / 2) * (theta - cp.sin(theta)) * rad**2
-
     # Check against an analytical formula
     # print(cp.sum(area / (math.pi * rad**2)))
     # print(cp.sum(arc) / (math.pi * 2 * rad))
-    return area, chord
 
+    area = cp.swapaxes(area, 0,1)
+    chord = cp.swapaxes(chord, 0,1)
+
+    return area, chord
 
 
 
