@@ -12,16 +12,9 @@ def draw_circle(center, radius, grid):
 
     # we are going to want the area and the arc length, but we will collect the
     # chord length for now
-    
-    #We reindexed things but fixing the underlying function would be a nightmare so we
-    #did this instead
-    adj_k2 = cp.swapaxes(grid.k2, 0,1)
-    adj_grid = cp.swapaxes(grid.grid, 1,2)
-
-
-    area = cp.zeros_like(adj_k2)
-    chord = cp.zeros_like(adj_k2)
-    ind = cp.zeros_like(adj_k2, dtype=int)
+    area = cp.zeros_like(grid.k2)
+    chord = cp.zeros_like(grid.k2)
+    ind = cp.zeros_like(grid.k2, dtype=int)
 
     # center position and radius
     pos = center
@@ -31,8 +24,8 @@ def draw_circle(center, radius, grid):
     # We want to get the signed distances from the center of the circle to all the
     # grid points, we can ignore periodic boundary conditions because the circle is
     # centered
-    disp = cp.sum(((adj_grid.T - pos).T) ** 2, axis=0) ** (0.5)
-    dist = (((adj_grid.T - pos.T)) % (grid.l)).T
+    disp = cp.sum(((grid.grid.T - pos).T) ** 2, axis=0) ** (0.5)
+    dist = (((grid.grid.T - pos.T)) % (grid.l)).T
     sign = cp.sign((dist.T % grid.l.T) - grid.l.T / 2).T
     sign[sign == 0] = 1
     dist = cp.abs(dist.T - (grid.l) * (dist.T > (grid.l / 2))).T * sign
@@ -50,15 +43,15 @@ def draw_circle(center, radius, grid):
     x_lines = cp.append((x_vals + grid.dl[0] / 2), (x_vals[-1] - grid.dl[0] / 2))
     y_vals = dist[1, :, 0]
     y_lines = cp.append((y_vals + grid.dl[1] / 2), (y_vals[-1] - grid.dl[1] / 2))
-    
+
     # These are the unsigned intercept distances to each gridline
     y_ints = cp.sqrt(rad**2 - x_lines**2)
     x_ints = cp.sqrt(rad**2 - y_lines**2)
 
     # We are going to try to assign each gridpoint four intercepts one for each side
     # of the grid cell
-    ints = cp.zeros((*adj_k2.shape, 4, 2))
-    ints_disp = cp.zeros((*adj_k2.shape, 4))
+    ints = cp.zeros((*grid.k2.shape, 4, 2))
+    ints_disp = cp.zeros((*grid.k2.shape, 4))
     ints[:, :, 0, 0] = x_lines[:-1]
     ints[:, :, 0, 1] = cp.abs(y_ints[:-1])
     ints[:, :, 1, 0] = x_lines[1:]
@@ -198,10 +191,6 @@ def draw_circle(center, radius, grid):
     # Check against an analytical formula
     # print(cp.sum(area / (math.pi * rad**2)))
     # print(cp.sum(arc) / (math.pi * 2 * rad))
-   
-    area = cp.swapaxes(area, 0,1)
-    chord = cp.swapaxes(chord, 0,1)
-     
     return area, chord
 
 
@@ -210,11 +199,7 @@ def draw_circle(center, radius, grid):
 ##Here is the stuff for the stochastic sphere drawing
 def count_corners(center, radius, grid):
 
-    adj_k2 = cp.swapaxes(grid.k2, 0,1)
-    adj_grid = cp.swapaxes(grid.grid, 1,2)
-
-
-    ind = cp.zeros_like(adj_k2, dtype=int)
+    ind = cp.zeros_like(grid.k2, dtype=int)
 
     # center position and radius
     pos = center - grid.dl / 2
@@ -224,8 +209,8 @@ def count_corners(center, radius, grid):
     # We want to get the signed distances from the center of the circle to all the
     # grid points, we can ignore periodic boundary conditions because the circle is
     # centered
-    disp = cp.sum(((adj_grid.T - pos).T) ** 2, axis=0) ** (0.5)
-    dist = (((adj_grid.T - pos.T)) % (grid.l)).T
+    disp = cp.sum(((grid.grid.T - pos).T) ** 2, axis=0) ** (0.5)
+    dist = (((grid.grid.T - pos.T)) % (grid.l)).T
     sign = cp.sign((dist.T % grid.l.T) - grid.l.T / 2).T
     sign[sign == 0] = 1
     dist = cp.abs(dist.T - (grid.l) * (dist.T > (grid.l / 2))).T * sign
@@ -281,20 +266,23 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
     where = samples // grid1.dl
     where = where % cp.array(grid1.grid_spec)
+    where = where.astype(int)
 
 
-    pairs = [tuple(point) for point in where.get()]
+
 
     # Get unique pairs and their counts
-    unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
-    #unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
+    flat_where = hold_sphere.shape[1] * hold_sphere.shape[2] * where[: , 0] + hold_sphere.shape[2] * where[:, 1] + where[:,2]
+    flat_unique_pairs, flat_counts = cp.unique(flat_where, return_counts=True)
 
-    # Print unique pairs and their counts
-    for pair, count in zip(unique_pairs, counts):
-        hold_sphere[*pair] = float(count)
-    hold_sphere /= cp.sum(hold_sphere)   
+
+    flat_hold_sphere = hold_sphere.flatten()
+    flat_hold_sphere[flat_unique_pairs] = flat_counts
+
+    hold_sphere = flat_hold_sphere.reshape(hold_sphere.shape)
+
+    hold_sphere /= cp.sum(hold_sphere)
     sphere += hold_sphere
-
 
 
 
@@ -330,17 +318,17 @@ def draw_shell(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
 
     where = samples // grid1.dl
     where = where % cp.array(grid1.grid_spec)
+    where = where.astype(int)
+
+    flat_where = hold_shell.shape[1] * hold_shell.shape[2] * where[: , 0] + hold_shell.shape[2] * where[:, 1] + where[:,2]
+    flat_unique_pairs, flat_counts = cp.unique(flat_where, return_counts=True)
 
 
-    pairs = [tuple(point) for point in where.get()]
+    flat_hold_shell = hold_shell.flatten()
+    flat_hold_shell[flat_unique_pairs] = flat_counts
 
-    # Get unique pairs and their counts
-    unique_pairs, counts = np.unique(pairs, return_counts=True, axis=0)
-    #unique_pairs = [[y, x, z] for x, y, z in unique_pairs]
+    hold_shell = flat_hold_shell.reshape(hold_shell.shape)
 
-    # Print unique pairs and their counts
-    for pair, count in zip(unique_pairs, counts):
-        hold_shell[*pair] = float(count)
     hold_shell /= cp.sum(hold_shell)   
     shell += hold_shell
 
