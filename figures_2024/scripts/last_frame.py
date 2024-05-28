@@ -95,6 +95,7 @@ grey_color = [187/256, 187/256, 187/256]
 grey_cmap = LinearSegmentedColormap.from_list('greys', (grey_color + [0], grey_color + [1]), N=256)
 
 for i in range(0,dens_traj.shape[0]):
+    i = dens_traj.shape[0] - 1
     im[0][0] = axes[0,0].imshow(S_traj[i].get(), cmap = blue_cmap, vmin = 0, alpha=0.6)
     im[0][0] = axes[0,0].imshow(B_traj[i].get(), cmap = yellow_cmap, vmin = 0, alpha=.6)
     im[0][0] = axes[0,0].imshow(A_traj[i].get(), cmap = red_cmap, vmin = 0, alpha=.6)
@@ -138,6 +139,8 @@ for i in range(0,dens_traj.shape[0]):
 
 #    im[2][0] = axes[2,0].imshow(T_traj[i].get(), cmap = 'Greys', vmin = 0)
 #    fig.tight_layout()
+    plt.show()
+    exit()
     multi_cam.snap()
 
 where = get_structure_factor(grid, cp.average(L_traj[-10:],axis=0))[0]

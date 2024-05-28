@@ -37,7 +37,7 @@ ref = np.genfromtxt('ref.txt', delimiter=',')
 
 #plot the number versus means of the original directory
 fig, ax = plt.subplots()
-ax.set_title(r"$\textrm{Coacervate Phase for Polyampholyte at $B=0.5$ and $C_s=0.0$}$", fontsize=15)
+#ax.set_title(r"$\textrm{Coacervate Phase for Polyampholyte at $B=0.5$ and $C_s=0.0$}$", fontsize=15)
 print([m[0].real for m in means])
 print(nums)
 ax.scatter([m[0].real for m in means], nums, label='Supernatant Concentration', color='blue')
@@ -45,17 +45,18 @@ ax.scatter([m[1].real for m in means], nums, label='Coacervate Concentration', c
 #ax.errorbar([m[0] for m in means], nums, yerr=[v[0] for v in variances], fmt='o', label='x', color='blue')
 #ax.errorbar([m[1] for m in means], nums, yerr=[v[1] for v in variances], fmt='o', label='y', color='blue')
 
-ax.scatter(ref[:,0], ref[:,1], color='black', label='Reference Result', marker='x')
+ax.scatter(ref[:,0], ref[:,1], color='black', label='Delaney et al.', marker='x')
 
 #set x axis log
 ax.set_xscale('log')
+ax.tick_params(axis='both', which='major', labelsize=18)
 ax.legend()
-ax.set_ylabel(r"$\textrm{E}$", fontsize=12)
-ax.set_xlabel(r"$\textrm{C (reduced concentration)}$", fontsize=12)
+ax.set_ylabel(r"$E$", fontsize=16)
+ax.set_xlabel(r"$C$", fontsize=16)
 
 #fig.suptitle(r"$\textrm{Phase coexistence for polyampholyte in implicit solvent}$")
 
-
+fig.tight_layout()
 fig.savefig('Fig6_rep.pdf', format='pdf')
 plt.show()
 
