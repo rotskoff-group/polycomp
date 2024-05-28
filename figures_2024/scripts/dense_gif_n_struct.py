@@ -35,12 +35,11 @@ if 'B' in current_directory and 'S' in current_directory:
     except (ValueError, IndexError):
         print("Error: Unable to extract B and S values from the directory name.")
 else:
-    print("The current directory does not match the expected pattern.")
     b_value = -1
     s_value = -1
 
 
-fig.suptitle('CART-Homopolymer Base Case \n(mRNA, Cat:Lip; 1,1:1) Salt=%.1f, B=%.1f' % (s_value, b_value), fontsize=10)
+fig.suptitle(r'$\textrm{High Density at } C=0.0, B=2.5$', fontsize=10)
 multi_cam = Camera(fig)
 
 
@@ -174,7 +173,7 @@ plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 #plt.title(r"$\textrm{Structure factor for each component}$")
 
-plt.title(r"$\textrm{$C_{\textrm{s}} = %.1f$, $B = %.1f$}$" % (s_value, b_value,))
+#plt.title(r"$\textrm{High Denisty at $C_{\textrm{s}} = 0.0$, $B = 2.5$}$")
 if len(sys.argv) > 1:
     tex =  r"$\textrm{(" + sys.argv[1] + r")}$"
 
@@ -261,7 +260,7 @@ multimation.save('movie_traj.gif', writer='pillow')
 
 #struct.savefig(f'structure_factor_S%.1f_B=%.1f.pdf' % (s_value, b_value))
 struct.tight_layout()
-struct.savefig(f'structure_factor_S{s_value:.1f}_B{b_value:.1f}.pdf')
+struct.savefig(f'dense_struct.pdf')
 
 
 plt.show()

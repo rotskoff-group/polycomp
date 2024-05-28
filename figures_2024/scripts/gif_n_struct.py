@@ -264,5 +264,6 @@ struct.tight_layout()
 struct.savefig(f'structure_factor_S{s_value:.1f}_B{b_value:.1f}.pdf')
 
 
+
 plt.show()
 
