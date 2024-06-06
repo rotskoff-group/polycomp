@@ -1,7 +1,13 @@
 import cupy as cp
 import cupyx.scipy.fft as cufft
 import math
+#import polycomp.neural_ansatz as ansatz
 
+import sys 
+
+
+import_flag=False
+ansatz=None
 
 class CL_RK2(object):
     """
@@ -65,7 +71,7 @@ class CL_RK2(object):
         self.E = E
         self.c_k_w = None
 
-    def ETD(self, for_pressure=False):
+    def ETD(self, for_pressure=False, neural_ansatz=False):
         """
         Integrate one step of time with ETD algorithm.
 
@@ -76,8 +82,17 @@ class CL_RK2(object):
                 as possible. Default is False.
         """
 
+        if for_pressure and neural_ansatz:
+            raise ValueError("Can't calculate pressure from a neural ansatz")
         # Get the densities
-        self.ps.get_densities(for_pressure=for_pressure)
+        global import_flag, ansatz
+        if neural_ansatz is True:
+            if import_flag is False:
+                import polycomp.neural_ansatz as ansatz
+                import_flag=True
+            ansatz.infer(self.ps)
+        else:
+            self.ps.get_densities(for_pressure=for_pressure)
 
         # generate the random noise array that is going to be used with
         # appropriate variance
