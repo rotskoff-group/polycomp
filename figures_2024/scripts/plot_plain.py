@@ -16,8 +16,8 @@ plt.style.use("stylefile.mplstyle")
 
 nrows=1
 ncols=1
-fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(8/3,9.4/3), dpi=1000)
-fig.suptitle(r"$\textrm{$B=2.5$}, \textrm{$C_{\textrm{s}}=0.0$}$", fontsize=16, y=0.10)
+fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(3,3 * 2592 / 1845), dpi=1000)
+fig.suptitle(r"$\textrm{$B=2.5$}, \textrm{$C_{\textrm{s}}=0.0$}$", fontsize=16, y=0.15)
 
 im = []
 div = []
@@ -150,7 +150,7 @@ aspect = 1
 
 
 fig.subplots_adjust(top=1., bottom=0.15)
-fig.tight_layout(rect=[0, 0.15, 1, 1.])
+fig.tight_layout(rect=[-0.1, 0.27, 1.1, 1.11])
 
 
 plt.savefig("dens_B2.5C0.0.pdf", dpi=300)
