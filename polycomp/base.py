@@ -127,6 +127,12 @@ class Polymer(object):
 
         self.struct = np.asarray(hold_struct)
         self.h_struct = cp.asarray(hold_h_struct, dtype="float64")
+
+        #Also build a dictionary storing the total mass of each monomer
+        mon_set = set([s[0] for s in self.block_structure])
+        self.mon_mass = {}
+        for mon in mon_set:
+            self.mon_mass[mon] = float(cp.sum(self.h_struct[self.struct==mon]))
         return
 
 
