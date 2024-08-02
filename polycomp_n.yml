@@ -1,0 +1,4 @@
+name: myenv
+channels:
+  - defaults
+prefix: /home/groups/rotskoff/emmit/anaconda3/envs/myenv
