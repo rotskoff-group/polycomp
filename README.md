@@ -20,6 +20,6 @@ You can make sure that your installation has worked by running
     python tests.py
 from the tests directory.
 
-[Full documentation](https://rotskoff-group.github.io/polycomp) and will continue to be udated as we improve the code
+[Full documentation](https://rotskoff-group.github.io/polycomp) is available and will continue to be udated as we improve the code
 
 
