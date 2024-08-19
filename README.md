@@ -7,4 +7,17 @@ under construction.
 
 install with 
 
-    pip install -e
+    pip install . 
+
+You can find all of the required packages prepared in a single conda environment which can be installed via
+
+        conda env create --file polycomp.yml
+The package will also require a working CUDA installation.
+
+Running the tests
+You can make sure that your installation has worked by running
+
+        python tests.py
+from the tests directory.
+
+
