@@ -6,7 +6,7 @@ from polycomp.observables import *
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 #Set a seed for reproducibility (or turn off for full randomization)
-cp.random.seed(0)
+cp.random.seed(1)
 
 #Declare all of your polymers with their name and charge
 A_mon = p.Monomer("A", 0)
