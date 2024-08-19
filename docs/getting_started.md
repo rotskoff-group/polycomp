@@ -5,7 +5,7 @@
 As the code is still under active development, it should be installed by downloading 
 from our [github](https://github.com/rotskoff-group/polycomp) and installing locally via 
 
-    pip install -e .
+    pip install .
 
 We look forward to building a conda package for easier installation in the near future. 
 
