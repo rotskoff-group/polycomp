@@ -114,9 +114,9 @@ def get_free_energy(polymer_system, E):
 
     # mu squared terms
     for i in range(polymer_system.normal_w.shape[0]):
-#        free_energy += -(1 / (2 * polymer_system.normal_evalues[i])) * cp.square(
-#            polymer_system.normal_w[i]
-#        )
+        #        free_energy += -(1 / (2 * polymer_system.normal_evalues[i])) * cp.square(
+        #            polymer_system.normal_w[i]
+        #        )
         free_energy -= (
             polymer_system.gamma[i] ** 2 / (2 * polymer_system.normal_evalues[i])
         ) * cp.square(polymer_system.normal_w[i])
@@ -126,7 +126,7 @@ def get_free_energy(polymer_system, E):
     grad_psi_k = psi_k * 1j * polymer_system.grid.k1
     grad_psi = cufft.ifftn(grad_psi_k, s=psi_k.shape)
 
-    if E!=0:
+    if E != 0:
         free_energy += cp.abs(grad_psi) ** 2 / (2 * E)
 
     total_free_energy = cp.sum(free_energy) * polymer_system.grid.dV
@@ -146,13 +146,16 @@ def get_free_energy(polymer_system, E):
             can_func = log_Q
         elif polymer_system.ensemble_dict[species] == "GC":
             can_func = lin_Q
-        else: 
-            raise ValueError("Something went wrong with the dictionary of the ensembles in the energy evaluation")
-
+        else:
+            raise ValueError(
+                "Something went wrong with the dictionary of the ensembles in the energy evaluation"
+            )
 
         if species in polymer_system.poly_dict:
             partition_energy -= (
-                polymer_system.poly_dict[species] * polymer_system.grid.V * can_func(polymer_system.Q_dict[species])
+                polymer_system.poly_dict[species]
+                * polymer_system.grid.V
+                * can_func(polymer_system.Q_dict[species])
             )
             species_partition[species] = (
                 -polymer_system.poly_dict[species]
@@ -185,29 +188,35 @@ def get_free_energy(polymer_system, E):
         elif species in polymer_system.salts:
             salt_conc = polymer_system.salt_concs[species]
             partition_energy -= (
-                salt_conc * polymer_system.grid.V * cp.log(polymer_system.Q_dict[species])
+                salt_conc
+                * polymer_system.grid.V
+                * cp.log(polymer_system.Q_dict[species])
             )
             species_partition[species] = (
-                -salt_conc * polymer_system.grid.V * cp.log(polymer_system.Q_dict[species])
+                -salt_conc
+                * polymer_system.grid.V
+                * cp.log(polymer_system.Q_dict[species])
             )
             # Ideal gas entropy contribution
             ig_entropy += salt_conc * polymer_system.grid.V * (cp.log(salt_conc) - 1)
         else:
             print("Bad Species:", species)
             raise ValueError("Couldn't find species in any dictionary")
-    total_free_energy += partition_energy #+ ig_entropy
+    total_free_energy += partition_energy  # + ig_entropy
 
     avg_conc = cp.average(
-        polymer_system.reduce_phi_all(polymer_system.phi_all), axis=range(1, polymer_system.phi_all.ndim)
+        polymer_system.reduce_phi_all(polymer_system.phi_all),
+        axis=range(1, polymer_system.phi_all.ndim),
     )
 
     # Free energy from homogeneous case (needed for comparing across conditions in
     # gibbs ensemble and others)
-#    total_free_energy += (
-#        (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real * polymer_system.grid.V / 2
-#    )
+    #    total_free_energy += (
+    #        (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real * polymer_system.grid.V / 2
+    #    )
     return total_free_energy
     # TODO: remove the contributions for the final outcome or institutionalize them
+
 
 def get_chemical_potential(polymer_system):
     """
@@ -222,7 +231,8 @@ def get_chemical_potential(polymer_system):
 
     avg_mass = cp.sum(polymer_system.phi_all) / polymer_system.grid.k2.size
     avg_red_mass = polymer_system.remove_degeneracy(
-        cp.sum(polymer_system.phi_all, axis=(range(1, polymer_system.phi_all.ndim))) / polymer_system.grid.k2.size
+        cp.sum(polymer_system.phi_all, axis=(range(1, polymer_system.phi_all.ndim)))
+        / polymer_system.grid.k2.size
     )
     if polymer_system.use_salts:
         polymer_system.get_salt_concs()
@@ -230,32 +240,50 @@ def get_chemical_potential(polymer_system):
         polymer_system.chem_pot_dict[species] = 0j
         if species in polymer_system.poly_dict:
             # simulation contribution
-            polymer_system.chem_pot_dict[species] -= cp.log(polymer_system.Q_dict[species])
-            polymer_system.chem_pot_dict[species] += cp.log(polymer_system.poly_dict[species])
+            polymer_system.chem_pot_dict[species] -= cp.log(
+                polymer_system.Q_dict[species]
+            )
+            polymer_system.chem_pot_dict[species] += cp.log(
+                polymer_system.poly_dict[species]
+            )
             alpha = cp.zeros_like(avg_red_mass)
 
             for h, spec in zip(species.h_struct, species.struct):
                 alpha[polymer_system.rev_degen_dict[spec]] += h
-            polymer_system.chem_pot_dict[species] += alpha @ polymer_system.red_FH_mat @ avg_red_mass.T
+            polymer_system.chem_pot_dict[species] += (
+                alpha @ polymer_system.red_FH_mat @ avg_red_mass.T
+            )
 
         elif species in polymer_system.solvent_dict:
             # simulation contribution
-            polymer_system.chem_pot_dict[species] += cp.log(polymer_system.Q_dict[species])
-            polymer_system.chem_pot_dict[species] += cp.log(polymer_system.solvent_dict[species])
+            polymer_system.chem_pot_dict[species] += cp.log(
+                polymer_system.Q_dict[species]
+            )
+            polymer_system.chem_pot_dict[species] += cp.log(
+                polymer_system.solvent_dict[species]
+            )
             # Enthalpic contribution
             alpha = cp.zeros_like(avg_red_mass)
             alpha[polymer_system.rev_degen_dict[species]] += 1
             # TODO: maybe this should be phi rather than total mass, kind of unclear but I think this is right
             # polymer_system.chem_pot_dict[species] += -(avg_red_mass@polymer_system.red_FH_mat@avg_red_mass.T/2) / polymer_system.N
             polymer_system.chem_pot_dict[species] += (
-                2 / 2 * (alpha @ polymer_system.red_FH_mat @ avg_red_mass.T) / polymer_system.N
+                2
+                / 2
+                * (alpha @ polymer_system.red_FH_mat @ avg_red_mass.T)
+                / polymer_system.N
             )
 
         elif species in polymer_system.salts:
-            polymer_system.chem_pot_dict[species] -= cp.log(polymer_system.Q_dict[species])
-            polymer_system.chem_pot_dict[species] += cp.log(polymer_system.salt_concs[species])
+            polymer_system.chem_pot_dict[species] -= cp.log(
+                polymer_system.Q_dict[species]
+            )
+            polymer_system.chem_pot_dict[species] += cp.log(
+                polymer_system.salt_concs[species]
+            )
         else:
             print("Bad Species:", species)
+
 
 def get_pressure(polymer_system):
     """
@@ -274,7 +302,8 @@ def get_pressure(polymer_system):
     Q_contribution = 0j
 
     avg_conc = cp.average(
-        polymer_system.reduce_phi_all(polymer_system.phi_all), axis=range(1, polymer_system.phi_all.ndim)
+        polymer_system.reduce_phi_all(polymer_system.phi_all),
+        axis=range(1, polymer_system.phi_all.ndim),
     )
 
     ideal_contribution += (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real / 2

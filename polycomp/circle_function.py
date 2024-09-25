@@ -13,11 +13,10 @@ def draw_circle(center, radius, grid):
     # we are going to want the area and the arc length, but we will collect the
     # chord length for now
 
-    #We reindexed things but fixing the underlying function would be a nightmare so we
-    #did this instead
-    adj_k2 = cp.swapaxes(grid.k2, 0,1)
-    adj_grid = cp.swapaxes(grid.grid, 1,2)
-
+    # We reindexed things but fixing the underlying function would be a nightmare so we
+    # did this instead
+    adj_k2 = cp.swapaxes(grid.k2, 0, 1)
+    adj_grid = cp.swapaxes(grid.grid, 1, 2)
 
     area = cp.zeros_like(adj_k2)
     chord = cp.zeros_like(adj_k2)
@@ -25,7 +24,7 @@ def draw_circle(center, radius, grid):
 
     # center position and radius
     pos = center
-    #pos = center - grid.dl / 2
+    # pos = center - grid.dl / 2
     rad = radius
     # We want to get the signed distances from the center of the circle to all the
     # grid points, we can ignore periodic boundary conditions because the circle is
@@ -46,7 +45,7 @@ def draw_circle(center, radius, grid):
     x_lines = cp.append((x_vals + grid.dl[0] / 2), (x_vals[-1] - grid.dl[0] / 2))
     y_vals = dist[1, :, 0]
     y_lines = cp.append((y_vals + grid.dl[1] / 2), (y_vals[-1] - grid.dl[1] / 2))
-    
+
     # These are the unsigned intercept distances to each gridline
     y_ints = cp.sqrt(rad**2 - x_lines**2)
     x_ints = cp.sqrt(rad**2 - y_lines**2)
@@ -182,11 +181,10 @@ def draw_circle(center, radius, grid):
     # print(cp.sum(area / (math.pi * rad**2)))
     # print(cp.sum(arc) / (math.pi * 2 * rad))
 
-    area = cp.swapaxes(area, 0,1)
-    chord = cp.swapaxes(chord, 0,1)
+    area = cp.swapaxes(area, 0, 1)
+    chord = cp.swapaxes(chord, 0, 1)
 
     return area, chord
-
 
 
 ##Here is the stuff for the stochastic sphere drawing
@@ -196,7 +194,7 @@ def count_corners(center, radius, grid):
 
     # center position and radius
     pos = center - grid.dl / 2
-    #pos = center
+    # pos = center
     rad = radius
 
     # We want to get the signed distances from the center of the circle to all the
@@ -209,7 +207,16 @@ def count_corners(center, radius, grid):
     dist = cp.abs(dist.T - (grid.l) * (dist.T > (grid.l / 2))).T * sign
     # we want to get an indicator of how many corners of each grid point are in the
     # circle
-    for edge in ([1, 1, 1], [1, -1, 1], [1, 1, -1], [1, -1, -1], [-1, 1, 1], [-1, -1, 1], [-1, 1, -1], [-1, -1, -1]):
+    for edge in (
+        [1, 1, 1],
+        [1, -1, 1],
+        [1, 1, -1],
+        [1, -1, -1],
+        [-1, 1, 1],
+        [-1, -1, 1],
+        [-1, 1, -1],
+        [-1, -1, -1],
+    ):
         edge_dist = cp.abs(dist.T + (grid.dl / 2 * cp.array(edge))).T
         disp = cp.sum(edge_dist**2, axis=0) ** (0.5)
         ind[disp <= rad] += 1
@@ -218,56 +225,49 @@ def count_corners(center, radius, grid):
     return ind
 
 
-def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
+def draw_sphere(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=50000000):
     corners = count_corners(center, radius, grid1)
     values = corners.get()
 
-
-
     sphere = cp.zeros_like(grid1.k2)
     hold_sphere = cp.zeros_like(grid1.k2)
-    polar_samples = cp.random.uniform(0, 1, (grid1.k2.size * upsampling,3))
+    polar_samples = cp.random.uniform(0, 1, (upsampling, 3))
 
+    polar_samples[:, 0] = polar_samples[:, 0] ** (1 / 2)
 
-    polar_samples[:,0] = polar_samples[:,0]**(1/2)
+    polar_samples[:, 0] *= radius
+    polar_samples[:, 1] *= math.pi
 
-    polar_samples[:,0] *= radius
-    polar_samples[:,1] *= math.pi 
+    polar_samples[:, 2] *= math.pi * 2
 
-    polar_samples[:,2] *= math.pi * 2
+    samples = cp.random.randn(*(upsampling, 3))
 
+    samples /= cp.linalg.norm(samples, axis=1, keepdims=True)
 
+    radius_samples = cp.random.uniform(
+        ((radius - cp.sqrt(cp.sum(grid1.dl**2))) / radius) ** (3), 1, (upsampling, 1)
+    )
+    #    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3) * 0, 1, (grid1.k2.size * upsampling,1))
 
-    samples = cp.random.randn(*(grid1.k2.size * upsampling,3))
+    radius_samples[:, 0] = radius_samples[:, 0] ** (1 / 3)
 
-    samples/= cp.linalg.norm(samples, axis=1, keepdims=True)
-
-
-    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3), 1, (grid1.k2.size * upsampling,1))
-#    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3) * 0, 1, (grid1.k2.size * upsampling,1))
-
-    radius_samples[:,0] = radius_samples[:,0]**(1/3)
-
-    radius_samples[:,0] *= radius
+    radius_samples[:, 0] *= radius
 
     samples *= radius_samples
 
-
-
     samples += center
-
 
     where = samples // grid1.dl
     where = where % cp.array(grid1.grid_spec)
     where = where.astype(int)
 
-
-
-
     # Get unique pairs and their counts
-    flat_where = hold_sphere.shape[1] * hold_sphere.shape[2] * where[: , 0] + hold_sphere.shape[2] * where[:, 1] + where[:,2]
+    flat_where = (
+        hold_sphere.shape[1] * hold_sphere.shape[2] * where[:, 0]
+        + hold_sphere.shape[2] * where[:, 1]
+        + where[:, 2]
+    )
     flat_unique_pairs, flat_counts = cp.unique(flat_where, return_counts=True)
-
 
     flat_hold_sphere = hold_sphere.flatten()
     flat_hold_sphere[flat_unique_pairs] = flat_counts
@@ -277,52 +277,47 @@ def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
     hold_sphere /= cp.sum(hold_sphere)
     sphere += hold_sphere
 
-
-
-    sphere[corners==8] = 0
-    enclosed_vol = cp.sum((corners==8) * grid1.dV)
-    target_vol = radius**3 * math.pi * (4/3)
+    sphere[corners == 8] = 0
+    enclosed_vol = cp.sum((corners == 8) * grid1.dV)
+    target_vol = radius**3 * math.pi * (4 / 3)
     annulus_vol = target_vol - enclosed_vol
     sphere *= annulus_vol / grid1.dV / cp.sum(sphere)
-    sphere[corners==8] = 1
+    sphere[corners == 8] = 1
     return sphere
 
-def draw_shell(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=10):
+
+def draw_shell(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=1000000):
     corners = count_corners(center, radius, grid1)
     values = corners.get()
 
-
-
-    upsampling = 8
     shell = cp.zeros_like(grid1.k2)
     hold_shell = cp.zeros_like(grid1.k2)
 
-    samples = cp.random.randn(*(grid1.k2.size * upsampling,3))
+    samples = cp.random.randn(*(upsampling, 3))
 
-    samples/= cp.linalg.norm(samples, axis=1, keepdims=True)
-
+    samples /= cp.linalg.norm(samples, axis=1, keepdims=True)
 
     samples *= radius
 
-
-
     samples += center
-
 
     where = samples // grid1.dl
     where = where % cp.array(grid1.grid_spec)
     where = where.astype(int)
 
-    flat_where = hold_shell.shape[1] * hold_shell.shape[2] * where[: , 0] + hold_shell.shape[2] * where[:, 1] + where[:,2]
+    flat_where = (
+        hold_shell.shape[1] * hold_shell.shape[2] * where[:, 0]
+        + hold_shell.shape[2] * where[:, 1]
+        + where[:, 2]
+    )
     flat_unique_pairs, flat_counts = cp.unique(flat_where, return_counts=True)
-
 
     flat_hold_shell = hold_shell.flatten()
     flat_hold_shell[flat_unique_pairs] = flat_counts
 
     hold_shell = flat_hold_shell.reshape(hold_shell.shape)
 
-    hold_shell /= cp.sum(hold_shell)   
+    hold_shell /= cp.sum(hold_shell)
     shell += hold_shell
 
     shell /= cp.sum(shell * grid1.dV)

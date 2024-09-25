@@ -3,6 +3,7 @@ import numpy as np
 import cupy as cp
 import cupyx.scipy.fft as cufft
 import warnings
+
 # from typing import list
 
 from polycomp.grid import *
@@ -113,7 +114,7 @@ class PolymerSystem(object):
         integration_width=4,
         custom_salts=None,
         nanoparticles=None,
-        ensemble_dict=None
+        ensemble_dict=None,
     ):
         """
         Initialize polymer system.
@@ -141,7 +142,7 @@ class PolymerSystem(object):
             nanoparticles (list/tuple):
                 List of nanoparticle species, default None.
             ensemble_dict (dict):
-                Dictionary of which species should be treated as grand canonical using activities 
+                Dictionary of which species should be treated as grand canonical using activities
 
         Raises:
             ValueError:
@@ -171,16 +172,20 @@ class PolymerSystem(object):
         if nanoparticles is not None:
             self.nanps = nanoparticles
             self.has_nanps = True
-        
-        #Set up the custom ensemble flags 
-        if ensemble_dict is None or all(value=="C" for value in ensemble_dict.values()):
-            self.ensemble="canonical"
-        elif all(value=="GC" or value=="C" for value in ensemble_dict.values()):
-            self.ensemble="special"
+
+        # Set up the custom ensemble flags
+        if ensemble_dict is None or all(
+            value == "C" for value in ensemble_dict.values()
+        ):
+            self.ensemble = "canonical"
+        elif all(value == "GC" or value == "C" for value in ensemble_dict.values()):
+            self.ensemble = "special"
             self.ensemble_dict = ensemble_dict
         else:
-            raise ValueError("Malformed ensemble dictionary, all entries should be either \"C\" for canonical or \"GC\" for grand canonical")
-        
+            raise ValueError(
+                'Malformed ensemble dictionary, all entries should be either "C" for canonical or "GC" for grand canonical'
+            )
+
         # Makes sure everything is a polymer or a monomer and checks the total
         # density
         check_frac = 0
@@ -454,7 +459,7 @@ class PolymerSystem(object):
             w_like_array (cparray):
                 Array in real density space to be transformed.
         """
-    
+
         new_array = (w_like_array.T @ (self.A_inv.T).T).T
         return new_array
 
@@ -727,7 +732,7 @@ class PolymerSystem(object):
 
             self.Q_dict[polymer] = cp.copy(Q)
 
-            # first change the ensemble if necessary 
+            # first change the ensemble if necessary
             Q_c = self.canonicalize(Q_c, polymer)
             # generate phi's by summing over partition function in correct areas
             for i in range(len(self.monomers)):
@@ -782,7 +787,9 @@ class PolymerSystem(object):
             )
             Q_S = cp.sum(exp_w_S) / (self.grid.k2.size)
             self.Q_dict[solvent] = cp.copy(Q_S)
-            self.phi_all[idx] += self.canonicalize(exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S), solvent)
+            self.phi_all[idx] += self.canonicalize(
+                exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S), solvent
+            )
             if for_pressure:
                 self.dQ_dV_dict[solvent] = (
                     cp.sum(
@@ -838,23 +845,20 @@ class PolymerSystem(object):
 
     def canonicalize(self, density, species):
         """
-        If the system is not completely in the canonical ensemble then, we need to 
+        If the system is not completely in the canonical ensemble then, we need to
         fix the densities for the species in the grand canonical ensemble.
 
         Raises:
             ValueError:
                 Raised if the some species is not labeled as "C" or "GC"
         """
-       
+
         if self.ensemble == "canonical":
             return density
-        
+
         if self.ensemble_dict[species] == "GC":
             density = density * self.Q_dict[species]
-        return density 
- 
-        
-
+        return density
 
     def get_salt_concs(self):
         """
@@ -906,5 +910,3 @@ class PolymerSystem(object):
         new_Q_c += Q_c[1:] / 2 + Q_c[:-1] / 2
 
         return new_Q_c
-
-
