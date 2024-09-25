@@ -91,7 +91,7 @@ class GibbsEnsemble(object):
         self.mass_2 = cp.zeros(len(self.species))
         ps = self.part_1
         # TODO: remove later
-        #ps.get_densities()
+        # ps.get_densities()
         for i in ps.poly_dict:
             self.mass_1[self.species.index(i)] += ps.poly_dict[i] * ps.grid.V
         for i in ps.solvent_dict:
@@ -102,7 +102,7 @@ class GibbsEnsemble(object):
 
         ps = self.part_2
         # TODO: can be removed later
-        #ps.get_densities()
+        # ps.get_densities()
 
         for i in ps.poly_dict:
             self.mass_2[self.species.index(i)] += ps.poly_dict[i] * ps.grid.V

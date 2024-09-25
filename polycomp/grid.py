@@ -39,7 +39,7 @@ class Grid(object):
             grid_spec (tuple): tuple of ints representing the number of grid points along each axis
 
         Raises:
-            
+
             ValueError:
                 Raises error if the box length is not a tuple
         """
@@ -65,7 +65,7 @@ class Grid(object):
 
         Raises:
 
-            ValueError: 
+            ValueError:
                 Raises error if the box length is not a tuple
         """
 
@@ -83,7 +83,8 @@ class Grid(object):
                         self.grid_spec,
                         self.l * (1 - 1 / cp.array(self.grid_spec)),
                     )
-                ],  indexing='ij'
+                ],
+                indexing="ij"
             )
         )
 
@@ -99,7 +100,8 @@ class Grid(object):
                         axis=None,
                     )
                     for n, l in zip(self.grid_spec, self.l)
-                ],  indexing='ij' 
+                ],
+                indexing="ij"
             )
         )
 
