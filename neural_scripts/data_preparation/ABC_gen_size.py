@@ -1,4 +1,3 @@
-from celluloid import Camera
 import cupy as cp
 import polycomp.ft_system as p
 from polycomp.observables import * 
@@ -10,6 +9,7 @@ import sys
 #Set a seed for reproducibility (or turn off for full randomization)
 #cp.random.seed(14)
 
+#Select the polymer to simulate
 if sys.argv[1] not in ['ABC', 'AB', 'AC', 'BC', 'ABCCBA', 'CAABBC']:
     raise ValueError("wrong key")
 else:
@@ -109,64 +109,41 @@ integrator = p.CL_RK2(ps, relax_rates, temps, psi_rate, psi_temp, E)
 #generate an initial density for the starting plot
 ps.get_densities()
 
-#Initial plots
-#im[0][0] = axes[0].imshow(ps.phi_all[ps.monomers.index(A_mon)].real.get(), cmap = 'Blues')
-#axes[0].set_title('A Dens')
-#im[0][1] = axes[1].imshow(ps.w_all[0].real.get(), cmap = 'Reds')
-#axes[1].set_title('B Dens')
-#im[0][2] = axes[2].imshow(cp.sum(ps.phi_all, axis=0).real.get(), cmap = 'Greys')
-#axes[2].set_title('Total density')
-
-
 #Set the number of steps per frame
 steps = 3000
 
 f_traj = []
 d_traj = []
-#Set the number of arrays to capture
-import time
-t0 = time.time()
+#Set the number of trajectories to save
 for i in range(200):
-
-    #We average over multiple views to reduce the noise for visualization, could just 
-    # plot directly as well to simplify this
+    #Randomly set the size of the simulation
     new_l = cp.random.uniform(8,18)
     ps.grid.update_l((new_l, new_l))
     print(grid.l)
+    
+    #Reset the chemical potential fields
     ps.w_all.real = cp.random.normal(loc=0.0, scale=0.001, size=ps.w_all.shape) * 0
     ps.w_all.imag *= 0
     ps.update_normal_from_density()
     integrator.ETD()
     for _ in range(steps):
-
         rando = cp.random.rand()
-        #Collect the variables of interest every step and average over some of them
+        #Save the fields if the random number is small enoguh, the value is the average
+        # number of frames to get per trajectory
         if rando < 5.0 /steps:
             f_traj.append(cp.copy(cp.concatenate((ps.w_all, grid.grid), axis=0)))
         integrator.ETD()
-#        if (_+1) % 200 == 0 :
-#            d_traj.append(cp.stack((cp.copy(ps.phi_all[ps.monomers.index(A_mon)]), cp.copy(ps.phi_all[ps.monomers.index(B_mon)])), axis=0))
 
     #Print current progress
     if i % 1 ==0: 
-        print(time.time() - t0)
-        t0 = time.time()
         print(i)
 print(f_traj)
 f_traj = cp.stack(f_traj,axis=0)
-#d_traj = cp.stack(d_traj,axis=0)
 
 f_traj = cp.squeeze(f_traj)
 print(f_traj.shape)
 cp.save(poly_key + "_fields", f_traj)
-#print(d_traj.shape)
 
 
 f_traj_torch = torch.as_tensor(f_traj, device = 'cuda')
-#d_traj_torch = torch.as_tensor(d_traj, device = 'cuda')
-
-#output = {'x' : f_traj_torch.cpu(),
-#          'y' : d_traj_torch.cpu()}
-
-#torch.save(output, 'ABA_size1.pt')
 exit()
