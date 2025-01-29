@@ -259,10 +259,11 @@ def get_pressure(polymer_system):
     avg_conc = cp.average(
         polymer_system.reduce_phi_all(polymer_system.phi_all), axis=range(1, polymer_system.phi_all.ndim)
     )
+    print(avg_conc)
+    homo_contribution = (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real / 2 
 
-    ideal_contribution += (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real / 2
     for poly in polymer_system.poly_dict:
-        ideal_contribution += polymer_system.poly_dict[poly]
+        ideal_contribution += polymer_system.poly_dict[poly] 
         Q_contribution += polymer_system.dQ_dV_dict[poly]
     for sol in polymer_system.solvent_dict:
         ideal_contribution += polymer_system.solvent_dict[sol]
@@ -277,6 +278,9 @@ def get_pressure(polymer_system):
     # in the alternative formulation we only need the partition function terms
     # differs slightly from Villet because we need to solve segment by
     # segment, but we will offload this into the density operator
-    pressure = ideal_contribution + Q_contribution
+    print("Ideal gas: ", ideal_contribution)
+    print("Homogeneous: ", homo_contribution)
+    print("Q_change: ", Q_contribution)
+    pressure = ideal_contribution + homo_contribution + Q_contribution
 
     return pressure
