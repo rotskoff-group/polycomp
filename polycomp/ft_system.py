@@ -1,4 +1,5 @@
 import math
+import numbers
 import numpy as np
 import cupy as cp
 import cupyx.scipy.fft as cufft
@@ -104,7 +105,8 @@ class PolymerSystem(object):
         spec_dict,
         FH_dict,
         grid,
-        smear_const,
+        smear,
+        psi_smear=0,
         salt_conc=0.0,
         integration_width=4,
         custom_salts=None,
@@ -125,8 +127,10 @@ class PolymerSystem(object):
                 FH interaction term.
             grid (Grid object):
                 Grid object for the simulation.
-            smear_const (float):
-                Gaussian smearing constant.
+            smear (float or array):
+                Gaussian smearing constant, or array of constants
+            psi_smear (float):
+                Optional, gives the psi smearing constant if smearing array is provided
             salt_conc (float):
                 Total salt concentration, default 0.0.
             integration_width (float):
@@ -176,7 +180,10 @@ class PolymerSystem(object):
                 raise ValueError("Unknown member of species dictionary")
 
         # The longest species in the mix is designated as having length of N
-        self.N = max([x.total_length for x in self.poly_dict.keys()])
+        if self.poly_dict:
+            self.N = max([x.total_length for x in self.poly_dict.keys()])
+        else:
+            self.N = 1
         self.integration_width = integration_width
 
         for poly in self.poly_dict.keys():
@@ -205,6 +212,7 @@ class PolymerSystem(object):
         self.get_gamma()
 
         self.A_inv = cp.linalg.inv(self.A_ij)
+
         size = len(self.normal_evalues)
         hold = cp.zeros((size, size))
         for i in range(size):
@@ -219,12 +227,18 @@ class PolymerSystem(object):
 
         # Initialize mu field
         self.update_normal_from_density()
-        self.smear_const = smear_const
+        if isinstance(smear, numbers.Number):
+            self.smear_arr = cp.ones_like(self.red_FH_mat) * smear
+            self.psi_smear = smear
+        else:
+            self.smear_arr = smear
+            self.psi_smear = psi_smear
 
         # set a canonical ordering for the species (helpful for gibbs ensemble)
         canonical_ordering = []
         for species in spec_dict.keys():
             canonical_ordering.append(species)
+
         if abs(salt_conc) == 0:
             self.use_salts = False
             self.ordered_spec = tuple(canonical_ordering)
@@ -433,8 +447,9 @@ class PolymerSystem(object):
             w_like_array (cparray):
                 Array in real density space to be transformed.
         """
-    
-        new_array = (w_like_array.T @ (self.A_inv.T).T).T
+        w_like_array[0,0,0,0] = 1 
+        w_like_array[1,1,0,0] = 20
+        new_array = (w_like_array.T @ self.A_ij.T).T
         return new_array
 
     def update_density_from_normal(self):
@@ -443,6 +458,20 @@ class PolymerSystem(object):
         """
         self.w_all = self.map_dens_from_norm(self.normal_w)
         return
+
+    def update_density_from_normal_smeared(self):
+        """
+        special case of the update density from normal to handle cases with 
+        smearing matrices
+        """
+        self.w_all_smeared = cp.zeros_like(self.w_all) 
+        hold_w_smeared = cp.zeros_like(self.w_all)
+        for i in range(hold_w_smeared.shape[0]):
+            for j in range(hold_w_smeared.shape[0]):
+                hold_w_smeared[j] = self.gaussian_smear(self.normal_w[j], self.smear_arr[i,j])
+            hold_w_all = self.map_dens_from_norm(hold_w_smeared)
+            self.w_all_smeared[i] = hold_w_all[i]
+        
 
     def map_norm_from_dens(self, w_like_array):
         """
@@ -455,7 +484,7 @@ class PolymerSystem(object):
                 Array in normal space to be transformed.
         """
 
-        new_array2 = (w_like_array.T @ (self.A_ij)).T
+        new_array2 = (w_like_array.T @ (self.A_inv.T)).T
         return new_array2
 
     def update_normal_from_density(self):
@@ -466,6 +495,22 @@ class PolymerSystem(object):
         # represenation
         self.normal_w = self.map_norm_from_dens(self.w_all)
         return
+
+    def map_norm_from_dens_smeared(self, w_like_array):
+        """
+        special case of the update density from normal to handle cases with 
+        smearing matrices
+        """
+        smeared_output = cp.zeros_like(w_like_array) 
+        hold_in_smeared = cp.zeros_like(w_like_array)
+        for i in range(hold_in_smeared.shape[0]):
+            for j in range(hold_in_smeared.shape[0]):
+                #Orientation of self.smear_arr is reversed, which it is symmetric so it shouldn't matter
+                # but this is formally right
+                hold_in_smeared[j] = self.gaussian_smear(w_like_array[j], self.smear_arr[j,i])
+            hold_out = self.map_norm_from_dens(hold_in_smeared)
+            smeared_output[i] = hold_out[i]
+        return smeared_output
 
     def reduce_phi_all(self, phi_all):
         """
@@ -606,23 +651,24 @@ class PolymerSystem(object):
             self.dQ_dV_dict = {}
             self.dQ_dV_dict.clear()
             P_press_species = {}
-            # Truly have no idea why this ndim term is here
             gauss_12 = -cp.exp(-self.grid.k2 * self.smear_const**2 / 2) * (
                 self.grid.k2 * self.smear_const**2 / self.grid.ndims - 1 / (2)
             )
-            gauss_16 = -cp.exp(-self.grid.k2 * self.smear_const**2 / 2) * (
-                self.grid.k2 * self.smear_const**2 / self.grid.ndims
+            gauss_16 = -cp.exp(-self.grid.k2 * self.psi_smear**2 / 2) * (
+                self.grid.k2 * self.psi_smear**2 / self.grid.ndims
                 - 1 / (2 * self.grid.ndims)
             )
+
+        self.update_density_from_normal_smeared()
+        self.update_density_from_normal()
 
         for monomer in self.monomers:
             if monomer.has_volume:
                 # effective field from total of potentials
-                P_species[monomer] = self.gaussian_smear(
-                    self.w_all[self.rev_degen_dict[monomer]]
-                    + self.psi * monomer.charge,
-                    self.smear_const,
-                )
+                P_species[monomer] = (self.w_all_smeared[self.rev_degen_dict[monomer]] + 
+                    self.gaussian_smear(self.psi * monomer.charge,
+                    self.psi_smear,
+                ))
                 # This is the derivative smeared fields for each monomer type
                 if for_pressure:
                     P_press_species[monomer] = self.convolve(
@@ -754,8 +800,7 @@ class PolymerSystem(object):
         for solvent in self.solvent_dict:
             idx = self.monomers.index(solvent)
             exp_w_S = cp.exp(
-                -self.gaussian_smear(P_species[self.monomers[idx]], self.smear_const)
-                / self.N
+                - P_species[self.monomers[idx]] / self.N
             )
             Q_S = cp.sum(exp_w_S) / (self.grid.k2.size)
             self.phi_all[idx] += exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S)
@@ -786,7 +831,7 @@ class PolymerSystem(object):
 
             salt_conc = self.salt_concs[self.salts[i]]
             w_salt = self.salts[i].charge * self.gaussian_smear(
-                self.psi, self.smear_const
+                self.psi, self.psi_smear
             )
             exp_w_salt = cp.exp(-w_salt / self.N)
             Q_salt = cp.sum(exp_w_salt) / (self.grid.k2.size)
