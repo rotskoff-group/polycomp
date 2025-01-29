@@ -79,6 +79,11 @@ class CL_RK2(object):
         # Get the densities
         self.ps.get_densities(for_pressure=for_pressure)
 
+        #This is a temporary solution to handle the c_k term, which doesn't really matter, but 
+        # we'll just use the first entry of the smearing matrix as the generic smear term for 
+        # c_k
+        self.smear_const = self.ps.smear_arr[0,0]
+
         # generate the random noise array that is going to be used with
         # appropriate variance
         w_dens_noise = cp.zeros_like(self.ps.w_all, dtype=complex)
@@ -126,7 +131,7 @@ class CL_RK2(object):
         # Debye function is the linear approximation using weak inhomogeneity
         # expansion
         debye_k = self.debye(self.ps.grid.k2) * cp.exp(
-            -self.ps.smear_const * self.ps.grid.k2
+            -self.smear_const * self.ps.grid.k2
         )
 
         if self.c_k_w is None:
@@ -138,18 +143,19 @@ class CL_RK2(object):
         # Need to sum over degenerate modes and fourier transform density to
         # prepare for dynamics
         red_dens = self.ps.remove_degeneracy(self.ps.phi_all)
-        red_dens = self.ps.gaussian_smear(red_dens, self.ps.smear_const)
+        red_dens = self.ps.map_norm_from_dens_smeared(red_dens)
+#        red_dens = self.ps.gaussian_smear(red_dens, self.ps.smear_arr[0,0])
 
-        real_dens_k = self.fourier_along_axes(red_dens, 0)
+        real_dens_norm_k = self.fourier_along_axes(red_dens, 0)
 
         tot_charge = self.ps.get_total_charge()
-        tot_charge = self.ps.gaussian_smear(tot_charge, self.ps.smear_const)
+        tot_charge = self.ps.gaussian_smear(tot_charge, self.ps.psi_smear)
         tot_charge_k = cufft.fftn(tot_charge)
 
         # Generate the force trajectories
         F_k_w = (
             -self.ps.gamma**2
-            * ((w_k.T / u0_eig) - self.ps.map_norm_from_dens(real_dens_k).T)
+            * ((w_k.T / u0_eig) - self.ps.map_norm_from_dens(real_dens_norm_k).T)
         ).T
 
         F_k_psi = psi_k * self.ps.grid.k2 / self.E - tot_charge_k
@@ -171,6 +177,8 @@ class CL_RK2(object):
         # First element will be undefined, just set it to be unchanged
         for i in range(new_w_k.shape[0]):
             new_w_k[i].flat[0] = w_k[i].flat[0]
+#            new_w_k[i].flat[0] = w_k[i].flat[0] - F_k_w[i].flat[0] * d_w[i] 
+#        print(new_w_k[:,0,0])
 
         new_psi_k = (
             psi_k
@@ -304,7 +312,7 @@ class CL_RK2(object):
                     * fract
                     / (alphk**2)
                     * (alphk * segs[i] + cp.exp(-alphk * segs[i]) - 1)
-                    * cp.exp(-alphk * self.ps.smear_const**2)
+                    * cp.exp(-alphk * self.smear_const**2)
                 )
                 self.c_k_psi += (
                     2
@@ -312,7 +320,7 @@ class CL_RK2(object):
                     / (alphk**2)
                     * (alphk * segs[i] + cp.exp(-alphk * segs[i]) - 1)
                     * polymer.block_structure[i][0].charge ** 2
-                    * cp.exp(-alphk * self.ps.smear_const**2)
+                    * cp.exp(-alphk * self.smear_const**2)
                 )
 
                 for j in range(len(segs)):
@@ -332,7 +340,7 @@ class CL_RK2(object):
                         / (alphk**2)
                         * (1 - cp.exp(-alphk * segs[i]))
                         * (1 - cp.exp(-alphk * segs[j]))
-                        * cp.exp(-alphk * self.ps.smear_const**2)
+                        * cp.exp(-alphk * self.smear_const**2)
                     )
                     self.c_k_psi += (
                         2
@@ -343,7 +351,7 @@ class CL_RK2(object):
                         * (1 - cp.exp(-alphk * segs[j]))
                         * polymer.block_structure[i][0].charge
                         * polymer.block_structure[j][0].charge
-                        * cp.exp(-alphk * self.ps.smear_const**2)
+                        * cp.exp(-alphk * self.ps.psi_smear**2)
                     )
 
         # c_k_w is the linear term used to set the scale of the dynamics
