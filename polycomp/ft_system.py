@@ -677,10 +677,11 @@ class PolymerSystem(object):
                 self.grid.k2 * self.psi_smear**2 / self.grid.ndims
                 - 1 / (2 * self.grid.ndims)
             )
-
+        
         self.update_density_from_normal_smeared()
         self.update_density_from_normal()
-
+        
+        self.smear_const = self.smear_arr[0,0]
         for monomer in self.monomers:
             if monomer.has_volume:
                 # effective field from total of potentials
@@ -688,15 +689,12 @@ class PolymerSystem(object):
                     self.gaussian_smear(self.psi * monomer.charge,
                     self.psi_smear,
                 ))
+
                 # This is the derivative smeared fields for each monomer type
                 if for_pressure:
                     P_press_species[monomer] = (self.dens_from_norm_generic_smeared(
                             self.normal_w, gauss_12_arr)[self.rev_degen_dict[monomer]]
                             ) + self.convolve(self.psi * monomer.charge, gauss_16)
-#                    check = self.convolve(
-#                        self.w_all[self.rev_degen_dict[monomer]], gauss_12_arr[0,0]
-#                    ) + self.convolve(self.psi * monomer.charge, gauss_16)
-#                    print(cp.allclose(check, P_press_species[monomer]))
         hold_phi_del_part = 0j
         hold_dens_part = 0j
         # Iterate over all polymer types
