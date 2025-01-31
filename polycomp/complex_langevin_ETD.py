@@ -155,7 +155,7 @@ class CL_RK2(object):
         # Generate the force trajectories
         F_k_w = (
             -self.ps.gamma**2
-            * ((w_k.T / u0_eig) - self.ps.map_norm_from_dens(real_dens_norm_k).T)
+            * ((w_k.T / u0_eig) - real_dens_norm_k.T)
         ).T
 
         F_k_psi = psi_k * self.ps.grid.k2 / self.E - tot_charge_k
