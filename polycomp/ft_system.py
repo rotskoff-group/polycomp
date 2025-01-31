@@ -447,8 +447,6 @@ class PolymerSystem(object):
             w_like_array (cparray):
                 Array in real density space to be transformed.
         """
-        w_like_array[0,0,0,0] = 1 
-        w_like_array[1,1,0,0] = 20
         new_array = (w_like_array.T @ self.A_ij.T).T
         return new_array
 
@@ -471,7 +469,27 @@ class PolymerSystem(object):
                 hold_w_smeared[j] = self.gaussian_smear(self.normal_w[j], self.smear_arr[i,j])
             hold_w_all = self.map_dens_from_norm(hold_w_smeared)
             self.w_all_smeared[i] = hold_w_all[i]
-        
+       
+    def dens_from_norm_generic_smeared(self, field_array, kernel_array):
+        """
+        generic version of update_density_from_normal_smeared currently 
+        used for pressure terms only
+
+        Parameters:
+            kernel_array (cparray):
+                Array with shape like FH x dims
+            field_array (cparray):
+                Array with shape like w_all
+        """
+        hold_out = cp.zeros_like(field_array)
+        out_array = cp.zeros_like(field_array)
+        for i in range(hold_out.shape[0]):
+            for j in range(hold_out.shape[0]):
+                hold_out[j] = self.convolve(field_array[j], kernel_array[i,j])
+            hold_out = self.map_dens_from_norm(hold_out)
+            out_array[i] = hold_out[i]
+        return out_array
+
 
     def map_norm_from_dens(self, w_like_array):
         """
@@ -651,9 +669,10 @@ class PolymerSystem(object):
             self.dQ_dV_dict = {}
             self.dQ_dV_dict.clear()
             P_press_species = {}
-            gauss_12 = -cp.exp(-self.grid.k2 * self.smear_const**2 / 2) * (
-                self.grid.k2 * self.smear_const**2 / self.grid.ndims - 1 / (2)
+            gauss_12_arr = -cp.exp(-self.grid.k2 * self.smear_arr[..., *(None,) * self.grid.k2.ndim]**2 / 2) * (
+                self.grid.k2 * self.smear_arr[..., *(None,) * self.grid.k2.ndim]**2 / self.grid.ndims - 1 / 2
             )
+
             gauss_16 = -cp.exp(-self.grid.k2 * self.psi_smear**2 / 2) * (
                 self.grid.k2 * self.psi_smear**2 / self.grid.ndims
                 - 1 / (2 * self.grid.ndims)
@@ -671,9 +690,13 @@ class PolymerSystem(object):
                 ))
                 # This is the derivative smeared fields for each monomer type
                 if for_pressure:
-                    P_press_species[monomer] = self.convolve(
-                        self.w_all[self.rev_degen_dict[monomer]], gauss_12
-                    ) + self.convolve(self.psi * monomer.charge, gauss_16)
+                    P_press_species[monomer] = (self.dens_from_norm_generic_smeared(
+                            self.normal_w, gauss_12_arr)[self.rev_degen_dict[monomer]]
+                            ) + self.convolve(self.psi * monomer.charge, gauss_16)
+#                    check = self.convolve(
+#                        self.w_all[self.rev_degen_dict[monomer]], gauss_12_arr[0,0]
+#                    ) + self.convolve(self.psi * monomer.charge, gauss_16)
+#                    print(cp.allclose(check, P_press_species[monomer]))
         hold_phi_del_part = 0j
         hold_dens_part = 0j
         # Iterate over all polymer types
