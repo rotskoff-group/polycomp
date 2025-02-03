@@ -264,10 +264,12 @@ def get_pressure(polymer_system):
 
     for poly in polymer_system.poly_dict:
         ideal_contribution += polymer_system.poly_dict[poly] 
-        Q_contribution += polymer_system.dQ_dV_dict[poly]
+        if polymer_system.poly_dict[poly] > 0:
+            Q_contribution += polymer_system.dQ_dV_dict[poly]
     for sol in polymer_system.solvent_dict:
         ideal_contribution += polymer_system.solvent_dict[sol]
-        Q_contribution += polymer_system.dQ_dV_dict[sol]
+        if polymer_system.solvent_dict[sol] > 0:
+            Q_contribution += polymer_system.dQ_dV_dict[sol]
     if polymer_system.use_salts:
         polymer_system.get_salt_concs()
         for salt in polymer_system.salts:
