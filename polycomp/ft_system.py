@@ -859,11 +859,9 @@ class PolymerSystem(object):
             self.phi_salt[i] = (exp_w_salt * salt_conc / (Q_salt)) / self.N
             self.Q_dict[self.salts[i]] = Q_salt
             if for_pressure:
-                # TODO: This I'm still unsure about this
                 w_press_salt = (
                     self.salts[i].charge
                     * self.convolve(self.psi, gauss_16)
-                    * self.salts[i].charge
                 )
                 self.dQ_dV_dict[self.salts[i]] = (
                     cp.sum((exp_w_salt * salt_conc / (self.N * Q_salt)) * w_press_salt)
