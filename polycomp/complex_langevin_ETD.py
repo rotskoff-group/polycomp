@@ -52,7 +52,7 @@ class CL_RK2(object):
                 Raised if the shape of the relax rates doesn't match the shape
                 of poly_sys.
         """
- 
+
         super(CL_RK2, self).__init__()
 
         self.ps = poly_sys
