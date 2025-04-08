@@ -225,13 +225,16 @@ def count_corners(center, radius, grid):
     return ind
 
 
-def draw_sphere(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=50000000):
+def draw_sphere(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=50000000):
     corners = count_corners(center, radius, grid1)
     values = corners.get()
 
     sphere = cp.zeros_like(grid1.k2)
     hold_sphere = cp.zeros_like(grid1.k2)
-    polar_samples = cp.random.uniform(0, 1, (upsampling, 3))
+    polar_samples = cp.random.uniform(0, 1, (upsampling,3))
+
+
+    polar_samples[:,0] = polar_samples[:,0]**(1/2)
 
     polar_samples[:, 0] = polar_samples[:, 0] ** (1 / 2)
 
@@ -242,6 +245,7 @@ def draw_sphere(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=5000
 
     samples = cp.random.randn(*(upsampling, 3))
 
+    samples = cp.random.randn(*(upsampling,3))
     samples /= cp.linalg.norm(samples, axis=1, keepdims=True)
 
     radius_samples = cp.random.uniform(
@@ -251,7 +255,12 @@ def draw_sphere(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=5000
 
     radius_samples[:, 0] = radius_samples[:, 0] ** (1 / 3)
 
-    radius_samples[:, 0] *= radius
+    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3), 1, (upsampling,1))
+#    radius_samples = cp.random.uniform(((radius - cp.sqrt(cp.sum(grid1.dl**2)))/radius)**(3) * 0, 1, (grid1.k2.size * upsampling,1))
+
+    radius_samples[:,0] = radius_samples[:,0]**(1/3)
+
+    radius_samples[:,0] *= radius
 
     samples *= radius_samples
 
@@ -285,15 +294,18 @@ def draw_sphere(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=5000
     sphere[corners == 8] = 1
     return sphere
 
-
-def draw_shell(grid1, radius, center=cp.array([0.0, 0.0, 0.0]), upsampling=1000000):
+def draw_shell(grid1, radius, center=cp.array([0.0,0.0,0.0]), upsampling=1000000):
     corners = count_corners(center, radius, grid1)
     values = corners.get()
+
+
 
     shell = cp.zeros_like(grid1.k2)
     hold_shell = cp.zeros_like(grid1.k2)
 
-    samples = cp.random.randn(*(upsampling, 3))
+    samples = cp.random.randn(*(upsampling,3))
+
+    samples/= cp.linalg.norm(samples, axis=1, keepdims=True)
 
     samples /= cp.linalg.norm(samples, axis=1, keepdims=True)
 
