@@ -684,6 +684,11 @@ class PolymerSystem(object):
                 )
             # Partition function as a function of s
             Q_c = q_r_dag_s * q_r_s
+            del q_r_dag_s
+            del q_r_s
+
+
+
             Q_c = self.reindex_Q_c(Q_c)
 
             # partition function across entire polymer
@@ -693,6 +698,9 @@ class PolymerSystem(object):
                 / self.grid.V
             )
             Q = cp.sum((Q_c)[0]) * self.grid.dV / self.grid.V
+
+            # Free unused memory (unsure how required this is but there have been some issues)
+#            cp.get_default_memory_pool().free_all_blocks()
 
             if for_pressure:
                 lap_q_r_s = cp.zeros_like(q_r_s)
@@ -904,9 +912,15 @@ class PolymerSystem(object):
                 Q_c with a shape that is associated with the joints.
         """
 
-        shape = list(Q_c.shape)
-        shape[0] -= 1
-        new_Q_c = cp.zeros(shape, dtype=complex)
-        new_Q_c += Q_c[1:] / 2 + Q_c[:-1] / 2
+        #shape = list(Q_c.shape)
+        #shape[0] -= 1
+        #new_Q_c = cp.zeros(shape, dtype=complex)
+        #new_Q_c += Q_c[1:] / 2 + Q_c[:-1] / 2
 
-        return new_Q_c
+        # Slice the array to get the view of all elements except the first and last
+        Q_c[:-1] = (Q_c[1:] + Q_c[:-1]) / 2
+
+        # Remove the last element to match the desired shape
+        Q_c = Q_c[:-1]
+
+        return Q_c

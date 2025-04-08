@@ -170,7 +170,8 @@ class CL_RK2(object):
 
         # First element will be undefined, just set it to be unchanged
         for i in range(new_w_k.shape[0]):
-            new_w_k[i].flat[0] = w_k[i].flat[0]
+            new_w_k[i].flat[0] = w_k[i].flat[0] 
+        
 
         new_psi_k = (
             psi_k
