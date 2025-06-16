@@ -109,6 +109,7 @@ class PolymerSystem(object):
         psi_smear=0,
         salt_conc=0.0,
         integration_width=4,
+        N=None,
         custom_salts=None,
         nanoparticles=None,
     ):
@@ -180,7 +181,9 @@ class PolymerSystem(object):
                 raise ValueError("Unknown member of species dictionary")
 
         # The longest species in the mix is designated as having length of N
-        if self.poly_dict:
+        if N is not None:
+            self.N = N
+        elif self.poly_dict:
             self.N = max([x.total_length for x in self.poly_dict.keys()])
         else:
             self.N = 1
@@ -192,10 +195,13 @@ class PolymerSystem(object):
         # build flory huggins matrix
         self.FH_matrix = cp.zeros((self.n_species, self.n_species))
 
+        #THIS FIX IS FULLY CRITICAL
+        #PREVIOUSLY WOULD SHUFFLE THE FH MATRIX UNLESS SOLVENTS ARE LAST
         for i in range(len(self.monomers)):
             for j in range(len(self.monomers)):
                 self.FH_matrix[i, j] = self.FH_dict[
-                    frozenset((monomers[i], monomers[j]))
+#                    frozenset((monomers[i], monomers[j]))
+                    frozenset((self.monomers[i], self.monomers[j]))
                 ]
 
         # write the actual integration frameworks to each polymer
@@ -405,6 +411,8 @@ class PolymerSystem(object):
                 + "{:.3}".format(danger)
                 + " which is very small and likely to cause problems"
             )
+        condition = cp.max(cp.abs(self.normal_evalues)) / cp.min(cp.abs(self.normal_evalues))
+        print("Condition", condition)
 
         self.A_ij = self.normal_modes
         self.A_inv = cp.linalg.inv(self.A_ij)

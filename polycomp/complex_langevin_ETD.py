@@ -114,7 +114,9 @@ class CL_RK2(object):
             * 1j
         )
 
-        w_trans_noise = self.ps.map_norm_from_dens(w_dens_noise)
+#        w_trans_noise = self.ps.map_norm_from_dens(w_dens_noise)
+        w_trans_noise = w_dens_noise
+        #This is the correct operation, the noise comes in with the right symmetry and transforming it further does weird things
 
         d_w = self.relax_rates
         d_psi = self.psi_relax_rate
@@ -273,7 +275,6 @@ class CL_RK2(object):
             variance (float):
                 Variance of the Gaussian to be drawn.
         """
-
         return cp.random.normal(0, variance.real)
 
     def build_c_k(self, u0_eig, debye_k):
