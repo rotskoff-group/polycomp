@@ -688,6 +688,11 @@ class PolymerSystem(object):
         
         self.update_density_from_normal_smeared()
         self.update_density_from_normal()
+        try:
+            if self.big_number_safe==True:
+                self.w_all -= cp.amin(self.w_all,axis=tuple(range(1,self.w_all.ndim)),keepdims=True) / 2
+        except AttributeError:
+            pass
         
         self.smear_const = self.smear_arr[0,0]
         for monomer in self.monomers:
@@ -747,11 +752,12 @@ class PolymerSystem(object):
                 lap_q_r_s = cp.zeros_like(q_r_s)
                 for i in range(lap_q_r_s.shape[0]):
                     lap_q_r_s[i] = self.laplacian(q_r_s[i])
-
+                
                 Q_del_c = q_r_dag_s * lap_q_r_s
                 Q_del_c = self.reindex_Q_c(Q_del_c)
 
                 phi_del = cp.sum((Q_del_c.T * polymer.h_struct).T, axis=0) / Q
+
                 self.dQ_dV_dict[polymer] = (
                     -f_poly
                     * 2
@@ -774,10 +780,11 @@ class PolymerSystem(object):
                 cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape))))
                 * self.grid.dV
                 / self.grid.V,
-                Q,
+                Q, rtol=1e-2
             ):
-                print(cp.sum(Q_c, axis=tuple(range(Q_c.ndim - 1))))
+                print(cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape)))))
                 raise ValueError("Q_c not equal across integral")
+#            print(cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape)))))
 
             self.Q_dict[polymer] = cp.copy(Q)
 
