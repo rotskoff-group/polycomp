@@ -6,7 +6,7 @@ from polycomp.observables import *
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 #Set a seed for reproducibility (or turn off for full randomization)
-cp.random.seed(1)
+cp.random.seed(0)
 
 #Declare all of your polymers with their name and charge
 A_mon = p.Monomer("A", 0)
@@ -54,7 +54,7 @@ spec_dict = {
 grid_spec = (256,256)
 
 #Declare the side length of the box along each axis. Here we have 25x25 length square.
-box_length = (45,45)
+box_length = (90,90)
 
 #Declare the grid object as specified using our parameterss.
 grid = p.Grid(box_length=box_length, grid_spec = grid_spec)

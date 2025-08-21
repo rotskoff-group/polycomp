@@ -65,7 +65,7 @@ class CL_RK2(object):
         self.E = E
         self.c_k_w = None
 
-    def ETD(self, for_pressure=False):
+    def ETD(self, for_pressure=False, for_inverse_problem=False):
         """
         Integrate one step of time with ETD algorithm.
 
@@ -74,10 +74,15 @@ class CL_RK2(object):
                 Boolean for whether or not the integration will be followed by pressure
                 calculations. This adds about 25% to the runtime, so it should be set as rarely
                 as possible. Default is False.
+            for_pressure (bool, optional):
+                Boolean for whether the method doesn't calculate new densities to allow for solving
+                the inverse field problem - SCF solution for finding fields corresponding to a given
+                density. Default is false 
         """
 
         # Get the densities
-        self.ps.get_densities(for_pressure=for_pressure)
+        if not for_inverse_problem:
+            self.ps.get_densities(for_pressure=for_pressure)
 
         #This is a temporary solution to handle the c_k term, which doesn't really matter, but 
         # we'll just use the first entry of the smearing matrix as the generic smear term for 
