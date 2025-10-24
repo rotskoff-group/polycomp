@@ -1,0 +1,10 @@
+repos:
+-   repo: https://github.com/psf/black
+    rev: 24.4.2  # Use a specific version of black for consistency
+    hooks:
+    -   id: black
+
+-   repo: https://github.com/pycqa/flake8
+    rev: 7.0.0   # Use a specific version of flake8
+    hooks:
+    -   id: flake8
