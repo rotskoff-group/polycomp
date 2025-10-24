@@ -4,7 +4,6 @@ import numpy as np
 import cupy as cp
 import cupyx.scipy.fft as cufft
 import warnings
-# from typing import list
 
 from polycomp.grid import *
 from polycomp.base import *
@@ -53,7 +52,8 @@ class PolymerSystem(object):
             CPArray of complex128 representing the chemical potential field at
             each grid point for fields in the normal mode representation.
         psi (cparray):
-            CPArray of floats representing the electrostatic potential at each grid point.
+            CPArray of floats representing the electrostatic potential at each grid 
+            point.
         smear_const (float):
             Smearing constant for the simulation.
         monomers (tuple):
@@ -163,6 +163,7 @@ class PolymerSystem(object):
         self.solvent_dict = {}
         self.Q_dict = {}
 
+        #Set up nanoparticles if needed
         self.has_nanps = False
         if nanoparticles is not None:
             self.nanps = nanoparticles
@@ -180,7 +181,7 @@ class PolymerSystem(object):
             else:
                 raise ValueError("Unknown member of species dictionary")
 
-        # The longest species in the mix is designated as having length of N
+        # The longest species in the mix is designated as having length of N by default
         if N is not None:
             self.N = N
         elif self.poly_dict:
@@ -531,7 +532,7 @@ class PolymerSystem(object):
         hold_in_smeared = cp.zeros_like(w_like_array)
         for i in range(hold_in_smeared.shape[0]):
             for j in range(hold_in_smeared.shape[0]):
-                #Orientation of self.smear_arr is reversed, which it is symmetric so it shouldn't matter
+                #Orientation of self.smear_arr is reversed, which is symmetric so it shouldn't matter
                 # but this is formally right
                 hold_in_smeared[j] = self.gaussian_smear(w_like_array[j], self.smear_arr[j,i])
             hold_out = self.map_norm_from_dens(hold_in_smeared)
