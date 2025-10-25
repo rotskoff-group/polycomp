@@ -1,6 +1,7 @@
 import cupy as cp
 import cupyx.scipy.fft as cufft
-from polycomp.kernels import *
+
+from polycomp.kernels import exp_mult, exp_mult_comp
 
 
 def s_step(q_r, h, w_P, grid):

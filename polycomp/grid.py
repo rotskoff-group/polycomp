@@ -35,11 +35,13 @@ class Grid(object):
         Builds grid object for given input values
 
         Parameters:
-            box_length (tuple): tuple of floats representing the length of each axis of box
-            grid_spec (tuple): tuple of ints representing the number of grid points along each axis
+            box_length (tuple): tuple of floats representing the length of each axis of
+            box
+            grid_spec (tuple): tuple of ints representing the number of grid points
+            along each axis
 
         Raises:
-            
+
             ValueError:
                 Raises error if the box length is not a tuple
         """
@@ -65,7 +67,7 @@ class Grid(object):
 
         Raises:
 
-            ValueError: 
+            ValueError:
                 Raises error if the box length is not a tuple
         """
 
