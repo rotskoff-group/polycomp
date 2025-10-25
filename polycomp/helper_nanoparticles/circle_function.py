@@ -1,7 +1,4 @@
-import polycomp.grid as grid
-import matplotlib.pyplot as plt
 import cupy as cp
-import math
 
 
 def draw_circle(center, radius, grid):
@@ -49,7 +46,7 @@ def draw_circle(center, radius, grid):
     # We are going to try to assign each gridpoint four intercepts one for each side
     # of the grid cell
     ints = cp.zeros((*grid.k2.shape, 4, 2))
-    ints_disp = cp.zeros((*grid.k2.shape, 4))
+    cp.zeros((*grid.k2.shape, 4))
     ints[:, :, 0, 0] = x_lines[:-1]
     ints[:, :, 0, 1] = cp.abs(y_ints[:-1])
     ints[:, :, 1, 0] = x_lines[1:]
@@ -116,7 +113,7 @@ def draw_circle(center, radius, grid):
 
     get_nan = cp.sum(cp.isnan(case_2), axis=1)
 
-    use_ints = cp.zeros((case_2.shape[0], 2, 2))
+    cp.zeros((case_2.shape[0], 2, 2))
     # General plan, determine whether the cell is to the side of the circle of over/
     # under. Then find the two intercepts and the bottom and use those to get the
     # area within the cell and the chord length
@@ -175,7 +172,7 @@ def draw_circle(center, radius, grid):
     chord[ind == 3] = chord_3
 
     # Use some simple trig to calculate the arc length
-    arc = rad * 2 * cp.arcsin(chord / (2 * rad))
+    rad * 2 * cp.arcsin(chord / (2 * rad))
     theta = 2 * cp.arcsin(chord / (2 * rad))
 
     # Add the segment area corresponding to each chord

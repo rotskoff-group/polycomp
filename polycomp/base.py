@@ -69,7 +69,8 @@ class Polymer(object):
             total_length (float):
                 Total length along the polymer.
             block_structure (tuple):
-                Tuple of dictionaries mapping monomer objects to lengths along the polymer.
+                Tuple of dictionaries mapping monomer objects to lengths along the
+                polymer.
         """
 
         super(Polymer, self).__init__()
@@ -112,7 +113,6 @@ class Polymer(object):
             raise ValueError("polymer structure should only be built once")
         hold_struct = []
         hold_h_struct = []
-        where = 0.0
         end = 0.0
 
         # Splits up each block evenly while keeping h below target

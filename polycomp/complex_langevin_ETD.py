@@ -1,6 +1,5 @@
 import cupy as cp
 import cupyx.scipy.fft as cufft
-import math
 
 
 class CL_RK2(object):
@@ -22,11 +21,11 @@ class CL_RK2(object):
         E (float):
             Float for the E (rescaled Bjerrum length) of the system.
         c_k_w (cparray):
-            cparray of complex128 for the linear approximation of the response of force from
-            fields derived using the weak inhomogeneity expansion.
+            cparray of complex128 for the linear approximation of the response of force
+            from fields derived using the weak inhomogeneity expansion.
         c_k_w (cparray):
-            cparray of complex128 for the linear approximation of the response of force from
-            charge field derived using the weak inhomogeneity expansion.
+            cparray of complex128 for the linear approximation of the response of force
+            from charge field derived using the weak inhomogeneity expansion.
     """
 
     def __init__(self, poly_sys, relax_rates, relax_temps, psi_relax_rate, psi_temp, E):
@@ -52,7 +51,7 @@ class CL_RK2(object):
                 Raised if the shape of the relax rates doesn't match the shape
                 of poly_sys.
         """
- 
+
         super(CL_RK2, self).__init__()
 
         self.ps = poly_sys
@@ -72,27 +71,26 @@ class CL_RK2(object):
         Parameters:
             for_pressure (bool, optional):
                 Boolean for whether or not the integration will be followed by pressure
-                calculations. This adds about 25% to the runtime, so it should be set as rarely
-                as possible. Default is False.
+                calculations. This adds about 25% to the runtime, so it should be set as
+                rarely as possible. Default is False.
             for_pressure (bool, optional):
-                Boolean for whether the method doesn't calculate new densities to allow for solving
-                the inverse field problem - SCF solution for finding fields corresponding to a given
-                density. Default is false 
+                Boolean for whether the method doesn't calculate new densities to allow
+                for solving the inverse field problem - SCF solution for finding fields
+                corresponding to a given density. Default is false
         """
 
         # Get the densities
         if not for_inverse_problem:
             self.ps.get_densities(for_pressure=for_pressure)
 
-        #This is a temporary solution to handle the c_k term, which doesn't really matter, but 
-        # we'll just use the first entry of the smearing matrix as the generic smear term for 
-        # c_k
-        self.smear_const = self.ps.smear_arr[0,0]
+        # This is a temporary solution to handle the c_k term, which doesn't really
+        # matter, but we'll just use the first entry of the smearing matrix as the
+        # generic smear term for c_k
+        self.smear_const = self.ps.smear_arr[0, 0]
 
         # generate the random noise array that is going to be used with
         # appropriate variance
         w_dens_noise = cp.zeros_like(self.ps.w_all, dtype=complex)
-        psi_dens_noise = cp.zeros_like(self.ps.psi, dtype=complex)
         for i in range(w_dens_noise.shape[0]):
             w_dens_noise[i] = (
                 self.draw_gauss(
@@ -119,9 +117,10 @@ class CL_RK2(object):
             * 1j
         )
 
-#        w_trans_noise = self.ps.map_norm_from_dens(w_dens_noise)
+        #        w_trans_noise = self.ps.map_norm_from_dens(w_dens_noise)
         w_trans_noise = w_dens_noise
-        #This is the correct operation, the noise comes in with the right symmetry and transforming it further does weird things
+        # This is the correct operation, the noise comes in with the right symmetry and
+        # transforming it further does weird things
 
         d_w = self.relax_rates
         d_psi = self.psi_relax_rate
@@ -151,7 +150,7 @@ class CL_RK2(object):
         # prepare for dynamics
         red_dens = self.ps.remove_degeneracy(self.ps.phi_all)
         red_dens = self.ps.map_norm_from_dens_smeared(red_dens)
-#        red_dens = self.ps.gaussian_smear(red_dens, self.ps.smear_arr[0,0])
+        #        red_dens = self.ps.gaussian_smear(red_dens, self.ps.smear_arr[0,0])
 
         real_dens_norm_k = self.fourier_along_axes(red_dens, 0)
 
@@ -160,10 +159,7 @@ class CL_RK2(object):
         tot_charge_k = cufft.fftn(tot_charge)
 
         # Generate the force trajectories
-        F_k_w = (
-            -self.ps.gamma**2
-            * ((w_k.T / u0_eig) - real_dens_norm_k.T)
-        ).T
+        F_k_w = (-self.ps.gamma**2 * ((w_k.T / u0_eig) - real_dens_norm_k.T)).T
 
         F_k_psi = psi_k * self.ps.grid.k2 / self.E - tot_charge_k
 
@@ -184,8 +180,8 @@ class CL_RK2(object):
         # First element will be undefined, just set it to be unchanged
         for i in range(new_w_k.shape[0]):
             new_w_k[i].flat[0] = w_k[i].flat[0]
-#            new_w_k[i].flat[0] = w_k[i].flat[0] - F_k_w[i].flat[0] * d_w[i] 
-#        print(new_w_k[:,0,0])
+        #            new_w_k[i].flat[0] = w_k[i].flat[0] - F_k_w[i].flat[0] * d_w[i]
+        #        print(new_w_k[:,0,0])
 
         new_psi_k = (
             psi_k

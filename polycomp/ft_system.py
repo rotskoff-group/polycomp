@@ -1,15 +1,13 @@
-import math
 import numbers
-import numpy as np
-import cupy as cp
-import cupyx.scipy.fft as cufft
 import warnings
 
-from polycomp.grid import *
-from polycomp.base import *
-from polycomp.mde import *
-from polycomp.complex_langevin_ETD import *
-from polycomp.kernels import *
+import cupy as cp
+import cupyx.scipy.fft as cufft
+import numpy as np
+
+from polycomp.base import Monomer
+from polycomp.kernels import kernel_mult_complex, kernel_mult_float
+from polycomp.mde import integrate_s
 
 
 class PolymerSystem(object):
@@ -52,7 +50,7 @@ class PolymerSystem(object):
             CPArray of complex128 representing the chemical potential field at
             each grid point for fields in the normal mode representation.
         psi (cparray):
-            CPArray of floats representing the electrostatic potential at each grid 
+            CPArray of floats representing the electrostatic potential at each grid
             point.
         smear_const (float):
             Smearing constant for the simulation.
@@ -163,7 +161,7 @@ class PolymerSystem(object):
         self.solvent_dict = {}
         self.Q_dict = {}
 
-        #Set up nanoparticles if needed
+        # Set up nanoparticles if needed
         self.has_nanps = False
         if nanoparticles is not None:
             self.nanps = nanoparticles
@@ -196,12 +194,12 @@ class PolymerSystem(object):
         # build flory huggins matrix
         self.FH_matrix = cp.zeros((self.n_species, self.n_species))
 
-        #THIS FIX IS FULLY CRITICAL
-        #PREVIOUSLY WOULD SHUFFLE THE FH MATRIX UNLESS SOLVENTS ARE LAST
+        # THIS FIX IS FULLY CRITICAL
+        # PREVIOUSLY WOULD SHUFFLE THE FH MATRIX UNLESS SOLVENTS ARE LAST
         for i in range(len(self.monomers)):
             for j in range(len(self.monomers)):
                 self.FH_matrix[i, j] = self.FH_dict[
-#                    frozenset((monomers[i], monomers[j]))
+                    #                    frozenset((monomers[i], monomers[j]))
                     frozenset((self.monomers[i], self.monomers[j]))
                 ]
 
@@ -259,7 +257,7 @@ class PolymerSystem(object):
         else:
             self.salts = custom_salts
         if len(self.salts) not in (0, 2):
-            raise NotImplentedError("Unusual number of salts")
+            raise NotImplementedError("Unusual number of salts")
 
         # Fix the ordering
         for salt in self.salts:
@@ -326,7 +324,7 @@ class PolymerSystem(object):
             reducing = False
             return_to_outer_loop = False
             for i in range(len(degen_sets)):
-                if return_to_outer_loop == True:
+                if return_to_outer_loop:
                     break
                 for j in range(i + 1, len(degen_sets)):
                     if len(degen_sets[i].union(degen_sets[j])) != len(
@@ -359,7 +357,7 @@ class PolymerSystem(object):
                     self.degen_dict[i] = [self.monomers[k] for k in degen]
                     for j in degen:
                         self.rev_degen_dict[self.monomers[j]] = i
-            if modified == False:
+            if not modified:
                 self.degen_dict[i] = [self.monomers[kept_indices[i]]]
                 self.rev_degen_dict[self.monomers[kept_indices[i]]] = i
         if cp.linalg.det(self.red_FH_mat) == 0:
@@ -412,7 +410,9 @@ class PolymerSystem(object):
                 + "{:.3}".format(danger)
                 + " which is very small and likely to cause problems"
             )
-        condition = cp.max(cp.abs(self.normal_evalues)) / cp.min(cp.abs(self.normal_evalues))
+        condition = cp.max(cp.abs(self.normal_evalues)) / cp.min(
+            cp.abs(self.normal_evalues)
+        )
         print("Condition", condition)
 
         self.A_ij = self.normal_modes
@@ -468,20 +468,22 @@ class PolymerSystem(object):
 
     def update_density_from_normal_smeared(self):
         """
-        special case of the update density from normal to handle cases with 
+        special case of the update density from normal to handle cases with
         smearing matrices
         """
-        self.w_all_smeared = cp.zeros_like(self.w_all) 
+        self.w_all_smeared = cp.zeros_like(self.w_all)
         hold_w_smeared = cp.zeros_like(self.w_all)
         for i in range(hold_w_smeared.shape[0]):
             for j in range(hold_w_smeared.shape[0]):
-                hold_w_smeared[j] = self.gaussian_smear(self.normal_w[j], self.smear_arr[i,j])
+                hold_w_smeared[j] = self.gaussian_smear(
+                    self.normal_w[j], self.smear_arr[i, j]
+                )
             hold_w_all = self.map_dens_from_norm(hold_w_smeared)
             self.w_all_smeared[i] = hold_w_all[i]
-       
+
     def dens_from_norm_generic_smeared(self, field_array, kernel_array):
         """
-        generic version of update_density_from_normal_smeared currently 
+        generic version of update_density_from_normal_smeared currently
         used for pressure terms only
 
         Parameters:
@@ -494,11 +496,10 @@ class PolymerSystem(object):
         out_array = cp.zeros_like(field_array)
         for i in range(hold_out.shape[0]):
             for j in range(hold_out.shape[0]):
-                hold_out[j] = self.convolve(field_array[j], kernel_array[i,j])
+                hold_out[j] = self.convolve(field_array[j], kernel_array[i, j])
             hold_out = self.map_dens_from_norm(hold_out)
             out_array[i] = hold_out[i]
         return out_array
-
 
     def map_norm_from_dens(self, w_like_array):
         """
@@ -525,16 +526,18 @@ class PolymerSystem(object):
 
     def map_norm_from_dens_smeared(self, w_like_array):
         """
-        special case of the update density from normal to handle cases with 
+        special case of the update density from normal to handle cases with
         smearing matrices
         """
-        smeared_output = cp.zeros_like(w_like_array) 
+        smeared_output = cp.zeros_like(w_like_array)
         hold_in_smeared = cp.zeros_like(w_like_array)
         for i in range(hold_in_smeared.shape[0]):
             for j in range(hold_in_smeared.shape[0]):
-                #Orientation of self.smear_arr is reversed, which is symmetric so it shouldn't matter
-                # but this is formally right
-                hold_in_smeared[j] = self.gaussian_smear(w_like_array[j], self.smear_arr[j,i])
+                # Orientation of self.smear_arr is reversed, which is symmetric so it
+                # shouldn't matter but this is formally right
+                hold_in_smeared[j] = self.gaussian_smear(
+                    w_like_array[j], self.smear_arr[j, i]
+                )
             hold_out = self.map_norm_from_dens(hold_in_smeared)
             smeared_output[i] = hold_out[i]
         return smeared_output
@@ -639,7 +642,7 @@ class PolymerSystem(object):
             total_charge += self.monomers[i].charge * self.phi_all[i]
 
         # Break out now if no salts
-        if include_salt == False or self.use_salts == False:
+        if not include_salt or not self.use_salts:
             return total_charge
 
         for i in range(len(self.salts)):
@@ -655,7 +658,8 @@ class PolymerSystem(object):
 
         Parameters:
             for_pressure (bool):
-                Whether to calculate the densities for pressure calculation, defaults to False.
+                Whether to calculate the densities for pressure calculation, defaults
+                to False.
 
         Raises:
             ValueError:
@@ -678,37 +682,53 @@ class PolymerSystem(object):
             self.dQ_dV_dict = {}
             self.dQ_dV_dict.clear()
             P_press_species = {}
-            gauss_12_arr = -cp.exp(-self.grid.k2 * self.smear_arr[..., *(None,) * self.grid.k2.ndim]**2 / 2) * (
-                self.grid.k2 * self.smear_arr[..., *(None,) * self.grid.k2.ndim]**2 / self.grid.ndims - 1 / 2
+            gauss_12_arr = -cp.exp(
+                -self.grid.k2
+                * self.smear_arr[..., *(None,) * self.grid.k2.ndim] ** 2
+                / 2
+            ) * (
+                self.grid.k2
+                * self.smear_arr[..., *(None,) * self.grid.k2.ndim] ** 2
+                / self.grid.ndims
+                - 1 / 2
             )
 
             gauss_16 = -cp.exp(-self.grid.k2 * self.psi_smear**2 / 2) * (
                 self.grid.k2 * self.psi_smear**2 / self.grid.ndims
                 - 1 / (2 * self.grid.ndims)
             )
-        
+
         self.update_density_from_normal_smeared()
         self.update_density_from_normal()
         try:
-            if self.big_number_safe==True:
-                self.w_all -= cp.amin(self.w_all,axis=tuple(range(1,self.w_all.ndim)),keepdims=True) / 2
+            if self.big_number_safe:
+                self.w_all -= (
+                    cp.amin(
+                        self.w_all, axis=tuple(range(1, self.w_all.ndim)), keepdims=True
+                    )
+                    / 2
+                )
         except AttributeError:
             pass
-        
-        self.smear_const = self.smear_arr[0,0]
+
+        self.smear_const = self.smear_arr[0, 0]
         for monomer in self.monomers:
             if monomer.has_volume:
                 # effective field from total of potentials
-                P_species[monomer] = (self.w_all_smeared[self.rev_degen_dict[monomer]] + 
-                    self.gaussian_smear(self.psi * monomer.charge,
+                P_species[monomer] = self.w_all_smeared[
+                    self.rev_degen_dict[monomer]
+                ] + self.gaussian_smear(
+                    self.psi * monomer.charge,
                     self.psi_smear,
-                ))
+                )
 
                 # This is the derivative smeared fields for each monomer type
                 if for_pressure:
-                    P_press_species[monomer] = (self.dens_from_norm_generic_smeared(
-                            self.normal_w, gauss_12_arr)[self.rev_degen_dict[monomer]]
-                            ) + self.convolve(self.psi * monomer.charge, gauss_16)
+                    P_press_species[monomer] = (
+                        self.dens_from_norm_generic_smeared(
+                            self.normal_w, gauss_12_arr
+                        )[self.rev_degen_dict[monomer]]
+                    ) + self.convolve(self.psi * monomer.charge, gauss_16)
         hold_phi_del_part = 0j
         hold_dens_part = 0j
         # Iterate over all polymer types
@@ -753,7 +773,7 @@ class PolymerSystem(object):
                 lap_q_r_s = cp.zeros_like(q_r_s)
                 for i in range(lap_q_r_s.shape[0]):
                     lap_q_r_s[i] = self.laplacian(q_r_s[i])
-                
+
                 Q_del_c = q_r_dag_s * lap_q_r_s
                 Q_del_c = self.reindex_Q_c(Q_del_c)
 
@@ -781,11 +801,12 @@ class PolymerSystem(object):
                 cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape))))
                 * self.grid.dV
                 / self.grid.V,
-                Q, rtol=1e-2
+                Q,
+                rtol=1e-2,
             ):
                 print(cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape)))))
                 raise ValueError("Q_c not equal across integral")
-#            print(cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape)))))
+            #            print(cp.sum(Q_c, axis=tuple(range(1, len(Q_c.shape)))))
 
             self.Q_dict[polymer] = cp.copy(Q)
 
@@ -836,9 +857,7 @@ class PolymerSystem(object):
         # compute solvent densities
         for solvent in self.solvent_dict:
             idx = self.monomers.index(solvent)
-            exp_w_S = cp.exp(
-                - P_species[self.monomers[idx]] / self.N
-            )
+            exp_w_S = cp.exp(-P_species[self.monomers[idx]] / self.N)
             Q_S = cp.sum(exp_w_S) / (self.grid.k2.size)
             self.phi_all[idx] += exp_w_S * self.solvent_dict[solvent] / (self.N * Q_S)
             self.Q_dict[solvent] = cp.copy(Q_S)
@@ -853,7 +872,7 @@ class PolymerSystem(object):
                 )
 
         # check if we are using salts
-        if self.use_salts == False:
+        if not self.use_salts:
             return
 
         phi_salt_shape = list(self.w_all.shape)
@@ -875,10 +894,7 @@ class PolymerSystem(object):
             self.phi_salt[i] = (exp_w_salt * salt_conc / (Q_salt)) / self.N
             self.Q_dict[self.salts[i]] = Q_salt
             if for_pressure:
-                w_press_salt = (
-                    self.salts[i].charge
-                    * self.convolve(self.psi, gauss_16)
-                )
+                w_press_salt = self.salts[i].charge * self.convolve(self.psi, gauss_16)
                 self.dQ_dV_dict[self.salts[i]] = (
                     cp.sum((exp_w_salt * salt_conc / (self.N * Q_salt)) * w_press_salt)
                     * self.grid.dV
@@ -918,7 +934,7 @@ class PolymerSystem(object):
             raise ValueError("Inadequate salt to correct charge imbalance")
 
         for salt in self.salts:
-            self.salt_concs[salt] = salt_conc = (
+            self.salt_concs[salt] = (
                 self.c_s - net_saltless_charge * self.N / (salt.charge * self.grid.V)
             ) / 2
 
@@ -942,5 +958,3 @@ class PolymerSystem(object):
         new_Q_c += Q_c[1:] / 2 + Q_c[:-1] / 2
 
         return new_Q_c
-
-
