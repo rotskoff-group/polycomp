@@ -1,8 +1,9 @@
-import polycomp.grid as grid
-import matplotlib.pyplot as plt
-import cupy as cp
 import math
 
+import cupy as cp
+import matplotlib.pyplot as plt
+
+import polycomp.grid as grid
 
 # Probably one of the single most over-engineered pieces of code I've every
 # written, this just takes a circle with a given center and radius and calculates

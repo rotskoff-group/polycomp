@@ -1,9 +1,6 @@
 import copy
+
 import cupy as cp
-import math
-import numpy as np
-import polycomp.ft_system as p
-import time
 
 
 class GibbsEnsemble(object):
@@ -91,7 +88,7 @@ class GibbsEnsemble(object):
         self.mass_2 = cp.zeros(len(self.species))
         ps = self.part_1
         # TODO: remove later
-        #ps.get_densities()
+        # ps.get_densities()
         for i in ps.poly_dict:
             self.mass_1[self.species.index(i)] += ps.poly_dict[i] * ps.grid.V
         for i in ps.solvent_dict:
@@ -102,7 +99,7 @@ class GibbsEnsemble(object):
 
         ps = self.part_2
         # TODO: can be removed later
-        #ps.get_densities()
+        # ps.get_densities()
 
         for i in ps.poly_dict:
             self.mass_2[self.species.index(i)] += ps.poly_dict[i] * ps.grid.V
@@ -166,7 +163,8 @@ class GibbsEnsemble(object):
             new_m_1 = self.mass_1 + self.gibbs_t * self.d_mu
             new_m_2 = self.total_mass - new_m_1
 
-            # implement a routine to check if any of the new masses are negative and replace them with half their original value if they are
+            # implement a routine to check if any of the new masses are negative and
+            # replace them with half their original value if they are
 
             if cp.any(new_m_1 < self.mass_1 * safety_minimum):
                 where = new_m_1 < self.mass_1 * safety_minimum
@@ -251,7 +249,6 @@ class GibbsEnsemble(object):
     def burn(self, steps):
         # run process for some time without sampling anything
 
-        t0 = 0
         for i in range(steps):
             self.int_1.ETD(for_pressure=True)
             self.int_2.ETD(for_pressure=True)
@@ -309,7 +306,7 @@ class GibbsEnsemble(object):
 
     def neutral_charge_step(self, mu):
         # ensure moves are charge neutral
-        if hasattr(self, "charge_vector") == False:
+        if not hasattr(self, "charge_vector"):
             self.get_charge_vector()
         corr_term = cp.sum(mu * self.charge_vector) / cp.sum(self.charge_vector**2)
         corr_mu_old = mu - corr_term * self.charge_vector
@@ -324,7 +321,8 @@ class GibbsEnsemble(object):
         # it would bring the mass below the current mass times the safety minimum)
 
         safety_minimum = 0.5
-        # implement a routine to check if any of the new masses are negative and replace them with half their original value if they are
+        # implement a routine to check if any of the new masses are negative and
+        # replace them with half their original value if they are
         safety_passed = False
         required_move = proposed_move
         forced_move_check = cp.zeros(len(self.total_mass), dtype=bool)
@@ -355,7 +353,8 @@ class GibbsEnsemble(object):
                 print("WARNING: Mass safety triggered")
             if safety_passed is False:
                 counts += 1
-                # we need to resolve the problem of the forbidden moves while constraining which species are allowed to move
+                # we need to resolve the problem of the forbidden moves while
+                # constraining which species are allowed to move
                 charge_change = cp.sum(
                     required_move[forced_move_check]
                     * self.charge_vector[forced_move_check]
@@ -373,9 +372,10 @@ class GibbsEnsemble(object):
                 proposed_move = mu * self.gibbs_t - corr_term * temp_charge_vector
                 proposed_move[forced_move_check] = required_move[forced_move_check]
 
-            if cp.all(forced_move_check == True):
+            if cp.all(forced_move_check == True):  # noqa: E712
                 raise ValueError(
-                    "Move finder has failed, all moves are forced and charge is unbalanced"
+                    "Move finder has failed, all moves are forced "
+                    "and charge is unbalanced"
                 )
             if counts > len(self.mass_1):
                 raise ValueError("Move finder failed, infinite loop broken")
@@ -383,9 +383,9 @@ class GibbsEnsemble(object):
         if not cp.allclose(cp.sum(proposed_move * self.charge_vector), 0):
             raise ValueError("Proposed charge imbalanced move that was not corrected")
 
-        # if the mass safeties are triggered then we must recalculate the best possible move
-        # subject to the further constraint that the forbidden moves are returned to
-        # their allowed level and fixed
+        # if the mass safeties are triggered then we must recalculate the best possible
+        # move subject to the further constraint that the forbidden moves are returned
+        # to their allowed level and fixed
 
         new_m_1 = self.mass_1 + proposed_move
         new_m_2 = self.total_mass - new_m_1
@@ -395,7 +395,8 @@ class GibbsEnsemble(object):
         # print(self.charge_vector)
         # print(self.mass_1)
         # print(self.mass_2)
-        # we only need to do part1 because conservation of charge suggests the other should automatically balance for free
+        # we only need to do part1 because conservation of charge suggests the other
+        # should automatically balance for free
 
         return new_m_1, new_m_2
 
@@ -419,13 +420,12 @@ class GibbsEnsemble(object):
                     (mu[i] - corr * self.charge_vector[i]) * self.charge_vector[i]
                     + (mu[j] - corr * self.charge_vector[j]) * self.charge_vector[j],
                 )
-        #        corr_term = cp.sum(mu * self.charge_vector) / cp.sum(self.charge_vector**2)
-        #        corr_mu = mu - corr_term * self.charge_vector
         return corr_mu
 
     def bind_species(self, species_1, species_2):
         # require that two species move in concert
-        # check that the two species in question have the same relative concentration in each simulation
+        # check that the two species in question have the same relative concentration
+        # in each simulation
 
         if (
             self.C_1[self.species.index(species_1)]
@@ -467,7 +467,7 @@ class GibbsEnsemble(object):
                 matched = True
                 break
 
-        if matched == False:
+        if not matched:
             self.bound_list.append(binding_matrix)
         else:
             self.clean_binds()
@@ -490,12 +490,13 @@ class GibbsEnsemble(object):
         return new_bind
 
     def clean_binds(self):
-        # combine any binding matrices that are linear combinations of other binding matrices
+        # combine any binding matrices that are linear combinations of other binding
+        # matrices
 
         # WARNING: Totally untested
 
         clean = False
-        while clean == False:
+        while not clean:
             clean = True
             for bind in self.bound_list:
                 for other_bind in self.bound_list:

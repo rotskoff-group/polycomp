@@ -1,5 +1,4 @@
 import copy
-import cupy as cp
 
 
 def clip(array, minimum, maximum):
