@@ -410,10 +410,10 @@ class PolymerSystem(object):
                 + "{:.3}".format(danger)
                 + " which is very small and likely to cause problems"
             )
-        condition = cp.max(cp.abs(self.normal_evalues)) / cp.min(
-            cp.abs(self.normal_evalues)
-        )
-        print("Condition", condition)
+
+        #        condition = cp.max(cp.abs(self.normal_evalues)) / cp.min(
+        #            cp.abs(self.normal_evalues)
+        #        )
 
         self.A_ij = self.normal_modes
         self.A_inv = cp.linalg.inv(self.A_ij)

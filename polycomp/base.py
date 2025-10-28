@@ -127,7 +127,6 @@ class Polymer(object):
 
         self.struct = np.asarray(hold_struct)
         self.h_struct = cp.asarray(hold_h_struct, dtype="float64")
-        print(self.h_struct)
         return
 
 
