@@ -19,6 +19,7 @@ class CL_RK2(object):
 
     Parameters
     ----------
+
     poly_sys
         Polymer system the integration scheme will be applied to.
     relax_rates
@@ -38,6 +39,7 @@ class CL_RK2(object):
 
     Attributes
     ----------
+
     ps : PolymerSystem
         Polymer system to be integrated.
     relax_rates : cupy.ndarray of floats
@@ -64,6 +66,7 @@ class CL_RK2(object):
 
     Raises
     ------
+
     ValueError
         Raised if the shape of the relax rates doesn't match the shape
         of poly_sys.
@@ -91,7 +94,9 @@ class CL_RK2(object):
         self.E = E
         self.c_k_w = None
 
-    def ETD(self, for_pressure: bool = False, for_inverse_problem: bool = False):
+    def ETD(
+        self, for_pressure: bool = False, for_inverse_problem: bool = False
+    ) -> None:
         """
         Call to integrate the attached polymer system by one time step with the
         specified ETD integration parameters.
@@ -99,8 +104,9 @@ class CL_RK2(object):
         Actual update steps are:
 
         $\\hat w (t + 1) = \\frac{1 - e^{-\\lambda c(\\boldsymbol{k})}}
-        {c\\boldsymbol(k)} \\hat F (w(t)) +
-        (\\frac{1 - e^{-\\lambda c(\\boldsymbol{k})}}{2\\lambda c\\boldsymbol(k)})^2
+        {c(\\boldsymbol{k})} \\hat F (w(t)) +
+        (\\frac{1 -
+                e^{-\\lambda c(\\boldsymbol{k})}}{2\\lambda c(\\boldsymbol{k})})^{1/2}
         \\hat \\eta (t)$
 
         where
@@ -125,6 +131,7 @@ class CL_RK2(object):
 
         Parameters
         ----------
+
         for_pressure
             Flag for whether or not the integration will be followed by pressure
             calculations. This adds about 25% to the runtime, so it should not be set
@@ -264,18 +271,26 @@ class CL_RK2(object):
 
         self.ps.psi = new_psi
 
-    def fourier_along_axes(self, array, axis):
+    def fourier_along_axes(self, array: cp.ndarray, axis: int) -> cp.ndarray:
         """
         Fourier transform each grid separately along the first axis.
 
         Needed when each grid is stored as a stacked array. Uses cufft for
         Fourier transforms.
 
-        Parameters:
-            array (cupy.ndarray):
-                Array to be Fourier transformed over.
-            axis (int):
-                Axis to be treated separately.
+        Parameters
+        ----------
+
+        array
+            Stacked array to be Fourier transformed.
+        axis
+            Axis to be treated separately.
+
+        Returns
+        -------
+
+        f_array : cp.ndarray
+            Stacked array that is the fourier transform of the input array
         """
 
         f_array = cp.zeros_like(array, dtype=complex)
@@ -287,18 +302,26 @@ class CL_RK2(object):
             f_array[tuple(sl)] = cufft.fftn(array[tuple(sl)])
         return f_array
 
-    def inverse_fourier_along_axes(self, array, axis):
+    def inverse_fourier_along_axes(self, array: cp.ndarray, axis: int) -> cp.ndarray:
         """
         Inverse Fourier transform each grid separately along the first axis.
 
         Needed when each grid is stored as a stacked array. Uses cufft for
-        Inverse Fourier transforms.
+        inverse Fourier transforms.
 
-        Parameters:
-            array (cupy.ndarray):
-                Array to be inverse Fourier transformed over.
-            axis (int):
-                Axis to be treated separately.
+        Parameters
+        ----------
+
+        array
+            Stacked arrays to be inverse Fourier transformed.
+        axis
+            Axis to be treated separately.
+
+        Returns
+        -------
+
+        inf_array : cp.ndarray
+            Stacked array that is the inverse Fourier transform of the input array
         """
 
         inf_array = cp.zeros_like(array, dtype=complex)
@@ -312,37 +335,60 @@ class CL_RK2(object):
             )
         return inf_array
 
-    def debye(self, k2):
+    def debye(self, k2: cp.ndarray) -> cp.ndarray:
         """
-        Debye function on a discrete grid.
+        Generates the Debye function on a discrete grid according to
 
-        Parameters:
-            k2 (cupy.ndarray):
-                cupy.ndarray representing k^2 at each grid point in k-space.
+        $\\hat{g}_{D}(k^2) = \\frac{2}{k^4} \\left( e^{-k^2} + k^2 - 1 \\right)$.
+
+        Parameters
+        ----------
+
+        k2
+            Array for $k^2$ at every point in the corresponding k space array.
+
+        Returns
+        -------
+
+        debye : cp.ndarray
+            The array for the Debye function at all points in space
         """
 
         debye = 2 / (k2**2) * (cp.exp(-k2) - 1 + k2)
         return debye
 
-    def draw_gauss(self, variance):
+    def draw_gauss(self, variance: float) -> cp.ndarray:
         """
-        Draw Gaussian distribution independently at each point in space.
+        Draws Gaussian distribution independently at each point in space.
 
-        Parameters:
-            variance (float):
-                Variance of the Gaussian to be drawn.
+        Parameters
+        ----------
+
+        variance
+            Variance of the Gaussian to be drawn.
+
+        Returns
+        -------
+
+        gaussian_array : cp.ndarray
+            Array of random values
         """
         return cp.random.normal(0, variance.real)
 
-    def build_c_k(self, u0_eig, debye_k):
+    def build_c_k(self, u0_eig: cp.ndarray, debye_k: cp.ndarray) -> None:
         """
-        Build the c_k coefficients for the ETD integrator.
+        Generates $c(\\boldsymbol{k})$ for all the polymer structures in the
+        system given the FH matrix. Sets them as the matching appropriate internal
+        variables for all fields.
 
-        Parameters:
-            u0_eig (cupy.ndarray):
-                Eigenvalues of the u0 matrix.
-            debye_k (cupy.ndarray):
-                Fourier-transformed Debye function.
+        Parameters
+        ----------
+
+        u0_eig
+            Eigenvalues of the u0 matrix.
+        debye_k
+            Fourier-transformed Debye function.
+
         """
 
         self.c_k_w = cp.zeros_like(self.ps.normal_w)
@@ -359,10 +405,7 @@ class CL_RK2(object):
             fract = self.ps.poly_dict[polymer]
             alphk = self.ps.grid.k2
             for i in range(len(polymer.block_structure)):
-                # TODO: Honestly, this stuff is to complicated for me to follow and
-                # should be done in greater detail with someone to check exactly
-                # DANGER: Factor of 2 is from Villet 2014, but I didn't have it
-                # in the derivation. Check this, all four instances of 2 *
+                # Reference for full derivation is present in Emmit Pert's PhD thesis
 
                 # This is the leading g_jj term
                 self.c_k_w[ids[i]] += (

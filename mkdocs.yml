@@ -40,6 +40,7 @@ plugins:
             show_root_members_full_path: True
             filters:
               - "!^_"
+
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
