@@ -1,3 +1,10 @@
+"""
+Internal CuPy kernels for multiplication and exponentiation operations.
+
+Module is not part of the public API, should only be called to accelerate common
+operations.
+"""
+
 import cupy as cp
 
 # Kernel to multiply by exp(-K2 * h) on the GPU
