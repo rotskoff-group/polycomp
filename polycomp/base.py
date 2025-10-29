@@ -6,29 +6,38 @@ class Monomer(object):
     """
     Class for the monomer of one species in the simulation.
 
-    Attributes:
-        name (string):
-            Unique monomer name.
-        has_volume (bool):
-            Whether the monomer occupies volume.
-        identity (string):
-            Identity of the monomer, probably {polymer, solvent, salt}.
-        charge (float):
-            Charge of the monomer.
+    Parameters
+    ----------
+
+    name
+        Monomer identifier to be displayed publicly.
+    charge
+        Monomer charge.
+    identity
+        Monomer type (solvent or polymer).
+    has_volume
+        Whether the monomer occupies volume.
+
+    Attributes
+    ----------
+
+    name : string
+        Unique monomer name.
+    charge : float
+        Charge of the monomer.
+    identity : string
+        Identity of the monomer, usually {polymer, solvent, salt, Nanoparticle}.
+    has_volume : bool
+        Whether the monomer occupies volume.
     """
 
-    def __init__(self, name, charge, identity="solvent", has_volume=True):
-        """
-        Initialize Monomer object.
-
-        Parameters:
-            name (string):
-                Unique monomer name.
-            identity (string):
-                What type of species the monomer is.
-            has_volume (bool):
-                Whether the monomer occupies volume.
-        """
+    def __init__(
+        self,
+        name: str,
+        charge: float = 0,
+        identity: str = "solvent",
+        has_volume: bool = True,
+    ) -> None:
 
         self.name = name
         self.has_volume = has_volume
@@ -43,35 +52,43 @@ class Polymer(object):
     """
     Class to store all the information for one type of polymer.
 
-    Attributes:
-        name (string):
-            Unique name of a polymer.
-        total_length (float):
-            Total length of the polymer for integration.
-        block_structure (tuple):
-            Tuple of dicts containing the length of component blocks within the
-            polymer.
-        struct (ndarray):
-            Array of Monomer objects representing linear polymer structure.
-        h_struct (cparray):
-            Array of floats for the length of each section of the structure.
-        fastener (cparray):
-            cparray indicating where the polymer is fastened.
+    Parameters
+    ----------
+
+    name
+        Unique name.
+    total_length
+        Total length along the polymer. (Only accurate if sum of block lengths is 1)
+    block_structure : array-like
+        A list-like object of blocks defining the polymer architecture. Each
+        block should be a list-like object of length 2, in the format
+        `(Monomer, float_fractional_length)`.
+
+        Example for a diblock: `[(A_mon, 0.5), (B_mon, 0.5)]`
+
+    Attributes
+    ----------
+
+    name : string
+        Unique name of a polymer.
+    total_length : float
+        Total length of the polymer for integration.
+    block_structure : array-like
+        A list-like object of blocks defining the polymer architecture. Format is
+        `(Monomer, float_fractional_length)`.
+    struct : np.ndarray
+        Array of Monomer objects representing linear polymer structure.
+    h_struct : cp.ndarray
+        Array of floats for the length of each section of the structure.
+    fastener : Brush
+        Brush object indicating where the sequence is fastened. Fastening always occurs
+        on the leading end.
+
     """
 
-    def __init__(self, name, total_length, block_structure, fastener=None):
-        """
-        Initialize Polymer object.
-
-        Parameters:
-            name (string):
-                Unique name.
-            total_length (float):
-                Total length along the polymer.
-            block_structure (tuple):
-                Tuple of dictionaries mapping monomer objects to lengths along the
-                polymer.
-        """
+    def __init__(
+        self, name: str, total_length: float, block_structure: tuple, fastener=None
+    ) -> None:
 
         super(Polymer, self).__init__()
         self.name = name
@@ -90,22 +107,29 @@ class Polymer(object):
     def __repr__(self):
         return str(self.block_structure)
 
-    def build_working_polymer(self, h, total_h):
+    def build_working_polymer(self, h: float, total_h: float) -> None:
         """
         Build the polymer structure that will be used for integration.
 
         Built-in method to construct a working polymer during integration
-        according to parameters specific to the simulation run.
+        according to parameters specific to the simulation run. Normally called
+        automatically as part of system setup.
 
-        Parameters:
-            h (float):
-                Maximum integration segment length.
+        Parameters
+        ----------
 
-        Raises:
-            ValueError:
-                Raises an error if the polymer already has a built structure. At
-                present, there is no reason that a polymer structure should be built
-                more than once in a single simulation.
+        h
+            Maximum integration segment length $\\Delta s$.
+        total_h
+            Total length of the polymer $s_P$.
+
+        Raises
+        ------
+
+        ValueError:
+            Raises an error if the polymer already has a built structure. At
+            present, there is no reason that a polymer structure should be built
+            more than once in a single simulation.
         """
 
         # Used to generate a string of h lengths and polymer species identities
@@ -131,7 +155,30 @@ class Polymer(object):
 
 
 class Brush(object):
-    def __init__(self, name, density):
+    """
+    Class to store the location of a brushed surface. The brush density denotes the
+    density of the affixed end of the polymer in space.
+
+    Parameters
+    ----------
+
+    name
+        Unique name.
+    density
+        Density in space (of some corresponding grid) of
+        the fixed segment of the polymer.
+
+    Attributes
+    ----------
+
+    name : str
+        Unique name.
+    density : cp.ndarray
+        Spatial density of the attached brush end
+
+    """
+
+    def __init__(self, name: str, density: cp.ndarray) -> None:
         self.name = name
         self.density = density / cp.average(density)
 
@@ -140,7 +187,36 @@ class Brush(object):
 
 
 class Nanoparticle(object):
-    def __init__(self, name, monomer_type, density):
+    """
+
+    Defines an inert nanoparticle with a fixed spatial density.
+
+    The position of the nanoparticle is fixed unless manually changed.
+
+    Parameters
+    ----------
+
+    name
+        Unique name.
+    monomer_type
+        Monomer type associated with the nanoparticle in question (for FH interaction
+        purposes).
+    density
+        Density in space (of some corresponding grid) of the nanoparticle.
+
+    Attributes
+    ----------
+
+    name : str
+        Unique name.
+    density : cp.ndarray
+        Spatial density of the nanoparticle.
+    type : Monomer
+        Monomer identity (for FH interaction purposes) of the nanoparticle.
+
+    """
+
+    def __init__(self, name: str, monomer_type: Monomer, density: cp.ndarray) -> None:
         self.name = name
         self.density = density
         self.type = monomer_type
@@ -150,5 +226,15 @@ class Nanoparticle(object):
     def __repr__(self):
         return self.name
 
-    def place_nps(self, positions):
-        self.positions = positions
+    def place_nps(self, positions: cp.ndarray) -> None:
+        """
+        Updates the density of the nanoparticle position
+
+        Parameters
+        ----------
+
+        positions
+            Desired new density profile for the nanoparticles in the system.
+        """
+
+        self.density = positions
