@@ -1,16 +1,19 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 import cupy as cp
+
+ArrayLike = Union[Tuple[float, ...], list, cp.ndarray]
 
 
 class Grid:
     """
     This class manages the grids (real and k-space) needed for the field theoretic
-    simulations. I stores and pre-computes useful quantities for the
+    simulations. It stores and pre-computes useful quantities for the
     modified diffusion equation and integrators to use elsewhere.
 
     Parameters
     ----------
+
     box_length
         Lengths of the simulation box along each axis $L_i$.
     grid_spec
@@ -18,6 +21,7 @@ class Grid:
 
     Attributes
     ----------
+
     grid_spec : Tuple[int, ...]
         Number of lattice points along each axis $M_{Li}$.
     ndims : int
@@ -32,17 +36,18 @@ class Grid:
         Volume of the unit cell $dV$.
     grid : cupy.ndarray of float
         Real-space coordinates of each grid point.
-        Shape is (ndims, Nx, Ny, ...). grid[0] is a grid of all
+        Shape is ($d$, $N_x$, $N_y$, ...). grid[0] is a grid of all
         x-coordinates, same for other dimensions
     kgrid : cupy.ndarray of float
-        Complex grid of (x, ...) k Fourier-transformed positions at each k point.
+        Grid of (x, ...) k Fourier-transformed positions at each k point.
     k1 : cupy.ndarray of float
-        Complex grid of (x, ...) L1 norm distances at each k point.
+        Grid of (x, ...) L1 norm distances at each k point.
     k2 : cupy.ndarray of float
-        Complex grid of (x, ...) L2 norm distances at each k point.
+        Grid of (x, ...) L2 norm distances at each k point.
 
     Raises
     ------
+
     ValueError
         Raises error if the box length is not a tuple
     """
@@ -50,17 +55,17 @@ class Grid:
     def __init__(
         self, box_length: Tuple[float, ...], grid_spec: Tuple[int, ...]
     ) -> None:
-        super(Grid, self).__init__()
+        super().__init__()
 
         self.grid_spec = grid_spec
         self.ndims = len(self.grid_spec)
-        if type(box_length) is tuple:
+        if isinstance(box_length, tuple):
             self.l = cp.array(box_length)
         else:
             raise ValueError("box_length is not tuple")
         self.update_l(self.l)
 
-    def update_l(self, new_l: Tuple[float, ...]):
+    def update_l(self, new_l: ArrayLike) -> None:
         """
         This function reconstructs the grid, using the previous gridding but for a new
         box size. Performs required operations for all dependent parameters to be
@@ -68,13 +73,10 @@ class Grid:
 
         Parameters
         ----------
+
         new_l
             New box lengths $L_i$ to be assigned
 
-        Raises
-        ------
-            ValueError:
-                Raises error if the box length is not a tuple
         """
 
         self.l = cp.array(new_l)
