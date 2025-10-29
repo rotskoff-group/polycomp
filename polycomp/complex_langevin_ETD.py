@@ -1,56 +1,83 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import cupy as cp
 import cupyx.scipy.fft as cufft
+
+if TYPE_CHECKING:
+    from ft_system import PolymerSystem
 
 
 class CL_RK2(object):
     """
-    Class for storing all of the necessary functions to run the Complex
-    Langevin integration using Exponential Time Differencing.
+    Class used to update the state of a polymer field system using the complex langevin
+    integrator with exponential time differencing. SCFT behavior can be recovered by
+    setting noise to zero, though the integrators are less efficient than state of the
+    art SCFT integrators. Can be set to compute pressure and density simultaneously for
+    efficiency.
 
-    Attributes:
-        ps (PolymerSystem Object):
-            The polymer system integration is supposed to occur on.
-        relax_rates (cparray):
-            cparray of floats for the relaxation rate of each species.
-        relax_temps (cparray):
-            cparray of floats for the relaxation temps of each diagonalized w.
-        psi_relax_rate (float):
-            Float for the relaxation rate of psi.
-        psi_temp (float):
-            Float for the relaxation temp of psi.
-        E (float):
-            Float for the E (rescaled Bjerrum length) of the system.
-        c_k_w (cparray):
-            cparray of complex128 for the linear approximation of the response of force
-            from fields derived using the weak inhomogeneity expansion.
-        c_k_w (cparray):
-            cparray of complex128 for the linear approximation of the response of force
-            from charge field derived using the weak inhomogeneity expansion.
+    Parameters
+    ----------
+    poly_sys
+        Polymer system the integration scheme will be applied to.
+    relax_rates
+        Array of the relaxation rates for the chemical potential fields
+        $\\{\\lambda_{\\omega}\\}$. Each entry corresponds to the same indexed field in
+        the diagonal basis.
+    relax_temps
+        Array of the fictitious temperatures for the chemical potential fields
+        $\\{\\lambda_{\\omega}\\}$. Each entry corresponds to the same indexed field in
+        the diagonal basis.
+    psi_relax_rate
+        Relaxation rate of electric potential field $\\lambda_{\\varphi}$
+    psi_temp
+        Fictitious temperature for the electric potential field $\\beta_{\\varphi}$
+    E
+        Rescaled Bjerrum length of the system $E$.
+
+    Attributes
+    ----------
+    ps : PolymerSystem
+        Polymer system to be integrated.
+    relax_rates : cupy.ndarray of floats
+        Array of the relaxation rates for the chemical potential fields
+        $\\{\\lambda_{\\omega}\\}$.
+    relax_temps : cupy.ndarray of floats
+        Array of the fictitious temperatures for the chemical potential fields
+        $\\{\\lambda_{\\omega}\\}$. Each entry corresponds to the same indexed field in
+        the diagonal basis.
+    psi_relax_rate : float
+        Relaxation rate of electric potential field $\\lambda_{\\varphi}$
+    psi_temp : float
+        Fictitious temperature for the electric potential field $\\beta_{\\varphi}$
+    E : float
+        Rescaled Bjerrum length of the system $E$.
+    c_k_w : cupy.ndarray of complex
+        Linear approximation of the response of force to change in $i$th chemical
+        potential field $c_{i}(\\boldsymbol{k})$. Derived from weak inhomogeneity
+        expansion with indexing to match the diagonal basis
+    c_k_psi : cupy.ndarray of complex
+        Linear approximation of the response of force to change in $i$th
+        chemical potential field $c_{\\varphi}(\\boldsymbol{k})$. Derived from weak
+        inhomogeneity expansion.
+
+    Raises
+    ------
+    ValueError
+        Raised if the shape of the relax rates doesn't match the shape
+        of poly_sys.
     """
 
-    def __init__(self, poly_sys, relax_rates, relax_temps, psi_relax_rate, psi_temp, E):
-        """
-        Initialize integrator.
-
-        Parameters:
-            poly_sys (PolymerSystem object):
-                Polymer system that integration is supposed to occur on.
-            relax_rates (cparray):
-                cparray of floats for the relaxation rates of each diagonalized w.
-            relax_temps (cparray):
-                cparray of floats for the relaxation temps of each diagonalized w.
-            psi_relax_rate (float):
-                Float for the relaxation rate of psi.
-            psi_temp (float):
-                Float for the relaxation temp of psi.
-            E (float):
-                Float for the E (rescaled Bjerrum length) of the system.
-
-        Raises:
-            ValueError:
-                Raised if the shape of the relax rates doesn't match the shape
-                of poly_sys.
-        """
+    def __init__(
+        self,
+        poly_sys: PolymerSystem,
+        relax_rates: cp.ndarray,
+        relax_temps: cp.ndarray,
+        psi_relax_rate: float,
+        psi_temp: float,
+        E: float,
+    ) -> None:
 
         super(CL_RK2, self).__init__()
 
@@ -64,19 +91,48 @@ class CL_RK2(object):
         self.E = E
         self.c_k_w = None
 
-    def ETD(self, for_pressure=False, for_inverse_problem=False):
+    def ETD(self, for_pressure: bool = False, for_inverse_problem: bool = False):
         """
-        Integrate one step of time with ETD algorithm.
+        Call to integrate the attached polymer system by one time step with the
+        specified ETD integration parameters.
 
-        Parameters:
-            for_pressure (bool, optional):
-                Boolean for whether or not the integration will be followed by pressure
-                calculations. This adds about 25% to the runtime, so it should be set as
-                rarely as possible. Default is False.
-            for_pressure (bool, optional):
-                Boolean for whether the method doesn't calculate new densities to allow
-                for solving the inverse field problem - SCF solution for finding fields
-                corresponding to a given density. Default is false
+        Actual update steps are:
+
+        $\\hat w (t + 1) = \\frac{1 - e^{-\\lambda c(\\boldsymbol{k})}}
+        {c\\boldsymbol(k)} \\hat F (w(t)) +
+        (\\frac{1 - e^{-\\lambda c(\\boldsymbol{k})}}{2\\lambda c\\boldsymbol(k)})^2
+        \\hat \\eta (t)$
+
+        where
+
+        $\\hat F (\\boldsymbol{ \\mu }(t,\\boldsymbol{k})) =
+        \\frac{\\boldsymbol{\\gamma}^2}{\\boldsymbol{B}} \\odot
+        \\hat{\\boldsymbol{\\mu}}(t,\\boldsymbol{k}) -
+        \\boldsymbol{b}^T \\hat{\\boldsymbol{\\rho}}(t,\\boldsymbol{k})$
+
+        for the chemical potential fields and
+
+        $\\hat F (\\varphi(t,\\boldsymbol{k})) =
+        \\frac{1}{E}
+        \\boldsymbol{k}^2 \\hat{\\varphi}(t,\\boldsymbol{k}) -
+        \\boldsymbol{b}^T \\hat{\\rho}_C(t,\\boldsymbol{k})$
+
+        for the electric field.
+
+        The variance of the noise is
+        $\\frac{2\\lambda_i\\beta_i}{\\Delta V}$ with the indexing for the same
+        field.
+
+        Parameters
+        ----------
+        for_pressure
+            Flag for whether or not the integration will be followed by pressure
+            calculations. This adds about 25% to the runtime, so it should not be set
+            unless pressure is desired.
+        for_inverse_problem
+            Boolean for whether the method doesn't calculate new densities to allow
+            for solving the inverse field problem - SCF solution for finding fields
+            corresponding to a given density.
         """
 
         # Get the densities
@@ -216,7 +272,7 @@ class CL_RK2(object):
         Fourier transforms.
 
         Parameters:
-            array (cparray):
+            array (cupy.ndarray):
                 Array to be Fourier transformed over.
             axis (int):
                 Axis to be treated separately.
@@ -239,7 +295,7 @@ class CL_RK2(object):
         Inverse Fourier transforms.
 
         Parameters:
-            array (cparray):
+            array (cupy.ndarray):
                 Array to be inverse Fourier transformed over.
             axis (int):
                 Axis to be treated separately.
@@ -261,8 +317,8 @@ class CL_RK2(object):
         Debye function on a discrete grid.
 
         Parameters:
-            k2 (cparray):
-                cparray representing k^2 at each grid point in k-space.
+            k2 (cupy.ndarray):
+                cupy.ndarray representing k^2 at each grid point in k-space.
         """
 
         debye = 2 / (k2**2) * (cp.exp(-k2) - 1 + k2)
@@ -283,9 +339,9 @@ class CL_RK2(object):
         Build the c_k coefficients for the ETD integrator.
 
         Parameters:
-            u0_eig (cparray):
+            u0_eig (cupy.ndarray):
                 Eigenvalues of the u0 matrix.
-            debye_k (cparray):
+            debye_k (cupy.ndarray):
                 Fourier-transformed Debye function.
         """
 

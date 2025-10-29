@@ -34,20 +34,22 @@ class Grid:
         Real-space coordinates of each grid point.
         Shape is (ndims, Nx, Ny, ...). grid[0] is a grid of all
         x-coordinates, same for other dimensions
-    kgrid : cupy.ndarray of complex
+    kgrid : cupy.ndarray of float
         Complex grid of (x, ...) k Fourier-transformed positions at each k point.
-    k1 : cupy.ndarray of complex
+    k1 : cupy.ndarray of float
         Complex grid of (x, ...) L1 norm distances at each k point.
-    k2 : cupy.ndarray of complex
+    k2 : cupy.ndarray of float
         Complex grid of (x, ...) L2 norm distances at each k point.
 
     Raises
     ------
-    ValueError:
+    ValueError
         Raises error if the box length is not a tuple
     """
 
-    def __init__(self, box_length: Tuple[float, ...], grid_spec: Tuple[int, ...]):
+    def __init__(
+        self, box_length: Tuple[float, ...], grid_spec: Tuple[int, ...]
+    ) -> None:
         super(Grid, self).__init__()
 
         self.grid_spec = grid_spec
@@ -58,7 +60,7 @@ class Grid:
             raise ValueError("box_length is not tuple")
         self.update_l(self.l)
 
-    def update_l(self, new_l):
+    def update_l(self, new_l: Tuple[float, ...]):
         """
         This function reconstructs the grid, using the previous gridding but for a new
         box size. Performs required operations for all dependent parameters to be
@@ -66,8 +68,8 @@ class Grid:
 
         Parameters
         ----------
-        new_l : tuple of float
-            New box lengths to be assigned
+        new_l
+            New box lengths $L_i$ to be assigned
 
         Raises
         ------
