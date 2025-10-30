@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -48,7 +48,9 @@
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -93,12 +95,12 @@
     <a href=".." title="Polycomp" class="md-header__button md-logo" aria-label="Polycomp" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -130,30 +132,32 @@
       
     
     
-      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
@@ -161,7 +165,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -172,6 +176,7 @@
     </div>
   </div>
 </div>
+      
     
     
   </nav>
@@ -202,7 +207,7 @@
     <a href=".." title="Polycomp" class="md-nav__button md-logo" aria-label="Polycomp" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     Polycomp
@@ -220,8 +225,10 @@
       <a href=".." class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -240,8 +247,10 @@
       <a href="../getting_started/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Getting Started
+    
   </span>
   
 
@@ -260,8 +269,10 @@
       <a href="../examples/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
-    Examples
+    Example Usage
+    
   </span>
   
 
@@ -282,6 +293,7 @@
     
     
     
+    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
@@ -292,8 +304,10 @@
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
-    Detailed Documentation
+    API Documentation
+    
   </span>
   
 
@@ -303,7 +317,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Detailed Documentation
+            API Documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -317,8 +331,10 @@
       <a href="../grid/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Grid
+    
   </span>
   
 
@@ -338,8 +354,10 @@
       <a href="../integrator/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Integration Schemes
+    
   </span>
   
 
@@ -368,8 +386,10 @@
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
+  
   <span class="md-ellipsis">
     Modified Diffusion Equation
+    
   </span>
   
 
@@ -379,8 +399,10 @@
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
+  
   <span class="md-ellipsis">
     Modified Diffusion Equation
+    
   </span>
   
 
@@ -411,6 +433,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#polycomp.mde-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.mde.integrate_s" class="md-nav__link">
     <span class="md-ellipsis">
       integrate_s
@@ -418,13 +450,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.mde.s_step" class="md-nav__link">
     <span class="md-ellipsis">
       s_step
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -447,8 +484,10 @@
       <a href="../polymersystem/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     PolySystem Method
+    
   </span>
   
 
@@ -468,8 +507,10 @@
       <a href="../inventory/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Species Inventory
+    
   </span>
   
 
@@ -489,8 +530,101 @@
       <a href="../observables/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Observables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Experimental Methods & Helpers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Experimental Methods & Helpers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../se_gibbs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gibbs Ensemble
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shape_utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shape Utilities
+    
   </span>
   
 
@@ -543,6 +677,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#polycomp.mde-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.mde.integrate_s" class="md-nav__link">
     <span class="md-ellipsis">
       integrate_s
@@ -550,13 +694,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.mde.s_step" class="md-nav__link">
     <span class="md-ellipsis">
       s_step
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -575,6 +724,7 @@
                   
 
 
+
 <h1 id="modified-diffusion-equation">Modified Diffusion Equation<a class="headerlink" href="#modified-diffusion-equation" title="Permanent link">🔗</a></h1>
 <p>Set of functions specialized in evaluating the modified diffusion equations. C kernels 
 are available separately. </p>
@@ -585,9 +735,16 @@ are available separately. </p>
 
 
 <a id="polycomp.mde"></a>
-  <div class="doc doc-contents first">
+    <div class="doc doc-contents first">
 
-  
+
+
+
+
+
+
+
+
 
   <div class="doc doc-children">
 
@@ -598,154 +755,187 @@ are available separately. </p>
 
 
 
-
+<h2 id="polycomp.mde-functions">Functions<a href="#polycomp.mde-functions" class="headerlink" title="Permanent link">🔗</a></h2>
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.mde.integrate_s" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">integrate_s</span><span class="p">(</span><span class="n">struct</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">species_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">q_r_start</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">q_r_dag_start</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">fastener</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span></code>
 
-<h2 id="polycomp.mde.integrate_s" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">integrate_s</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">,</span> <span class="n">species_dict</span><span class="p">,</span> <span class="n">q_r_start</span><span class="p">,</span> <span class="n">q_r_dag_start</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">fastener</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
-
-<a href="#polycomp.mde.integrate_s" class="headerlink" title="Permanent link">🔗</a></h2>
+<a href="#polycomp.mde.integrate_s" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
-  <div class="doc doc-contents ">
-  
-      <p>Function to integrate one polymer.</p>
+    <div class="doc doc-contents ">
+
+        <p>Function to integrate one polymer.</p>
 <p>Takes the polymer structure and underlying chemical potential and generates
 values for the modified diffusion equation at every step along the polymer.</p>
+<p>To compute each step this uses the fourth-order Richardson Extrapolation scheme
+where the step is
+<span class="arithmatex">\(q(s + \Delta s, \mathbf{r}) = \frac{4q_{\Delta s/2}(s + \Delta s, \mathbf{r})
+- q_{\Delta s}(s + \Delta s, \mathbf{r})}{3}\)</span>.
+<span class="arithmatex">\(q_{\Delta s/2}(s + \Delta s, \mathbf{r})\)</span> uses two half width steps and
+<span class="arithmatex">\(q_{\Delta s}(s + \Delta s, \mathbf{r})\)</span> uses one full width step to compute the
+new values.</p>
+<p>The full integral computes the entire modified diffusion equation for the polymer.
+Will recognize symmetric polymers and efficiently reuse propogators.</p>
+<p>Currently only implemented for linear polymers.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>struct</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Monomer ordering along the polymer <span class="arithmatex">\(m_p(s)\)</span></p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>h_struct</code>
+            </td>
+            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>CuPy array of floats containing the length of each segment along the polymer
+<span class="arithmatex">\(\Delta s (s)\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>species_dict</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dictionary of species to ints representing the mapping between monomer types
+and the index for their corresponding density and potential
+<span class="arithmatex">\(m_p \rightarrow \psi_i(\boldsymbol{r})\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>q_r_start</code>
+            </td>
+            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Complex valued start to forward propogator <span class="arithmatex">\(q(0, \boldsymbol{r})\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>q_r_dag_start</code>
+            </td>
+            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Complex valued start to reverse propogator
+<span class="arithmatex">\(q^\dagger(N_P / N, \boldsymbol{r})\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>grid</code>
+            </td>
+            <td>
+                  <code><span title="grid.Grid">Grid</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>System grid.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>struct</code></td>
-          <td>
-                <code>ndarray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>ndarray of Monomers containing the corresponding monomer type along the
-polymer.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>h_struct</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>cparray of floats containing the length of each segment along the polymer.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>species_dict</code></td>
-          <td>
-                <code>dict</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Dictionary of species to ints representing the mapping between monomer types
-and the index for their corresponding density and potential.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>q_r_start</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>cparray of complex128 representing the initial value of q.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>q_r_dag_start</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>cparray of complex128 representing the initial value of q_dagger.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>grid</code></td>
-          <td>
-                <code>Grid object</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>System grid.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/mde.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>q_r_s</code></td>            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Complex valued forward propagator along then entire segment chain
+<span class="arithmatex">\(q(\boldsymbol{s},\boldsymbol{r})\)</span></p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+<td><code>q_r_dag_s</code></td>            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Complex valued reverse propagator along the entire segment chain
+<span class="arithmatex">\(q^{\dagger}(\boldsymbol{s},\boldsymbol{r})\)</span></p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>polycomp/mde.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 61</span>
 <span class="normal"> 62</span>
 <span class="normal"> 63</span>
 <span class="normal"> 64</span>
@@ -803,36 +993,113 @@ and the index for their corresponding density and potential.</p>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">integrate_s</span><span class="p">(</span>
-    <span class="n">struct</span><span class="p">,</span>
-    <span class="n">h_struct</span><span class="p">,</span>
-    <span class="n">species_dict</span><span class="p">,</span>
-    <span class="n">q_r_start</span><span class="p">,</span>
-    <span class="n">q_r_dag_start</span><span class="p">,</span>
-    <span class="n">grid</span><span class="p">,</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">integrate_s</span><span class="p">(</span>
+    <span class="n">struct</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">h_struct</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">species_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">q_r_start</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">q_r_dag_start</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span>
     <span class="n">fastener</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to integrate one polymer.</span>
 
 <span class="sd">    Takes the polymer structure and underlying chemical potential and generates</span>
 <span class="sd">    values for the modified diffusion equation at every step along the polymer.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        struct (ndarray):</span>
-<span class="sd">            ndarray of Monomers containing the corresponding monomer type along the</span>
-<span class="sd">            polymer.</span>
-<span class="sd">        h_struct (cparray):</span>
-<span class="sd">            cparray of floats containing the length of each segment along the polymer.</span>
-<span class="sd">        species_dict (dict):</span>
-<span class="sd">            Dictionary of species to ints representing the mapping between monomer types</span>
-<span class="sd">            and the index for their corresponding density and potential.</span>
-<span class="sd">        q_r_start (cparray):</span>
-<span class="sd">            cparray of complex128 representing the initial value of q.</span>
-<span class="sd">        q_r_dag_start (cparray):</span>
-<span class="sd">            cparray of complex128 representing the initial value of q_dagger.</span>
-<span class="sd">        grid (Grid object):</span>
-<span class="sd">            System grid.</span>
+<span class="sd">    To compute each step this uses the fourth-order Richardson Extrapolation scheme</span>
+<span class="sd">    where the step is</span>
+<span class="sd">    $q(s + \\Delta s, \\mathbf{r}) = \\frac{4q_{\\Delta s/2}(s + \\Delta s, \\mathbf{r})</span>
+<span class="sd">    - q_{\\Delta s}(s + \\Delta s, \\mathbf{r})}{3}$.</span>
+<span class="sd">    $q_{\\Delta s/2}(s + \\Delta s, \\mathbf{r})$ uses two half width steps and</span>
+<span class="sd">    $q_{\\Delta s}(s + \\Delta s, \\mathbf{r})$ uses one full width step to compute the</span>
+<span class="sd">    new values.</span>
+
+<span class="sd">    The full integral computes the entire modified diffusion equation for the polymer.</span>
+<span class="sd">    Will recognize symmetric polymers and efficiently reuse propogators.</span>
+
+<span class="sd">    Currently only implemented for linear polymers.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    struct</span>
+<span class="sd">        Monomer ordering along the polymer $m_p(s)$</span>
+<span class="sd">    h_struct</span>
+<span class="sd">        CuPy array of floats containing the length of each segment along the polymer</span>
+<span class="sd">        $\\Delta s (s)$.</span>
+<span class="sd">    species_dict</span>
+<span class="sd">        Dictionary of species to ints representing the mapping between monomer types</span>
+<span class="sd">        and the index for their corresponding density and potential</span>
+<span class="sd">        $m_p \\rightarrow \\psi_i(\\boldsymbol{r})$.</span>
+<span class="sd">    q_r_start</span>
+<span class="sd">        Complex valued start to forward propogator $q(0, \\boldsymbol{r})$.</span>
+<span class="sd">    q_r_dag_start</span>
+<span class="sd">        Complex valued start to reverse propogator</span>
+<span class="sd">        $q^\\dagger(N_P / N, \\boldsymbol{r})$.</span>
+<span class="sd">    grid</span>
+<span class="sd">        System grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    q_r_s : cp.ndarray</span>
+<span class="sd">        Complex valued forward propagator along then entire segment chain</span>
+<span class="sd">        $q(\\boldsymbol{s},\\boldsymbol{r})$</span>
+<span class="sd">    q_r_dag_s : cp.ndarray</span>
+<span class="sd">        Complex valued reverse propagator along the entire segment chain</span>
+<span class="sd">        $q^{\\dagger}(\\boldsymbol{s},\\boldsymbol{r})$</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># integrates using each point in struct as an integration point</span>
@@ -888,112 +1155,139 @@ and the index for their corresponding density and potential.</p>
 
     <span class="k">return</span> <span class="n">q_r_s</span><span class="p">,</span> <span class="n">q_r_dag_s</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.mde.s_step" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">s_step</span><span class="p">(</span><span class="n">q_r</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w_P</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span></code>
 
-<h2 id="polycomp.mde.s_step" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">s_step</span><span class="p">(</span><span class="n">q_r</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w_P</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span></code>
-
-<a href="#polycomp.mde.s_step" class="headerlink" title="Permanent link">🔗</a></h2>
+<a href="#polycomp.mde.s_step" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
-  <div class="doc doc-contents ">
-  
-      <p>Function to run one step of Modified diffusion integration.</p>
+    <div class="doc doc-contents ">
+
+        <p>Function to run one step of modified diffusion integration using Trotter
+decomposition.</p>
+<p>Form of the integration is</p>
+<p><span class="arithmatex">\(q(s + \Delta s, \boldsymbol{r}) =
+e^{-\frac{\psi(s,\boldsymbol{r})}{2} \Delta s}
+e^{\nabla^2 \Delta s} e^{-\frac{\psi(s,\boldsymbol{r})}{2} \Delta s}
+q(s,\boldsymbol{r})\)</span>.</p>
 <p>Uses cupy custom functions to more efficiently compute the products with C
 code, otherwise just products and Fourier transforms.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>q_r</code>
+            </td>
+            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Propagator value for the previous step <span class="arithmatex">\(q(s,\boldsymbol{r})\)</span>
+(or <span class="arithmatex">\(q^{\dagger}(s,\boldsymbol{r})\)</span>).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>h</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Integration step size <span class="arithmatex">\(\Delta s\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>w_P</code>
+            </td>
+            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Array for the corresponding chemical potential field <span class="arithmatex">\(\psi(s,\boldsymbol{r})\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>grid</code>
+            </td>
+            <td>
+                  <code><span title="grid.Grid">Grid</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>System grid.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>q_r</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>sys_dim array of complex128 representing a single q value.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>h</code></td>
-          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Integration step size.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>w_P</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>sys_dim array of complex128 representing effective chemical potential.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>grid</code></td>
-          <td>
-                <code>Grid object</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>System grid.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/mde.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>q_r_t</code></td>            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the propagator <span class="arithmatex">\(q(s+\Delta s )\)</span> (or <span class="arithmatex">\(q^{\dagger}(s - \Delta s)\)</span>).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>polycomp/mde.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
@@ -1011,22 +1305,63 @@ code, otherwise just products and Fourier transforms.</p>
 <span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
-<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">s_step</span><span class="p">(</span><span class="n">q_r</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w_P</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">s_step</span><span class="p">(</span><span class="n">q_r</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w_P</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to run one step of Modified diffusion integration.</span>
+<span class="sd">    Function to run one step of modified diffusion integration using Trotter</span>
+<span class="sd">    decomposition.</span>
+
+<span class="sd">    Form of the integration is</span>
+
+<span class="sd">    $q(s + \\Delta s, \\boldsymbol{r}) =</span>
+<span class="sd">    e^{-\\frac{\\psi(s,\\boldsymbol{r})}{2} \\Delta s}</span>
+<span class="sd">    e^{\\nabla^2 \\Delta s} e^{-\\frac{\\psi(s,\\boldsymbol{r})}{2} \\Delta s}</span>
+<span class="sd">    q(s,\\boldsymbol{r})$.</span>
 
 <span class="sd">    Uses cupy custom functions to more efficiently compute the products with C</span>
 <span class="sd">    code, otherwise just products and Fourier transforms.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        q_r (cparray):</span>
-<span class="sd">            sys_dim array of complex128 representing a single q value.</span>
-<span class="sd">        h (float):</span>
-<span class="sd">            Integration step size.</span>
-<span class="sd">        w_P (cparray):</span>
-<span class="sd">            sys_dim array of complex128 representing effective chemical potential.</span>
-<span class="sd">        grid (Grid object):</span>
-<span class="sd">            System grid.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q_r</span>
+<span class="sd">        Propagator value for the previous step $q(s,\\boldsymbol{r})$</span>
+<span class="sd">        (or $q^{\\dagger}(s,\\boldsymbol{r})$).</span>
+<span class="sd">    h</span>
+<span class="sd">        Integration step size $\\Delta s$.</span>
+<span class="sd">    w_P</span>
+<span class="sd">        Array for the corresponding chemical potential field $\\psi(s,\\boldsymbol{r})$.</span>
+<span class="sd">    grid</span>
+<span class="sd">        System grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    q_r_t : cp.ndarray</span>
+<span class="sd">        the propagator $q(s+\\Delta s )$ (or $q^{\\dagger}(s - \\Delta s)$).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Run a single step of Equation 13</span>
@@ -1040,8 +1375,8 @@ code, otherwise just products and Fourier transforms.</p>
     <span class="n">q_r_t</span> <span class="o">=</span> <span class="n">exp_mult</span><span class="p">(</span><span class="n">q_r_t</span><span class="p">,</span> <span class="n">w_P</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">q_r_t</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -1049,7 +1384,7 @@ code, otherwise just products and Fourier transforms.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 
@@ -1098,12 +1433,12 @@ code, otherwise just products and Fourier transforms.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "navigation.instant"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
-        <script src="../javascripts/mathjax.js"></script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "navigation.instant"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

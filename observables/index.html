@@ -12,9 +12,11 @@
         <link rel="prev" href="../inventory/">
       
       
+        <link rel="next" href="../se_gibbs/">
+      
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
@@ -22,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -46,7 +48,9 @@
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -91,12 +95,12 @@
     <a href=".." title="Polycomp" class="md-header__button md-logo" aria-label="Polycomp" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -128,30 +132,32 @@
       
     
     
-      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
@@ -159,7 +165,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -170,6 +176,7 @@
     </div>
   </div>
 </div>
+      
     
     
   </nav>
@@ -200,7 +207,7 @@
     <a href=".." title="Polycomp" class="md-nav__button md-logo" aria-label="Polycomp" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     Polycomp
@@ -218,8 +225,10 @@
       <a href=".." class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -238,8 +247,10 @@
       <a href="../getting_started/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Getting Started
+    
   </span>
   
 
@@ -258,8 +269,10 @@
       <a href="../examples/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
-    Examples
+    Example Usage
+    
   </span>
   
 
@@ -280,6 +293,7 @@
     
     
     
+    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
@@ -290,8 +304,10 @@
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
-    Detailed Documentation
+    API Documentation
+    
   </span>
   
 
@@ -301,7 +317,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Detailed Documentation
+            API Documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -315,8 +331,10 @@
       <a href="../grid/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Grid
+    
   </span>
   
 
@@ -336,8 +354,10 @@
       <a href="../integrator/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Integration Schemes
+    
   </span>
   
 
@@ -357,8 +377,10 @@
       <a href="../mde/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Modified Diffusion Equation
+    
   </span>
   
 
@@ -378,8 +400,10 @@
       <a href="../polymersystem/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     PolySystem Method
+    
   </span>
   
 
@@ -399,8 +423,10 @@
       <a href="../inventory/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Species Inventory
+    
   </span>
   
 
@@ -429,8 +455,10 @@
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
+  
   <span class="md-ellipsis">
     Observables
+    
   </span>
   
 
@@ -440,8 +468,10 @@
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
+  
   <span class="md-ellipsis">
     Observables
+    
   </span>
   
 
@@ -472,6 +502,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#polycomp.observables-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_chemical_potential" class="md-nav__link">
     <span class="md-ellipsis">
       get_chemical_potential
@@ -479,8 +519,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_free_energy" class="md-nav__link">
     <span class="md-ellipsis">
       get_free_energy
@@ -488,8 +528,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_pressure" class="md-nav__link">
     <span class="md-ellipsis">
       get_pressure
@@ -497,8 +537,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_structure_factor" class="md-nav__link">
     <span class="md-ellipsis">
       get_structure_factor
@@ -506,8 +546,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.pair_correlation" class="md-nav__link">
     <span class="md-ellipsis">
       pair_correlation
@@ -515,11 +555,107 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Experimental Methods & Helpers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Experimental Methods & Helpers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../se_gibbs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gibbs Ensemble
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shape_utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shape Utilities
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -568,6 +704,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#polycomp.observables-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_chemical_potential" class="md-nav__link">
     <span class="md-ellipsis">
       get_chemical_potential
@@ -575,8 +721,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_free_energy" class="md-nav__link">
     <span class="md-ellipsis">
       get_free_energy
@@ -584,8 +730,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_pressure" class="md-nav__link">
     <span class="md-ellipsis">
       get_pressure
@@ -593,8 +739,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.get_structure_factor" class="md-nav__link">
     <span class="md-ellipsis">
       get_structure_factor
@@ -602,13 +748,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.observables.pair_correlation" class="md-nav__link">
     <span class="md-ellipsis">
       pair_correlation
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -627,6 +778,7 @@
                   
 
 
+
 <h1 id="structure-factor">Structure Factor<a class="headerlink" href="#structure-factor" title="Permanent link">🔗</a></h1>
 
 
@@ -635,9 +787,16 @@
 
 
 <a id="polycomp.observables"></a>
-  <div class="doc doc-contents first">
+    <div class="doc doc-contents first">
 
-  
+
+
+
+
+
+
+
+
 
   <div class="doc doc-children">
 
@@ -648,108 +807,199 @@
 
 
 
-
+<h2 id="polycomp.observables-functions">Functions<a href="#polycomp.observables-functions" class="headerlink" title="Permanent link">🔗</a></h2>
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.observables.get_chemical_potential" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_chemical_potential</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">:</span> <span class="n">PolymerSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
-<h2 id="polycomp.observables.get_chemical_potential" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">get_chemical_potential</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">)</span></code>
-
-<a href="#polycomp.observables.get_chemical_potential" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Function to compute the chemical potential of the system.</p>
+<a href="#polycomp.observables.get_chemical_potential" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
+    <div class="doc doc-contents ">
 
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
+        <p>Function to compute the chemical potential of the system.</p>
+<p>This function calculates the chemical potential, <span class="arithmatex">\(\mu_j\)</span>, for each species <span class="arithmatex">\(j\)</span>
+according to the standard formula in polymer field theory:</p>
+<div class="arithmatex">\[
+\mu_j = \log C_j - \log Q_j +
+\vec{\kappa}_j^T \boldsymbol{\chi} \boldsymbol{c}
+\]</div>
+<p>where <span class="arithmatex">\(C_j\)</span> is the concentration, <span class="arithmatex">\(Q_j\)</span> is the partition function,
+<span class="arithmatex">\(\vec{\kappa}_j\)</span> is the composition vector of species <span class="arithmatex">\(j\)</span>,
+<span class="arithmatex">\(\boldsymbol{\chi}\)</span> is the
+Flory-Huggins interaction matrix, and <span class="arithmatex">\(\boldsymbol{c}\)</span> is the vector of average
+monomer concentrations.</p>
+
+
+<details class="note" open>
+  <summary>Notes</summary>
+  <p>This function modifies the <code>polymer_system</code> object in-place by setting
+the <code>chem_pot_dict</code> attribute.</p>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
         <tr>
-<td><code>chem_pot_dict</code></td>          <td>
-                <code>dict</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Dictionary of chemical potentials for each species.</p>
-            </div>
-          </td>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>polymer_system</code>
+            </td>
+            <td>
+                  <code><span title="ft_system.PolymerSystem">PolymerSystem</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The system for which to calculate the chemical potentials. This object
+will be modified.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/observables.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_chemical_potential</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">):</span>
+
+            <details class="quote">
+              <summary>Source code in <code>polycomp/observables.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_chemical_potential</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">:</span> <span class="n">PolymerSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to compute the chemical potential of the system.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        chem_pot_dict (dict):</span>
-<span class="sd">            Dictionary of chemical potentials for each species.</span>
+<span class="sd">    This function calculates the chemical potential, $\\mu_j$, for each species $j$</span>
+<span class="sd">    according to the standard formula in polymer field theory:</span>
+
+<span class="sd">    $$</span>
+<span class="sd">    \\mu_j = \\log C_j - \\log Q_j +</span>
+<span class="sd">    \\vec{\\kappa}_j^T \\boldsymbol{\\chi} \\boldsymbol{c}</span>
+<span class="sd">    $$</span>
+
+<span class="sd">    where $C_j$ is the concentration, $Q_j$ is the partition function,</span>
+<span class="sd">    $\\vec{\\kappa}_j$ is the composition vector of species $j$,</span>
+<span class="sd">    $\\boldsymbol{\\chi}$ is the</span>
+<span class="sd">    Flory-Huggins interaction matrix, and $\\boldsymbol{c}$ is the vector of average</span>
+<span class="sd">    monomer concentrations.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function modifies the `polymer_system` object in-place by setting</span>
+<span class="sd">    the `chem_pot_dict` attribute.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    polymer_system : PolymerSystem</span>
+<span class="sd">        The system for which to calculate the chemical potentials. This object</span>
+<span class="sd">        will be modified.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="n">avg_mass</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">)</span> <span class="o">/</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">)</span> <span class="o">/</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">size</span>
     <span class="n">avg_red_mass</span> <span class="o">=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">remove_degeneracy</span><span class="p">(</span>
-        <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="o">.</span><span class="n">ndim</span><span class="p">)))</span> <span class="o">/</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="o">.</span><span class="n">ndim</span><span class="p">)))</span>
+        <span class="o">/</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">size</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">use_salts</span><span class="p">:</span>
         <span class="n">polymer_system</span><span class="o">.</span><span class="n">get_salt_concs</span><span class="p">()</span>
@@ -757,132 +1007,150 @@
         <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="n">j</span>
         <span class="k">if</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">:</span>
             <span class="c1"># simulation contribution</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">-=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">-=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+            <span class="p">)</span>
             <span class="n">alpha</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">avg_red_mass</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">species</span><span class="o">.</span><span class="n">h_struct</span><span class="p">,</span> <span class="n">species</span><span class="o">.</span><span class="n">struct</span><span class="p">):</span>
                 <span class="n">alpha</span><span class="p">[</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">rev_degen_dict</span><span class="p">[</span><span class="n">spec</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">h</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alpha</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_red_mass</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">alpha</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_red_mass</span><span class="o">.</span><span class="n">T</span>
+            <span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">solvent_dict</span><span class="p">:</span>
             <span class="c1"># simulation contribution</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">solvent_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">-=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">solvent_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+            <span class="p">)</span>
             <span class="c1"># Enthalpic contribution</span>
             <span class="n">alpha</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">avg_red_mass</span><span class="p">)</span>
             <span class="n">alpha</span><span class="p">[</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">rev_degen_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="c1"># TODO: maybe this should be phi rather than total mass, kind of unclear but I think this is right</span>
-            <span class="c1"># polymer_system.chem_pot_dict[species] += -(avg_red_mass@polymer_system.red_FH_mat@avg_red_mass.T/2) / polymer_system.N</span>
+            <span class="c1"># TODO: maybe this should be phi rather than total mass,</span>
+            <span class="c1"># kind of unclear but I think this is right</span>
+            <span class="c1"># polymer_system.chem_pot_dict[species] += (</span>
+            <span class="c1"># -(avg_red_mass@polymer_system.red_FH_mat@avg_red_mass.T/2)</span>
+            <span class="c1"># / polymer_system.N)</span>
             <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_red_mass</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">N</span>
+                <span class="mi">2</span>
+                <span class="o">/</span> <span class="mi">2</span>
+                <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_red_mass</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                <span class="o">/</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">N</span>
             <span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">salts</span><span class="p">:</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">-=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
-            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">salt_concs</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">-=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">salt_concs</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bad Species:&quot;</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.observables.get_free_energy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_free_energy</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">:</span> <span class="n">PolymerSystem</span><span class="p">,</span> <span class="n">E</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span></code>
 
-<h2 id="polycomp.observables.get_free_energy" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">get_free_energy</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span></code>
-
-<a href="#polycomp.observables.get_free_energy" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Function to compute the free energy of the system.</p>
+<a href="#polycomp.observables.get_free_energy" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
+    <div class="doc doc-contents ">
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
+        <p>This function calculates the complete free energy, <span class="arithmatex">\(F\)</span>, which includes
+the ideal gas entropy of mixing and the field-theoretic Hamiltonian, <span class="arithmatex">\(H\)</span>.
+The total free energy is given by:</p>
+<div class="arithmatex">\[
+F = \sum_{j} n_j (\log C_j - 1) + \langle H[\{\mu_i\}, \varphi] \rangle_s
+\]</div>
+<p>where <span class="arithmatex">\(n_j\)</span> and <span class="arithmatex">\(C_j\)</span> are the number and concentration of species <span class="arithmatex">\(j\)</span>,
+respectively, and <span class="arithmatex">\(\langle H \rangle_s\)</span> is the spatially-averaged
+Hamiltonian. The Hamiltonian itself is defined as:</p>
+<div class="arithmatex">\[
+\begin{align*}
+H[\{\mu_i\}, \varphi] = &amp;\sum_{i=1}^{M} \frac{\gamma_i^2}{2B_i}
+from ft_system import PolymerSystem
+\int_{\Omega} d\boldsymbol{r} \mu_i^2(\boldsymbol{r}) +
+\frac{1}{2E} \int_{\Omega}
+d\boldsymbol{r} |\nabla\varphi(\boldsymbol{r})|^2 \\
+&amp;- \sum_{j=1}^{P+S+2} n_j \log Q_j[\{\mu_i\}, \varphi]
++ \frac{V\boldsymbol{c}^T \boldsymbol{\chi} \boldsymbol{c}}{2}.
+\end{align*}
+\]</div>
+<p>This only calculates the free energy for a single configuration, so to get a
+proper value, sampling should be done over the free energy.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
         <tr>
-          <td><code>E</code></td>
-          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The scaled Bjerrum length for the system.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>E</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The scaled Bjerrum length for the system.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
         <tr>
-<td><code>total_free_energy</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The total free energy of the system.</p>
-            </div>
-          </td>
+          <th>Type</th>
+          <th>Description</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="total_free_energy">total_free_energy</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The total free energy of the system.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/observables.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
+
+            <details class="quote">
+              <summary>Source code in <code>polycomp/observables.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -955,23 +1223,108 @@
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_free_energy</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">,</span> <span class="n">E</span><span class="p">):</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_free_energy</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">:</span> <span class="n">PolymerSystem</span><span class="p">,</span> <span class="n">E</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to compute the free energy of the system.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        E (float):</span>
-<span class="sd">            The scaled Bjerrum length for the system.</span>
+<span class="sd">    This function calculates the complete free energy, $F$, which includes</span>
+<span class="sd">    the ideal gas entropy of mixing and the field-theoretic Hamiltonian, $H$.</span>
+<span class="sd">    The total free energy is given by:</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        total_free_energy (float):</span>
-<span class="sd">            The total free energy of the system.</span>
+<span class="sd">    $$</span>
+<span class="sd">    F = \\sum_{j} n_j (\\log C_j - 1) + \\langle H[\\{\\mu_i\\}, \\varphi] \\rangle_s</span>
+<span class="sd">    $$</span>
+
+<span class="sd">    where $n_j$ and $C_j$ are the number and concentration of species $j$,</span>
+<span class="sd">    respectively, and $\\langle H \\rangle_s$ is the spatially-averaged</span>
+<span class="sd">    Hamiltonian. The Hamiltonian itself is defined as:</span>
+
+<span class="sd">    $$</span>
+<span class="sd">    \\begin{align*}</span>
+<span class="sd">    H[\\{\\mu_i\\}, \\varphi] = &amp;\\sum_{i=1}^{M} \\frac{\\gamma_i^2}{2B_i}</span>
+<span class="sd">    from ft_system import PolymerSystem</span>
+<span class="sd">    \\int_{\\Omega} d\\boldsymbol{r} \\mu_i^2(\\boldsymbol{r}) +</span>
+<span class="sd">    \\frac{1}{2E} \\int_{\\Omega}</span>
+<span class="sd">    d\\boldsymbol{r} |\\nabla\\varphi(\\boldsymbol{r})|^2 \\\\</span>
+<span class="sd">    &amp;- \\sum_{j=1}^{P+S+2} n_j \\log Q_j[\\{\\mu_i\\}, \\varphi]</span>
+<span class="sd">    + \\frac{V\\boldsymbol{c}^T \\boldsymbol{\\chi} \\boldsymbol{c}}{2}.</span>
+<span class="sd">    \\end{align*}</span>
+<span class="sd">    $$</span>
+
+<span class="sd">    This only calculates the free energy for a single configuration, so to get a</span>
+<span class="sd">    proper value, sampling should be done over the free energy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    E</span>
+<span class="sd">        The scaled Bjerrum length for the system.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    total_free_energy</span>
+<span class="sd">        The total free energy of the system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">polymer_system</span><span class="o">.</span><span class="n">update_normal_from_density</span><span class="p">()</span>
     <span class="c1"># initialize free energy array</span>
     <span class="n">free_energy</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">normal_w</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">mu_energy</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># mu squared terms</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">normal_w</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
@@ -996,7 +1349,9 @@
     <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">:</span>
             <span class="n">partition_energy</span> <span class="o">-=</span> <span class="p">(</span>
-                <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+                <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
+                <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
+                <span class="o">*</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
             <span class="p">)</span>
             <span class="n">species_partition</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="o">-</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
@@ -1029,10 +1384,14 @@
         <span class="k">elif</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">salts</span><span class="p">:</span>
             <span class="n">salt_conc</span> <span class="o">=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">salt_concs</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
             <span class="n">partition_energy</span> <span class="o">-=</span> <span class="p">(</span>
-                <span class="n">salt_conc</span> <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+                <span class="n">salt_conc</span>
+                <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
+                <span class="o">*</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
             <span class="p">)</span>
             <span class="n">species_partition</span><span class="p">[</span><span class="n">species</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="o">-</span><span class="n">salt_conc</span> <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
+                <span class="o">-</span><span class="n">salt_conc</span>
+                <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
+                <span class="o">*</span> <span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">Q_dict</span><span class="p">[</span><span class="n">species</span><span class="p">])</span>
             <span class="p">)</span>
             <span class="c1"># Ideal gas entropy contribution</span>
             <span class="n">ig_entropy</span> <span class="o">+=</span> <span class="n">salt_conc</span> <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">salt_conc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -1042,274 +1401,345 @@
     <span class="n">total_free_energy</span> <span class="o">+=</span> <span class="n">partition_energy</span> <span class="o">+</span> <span class="n">ig_entropy</span>
 
     <span class="n">avg_conc</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
-        <span class="n">polymer_system</span><span class="o">.</span><span class="n">reduce_phi_all</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+        <span class="n">polymer_system</span><span class="o">.</span><span class="n">reduce_phi_all</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">),</span>
+        <span class="n">axis</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="c1"># Free energy from homogeneous case (needed for comparing across conditions in</span>
     <span class="c1"># gibbs ensemble and others)</span>
     <span class="n">total_free_energy</span> <span class="o">+=</span> <span class="p">(</span>
-        <span class="p">(</span><span class="n">avg_conc</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_conc</span><span class="p">)</span><span class="o">.</span><span class="n">real</span> <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">(</span><span class="n">avg_conc</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_conc</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+        <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
+        <span class="o">/</span> <span class="mi">2</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">total_free_energy</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.observables.get_pressure" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_pressure</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">complex</span></code>
 
-<h2 id="polycomp.observables.get_pressure" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">get_pressure</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">)</span></code>
-
-<a href="#polycomp.observables.get_pressure" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Function to compute the pressure of the system.</p>
+<a href="#polycomp.observables.get_pressure" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
+    <div class="doc doc-contents ">
 
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
+        <p>Function to compute the pressure of the system. Pressure is computed as</p>
+<p><span class="arithmatex">\(\begin{align*}
+\beta\Pi &amp;= \sum_{j}^{P+S+2} C_j - \frac{\mathbf{c}^T \boldsymbol{\chi}
+                                             \mathbf{c}}{2} \\
+&amp;+ \sum_{j}^{P} \frac{1}{V} \int_{\Omega} d\mathbf{r}
+\int_{0}^{\frac{N_j}{N}} ds \left[ \frac{2}{d}
+\rho_{\nabla j}(\mathbf{r},s) + \rho_j(\mathbf{r},s)
+\left( (\Gamma_2 - \frac{1}{2}\Gamma) * (\psi_{(l/j)}
+- Z_{(l/j)}\varphi)(\mathbf{r},s) + (\Gamma_2 - \frac{1}{2d}\Gamma)
+* Z_j \varphi(\mathbf{r},s) \right) \right] \\
+&amp;+ \sum_{j}^{S+2} \frac{1}{NV} \int_{\Omega} d\mathbf{r} \rho_j(\mathbf{r})
+\times \left( (\Gamma_2 - \frac{1}{2}\Gamma)
+* (\psi_{(l/j)} - Z_{(l/j)}\varphi)(\mathbf{r})
++ (\Gamma_2 - \frac{1}{2d}\Gamma) * Z_j \varphi(\mathbf{r}) \right).
+\end{align*}\)</span></p>
+<p>For this function to operate properly, you <strong>MUST</strong> call
+<code>PolySystem.get_densities()</code>
+with <code>for_pressure=True</code> before calling this function. It is advised that you call
+your integrator with the <code>for_pressure</code> flag set to avoid unnecessary computations
+if you are computing pressure live during sampling or optimization.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
         <tr>
-<td><code>pressure</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Pressure of the system.</p>
-            </div>
-          </td>
+          <th>Type</th>
+          <th>Description</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="pressure">pressure</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Pressure of the system.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/observables.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_pressure</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">):</span>
+
+            <details class="quote">
+              <summary>Source code in <code>polycomp/observables.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_pressure</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">complex</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to compute the pressure of the system.</span>
+<span class="sd">    Function to compute the pressure of the system. Pressure is computed as</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        pressure (float):</span>
-<span class="sd">            Pressure of the system.</span>
+<span class="sd">    $\\begin{align*}</span>
+<span class="sd">    \\beta\\Pi &amp;= \\sum_{j}^{P+S+2} C_j - \\frac{\\mathbf{c}^T \\boldsymbol{\\chi}</span>
+<span class="sd">                                                 \\mathbf{c}}{2} \\\\</span>
+<span class="sd">    &amp;+ \\sum_{j}^{P} \\frac{1}{V} \\int_{\\Omega} d\\mathbf{r}</span>
+<span class="sd">    \\int_{0}^{\\frac{N_j}{N}} ds \\left[ \\frac{2}{d}</span>
+<span class="sd">    \\rho_{\\nabla j}(\\mathbf{r},s) + \\rho_j(\\mathbf{r},s)</span>
+<span class="sd">    \\left( (\\Gamma_2 - \\frac{1}{2}\\Gamma) * (\\psi_{(l/j)}</span>
+<span class="sd">    - Z_{(l/j)}\\varphi)(\\mathbf{r},s) + (\\Gamma_2 - \\frac{1}{2d}\\Gamma)</span>
+<span class="sd">    * Z_j \\varphi(\\mathbf{r},s) \\right) \\right] \\\\</span>
+<span class="sd">    &amp;+ \\sum_{j}^{S+2} \\frac{1}{NV} \\int_{\\Omega} d\\mathbf{r} \\rho_j(\\mathbf{r})</span>
+<span class="sd">    \\times \\left( (\\Gamma_2 - \\frac{1}{2}\\Gamma)</span>
+<span class="sd">    * (\\psi_{(l/j)} - Z_{(l/j)}\\varphi)(\\mathbf{r})</span>
+<span class="sd">    + (\\Gamma_2 - \\frac{1}{2d}\\Gamma) * Z_j \\varphi(\\mathbf{r}) \\right).</span>
+<span class="sd">    \\end{align*}$</span>
+
+<span class="sd">    For this function to operate properly, you **MUST** call</span>
+<span class="sd">    `PolySystem.get_densities()`</span>
+<span class="sd">    with `for_pressure=True` before calling this function. It is advised that you call</span>
+<span class="sd">    your integrator with the `for_pressure` flag set to avoid unnecessary computations</span>
+<span class="sd">    if you are computing pressure live during sampling or optimization.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pressure</span>
+<span class="sd">        Pressure of the system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># since the ideal mixture terms are extensive but their underlying</span>
-    <span class="c1"># functions don&#39;t (or weakly, depending on construction) depend on volume we will use their</span>
-    <span class="c1"># values divided by volume to get their contribution to pressure</span>
+    <span class="c1"># functions don&#39;t (or weakly, depending on construction) depend on volume</span>
+    <span class="c1"># we will use their values divided by volume to get their contribution to pressure</span>
     <span class="c1"># TODO: functionalize this, it is used multiple times</span>
     <span class="n">ideal_contribution</span> <span class="o">=</span> <span class="mi">0</span><span class="n">j</span>
     <span class="n">Q_contribution</span> <span class="o">=</span> <span class="mi">0</span><span class="n">j</span>
 
     <span class="n">avg_conc</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
-        <span class="n">polymer_system</span><span class="o">.</span><span class="n">reduce_phi_all</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+        <span class="n">polymer_system</span><span class="o">.</span><span class="n">reduce_phi_all</span><span class="p">(</span><span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="p">),</span>
+        <span class="n">axis</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">phi_all</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span>
     <span class="p">)</span>
+    <span class="c1">#    print(avg_conc)</span>
+    <span class="n">homo_contribution</span> <span class="o">=</span> <span class="p">(</span><span class="n">avg_conc</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_conc</span><span class="p">)</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="mi">2</span>
 
-    <span class="n">ideal_contribution</span> <span class="o">+=</span> <span class="p">(</span><span class="n">avg_conc</span> <span class="o">@</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">red_FH_mat</span> <span class="o">@</span> <span class="n">avg_conc</span><span class="p">)</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">for</span> <span class="n">poly</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">:</span>
         <span class="n">ideal_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">poly</span><span class="p">]</span>
-        <span class="n">Q_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">dQ_dV_dict</span><span class="p">[</span><span class="n">poly</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">poly</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Q_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">dQ_dV_dict</span><span class="p">[</span><span class="n">poly</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">sol</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">solvent_dict</span><span class="p">:</span>
         <span class="n">ideal_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">solvent_dict</span><span class="p">[</span><span class="n">sol</span><span class="p">]</span>
-        <span class="n">Q_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">dQ_dV_dict</span><span class="p">[</span><span class="n">sol</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">solvent_dict</span><span class="p">[</span><span class="n">sol</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Q_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">dQ_dV_dict</span><span class="p">[</span><span class="n">sol</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">use_salts</span><span class="p">:</span>
         <span class="n">polymer_system</span><span class="o">.</span><span class="n">get_salt_concs</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">salt</span> <span class="ow">in</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">salts</span><span class="p">:</span>
             <span class="n">ideal_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">salt_concs</span><span class="p">[</span><span class="n">salt</span><span class="p">]</span>
             <span class="n">Q_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">dQ_dV_dict</span><span class="p">[</span><span class="n">salt</span><span class="p">]</span>
 
-    <span class="c1"># TODO: Add salt</span>
-    <span class="c1"># in the alternative formulation we only need the partition function terms</span>
-    <span class="c1"># differs slightly from Villet because we need to solve segment by</span>
-    <span class="c1"># segment, but we will offload this into the density operator</span>
-    <span class="n">pressure</span> <span class="o">=</span> <span class="n">ideal_contribution</span> <span class="o">+</span> <span class="n">Q_contribution</span>
+    <span class="c1">#    print(&quot;Ideal gas: &quot;, ideal_contribution)</span>
+    <span class="c1">#    print(&quot;Homogeneous: &quot;, homo_contribution)</span>
+    <span class="c1">#    print(&quot;Q_change: &quot;, Q_contribution)</span>
+    <span class="n">pressure</span> <span class="o">=</span> <span class="n">ideal_contribution</span> <span class="o">+</span> <span class="n">homo_contribution</span> <span class="o">+</span> <span class="n">Q_contribution</span>
 
     <span class="k">return</span> <span class="n">pressure</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.observables.get_structure_factor" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_structure_factor</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">for_pair_corr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span></code>
 
-<h2 id="polycomp.observables.get_structure_factor" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">get_structure_factor</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">,</span> <span class="n">for_pair_corr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
-
-<a href="#polycomp.observables.get_structure_factor" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Calculate the structure factor of a density grid.</p>
+<a href="#polycomp.observables.get_structure_factor" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
+    <div class="doc doc-contents ">
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
+        <p>Calculate the structure factor of a density grid. Only works for 2D systems at
+present. Uses pseudospectral convolution. 1D structure factors can be
+jagged due to discrete nature of shells.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
         <tr>
-          <td><code>grid</code></td>
-          <td>
-                <code>Grid</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The grid object.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
         </tr>
-        <tr>
-          <td><code>real_dens</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The density grid.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>for_pair_corr</code></td>
-          <td>
-                <code>bool</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>If True, return the structure factor without averaging over shells.</p>
-            </div>
-          </td>
-          <td>
-                <code>False</code>
-          </td>
-        </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>grid</code>
+            </td>
+            <td>
+                  <code><span title="grid.Grid">Grid</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The grid object.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>real_dens</code>
+            </td>
+            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The density grid to compute the structure factor for.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>for_pair_corr</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, return the structure factor without averaging over shells.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>struct_dists</code></td>            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The distance associated with the same indexed <code>s_fact_1d</code>.</p>
+<p>(Only returned if <code>for_pair_corr</code> is <code>False</code>)</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+<td><code>s_fact_1d</code></td>            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The structure factor averaged over all points that have the same distance
+stored in <code>struct_dists</code>.</p>
+<p>(Only returned if <code>for_pair_corr</code> is <code>False</code>)</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+<td><code>s_fact_2d</code></td>            <td>
+                  <code><span title="cupy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The structure factor without averaging over shells, same shape as k-space array.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>struct_dists</code></td>          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The distances of the shells.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-<td><code>s_fact_1d</code></td>          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The structure factor averaged over shells.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-<td><code>s_fact_2d</code></td>          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The structure factor without averaging over shells.</p>
-            </div>
-          </td>
-        </tr>
-    </tbody>
-  </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/observables.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
+            <details class="quote">
+              <summary>Source code in <code>polycomp/observables.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
@@ -1349,25 +1779,58 @@
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_structure_factor</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">,</span> <span class="n">for_pair_corr</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_structure_factor</span><span class="p">(</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">for_pair_corr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the structure factor of a density grid.</span>
+<span class="sd">    Calculate the structure factor of a density grid. Only works for 2D systems at</span>
+<span class="sd">    present. Uses pseudospectral convolution. 1D structure factors can be</span>
+<span class="sd">    jagged due to discrete nature of shells.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        grid (Grid):</span>
-<span class="sd">            The grid object.</span>
-<span class="sd">        real_dens (cparray):</span>
-<span class="sd">            The density grid.</span>
-<span class="sd">        for_pair_corr (bool):</span>
-<span class="sd">            If True, return the structure factor without averaging over shells.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        struct_dists (cparray):</span>
-<span class="sd">            The distances of the shells.</span>
-<span class="sd">        s_fact_1d (cparray):</span>
-<span class="sd">            The structure factor averaged over shells.</span>
-<span class="sd">        s_fact_2d (cparray):</span>
-<span class="sd">            The structure factor without averaging over shells.</span>
+<span class="sd">    grid</span>
+<span class="sd">        The grid object.</span>
+<span class="sd">    real_dens</span>
+<span class="sd">        The density grid to compute the structure factor for.</span>
+<span class="sd">    for_pair_corr</span>
+<span class="sd">        If True, return the structure factor without averaging over shells.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    struct_dists : cp.ndarray</span>
+<span class="sd">        The distance associated with the same indexed `s_fact_1d`.</span>
+
+<span class="sd">        (Only returned if `for_pair_corr` is `False`)</span>
+<span class="sd">    s_fact_1d : cp.ndarray</span>
+<span class="sd">        The structure factor averaged over all points that have the same distance</span>
+<span class="sd">        stored in `struct_dists`.</span>
+
+<span class="sd">        (Only returned if `for_pair_corr` is `False`)</span>
+<span class="sd">    s_fact_2d : cp.ndarray</span>
+<span class="sd">        The structure factor without averaging over shells, same shape as k-space array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Normalize Densities</span>
@@ -1398,169 +1861,98 @@
 
     <span class="k">return</span> <span class="n">struct_dists</span><span class="p">,</span> <span class="n">s_fact_1d</span><span class="p">,</span> <span class="n">s_fact_2d</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.observables.pair_correlation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pair_correlation</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span></code>
 
-<h2 id="polycomp.observables.pair_correlation" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">pair_correlation</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">)</span></code>
-
-<a href="#polycomp.observables.pair_correlation" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Calculate the pair correlation function of a density grid.</p>
+<a href="#polycomp.observables.pair_correlation" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
+    <div class="doc doc-contents ">
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>grid</code></td>
-          <td>
-                <code>Grid</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The grid object.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>real_dens</code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The density grid.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
+        <p>Calculate the pair correlation function of a density grid, uses the structure
+method and transforms back to real space. Currently only computes autocorrelation.</p>
+<p>Parameters:
+    grid
+        The grid object.
+    real_dens
+        The density grid for which the pair correlation will be calculated.</p>
+<p>Returns:
+    where_bins : cp.ndarray
+        The distance associated with the same indexed <code>g_1d</code>.
+    g_1d : cp.ndarray
+        The structure factor averaged over all points that have the same distance
+        stored in <code>where_bins</code>.
+    g_2d : cp.ndarray
+        The pair correlation function without averaging over shells.</p>
 
 
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>where_bins</code></td>          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The distances of the shells.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-<td><code>g_1d</code></td>          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The pair correlation function averaged over shells.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-<td><code>g_2d</code></td>          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>The pair correlation function without averaging over shells.</p>
-            </div>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-          <details class="quote">
-            <summary>Source code in <code>polycomp/observables.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pair_correlation</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">):</span>
+            <details class="quote">
+              <summary>Source code in <code>polycomp/observables.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pair_correlation</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the pair correlation function of a density grid.</span>
+<span class="sd">    Calculate the pair correlation function of a density grid, uses the structure</span>
+<span class="sd">    method and transforms back to real space. Currently only computes autocorrelation.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">        grid (Grid):</span>
+<span class="sd">        grid</span>
 <span class="sd">            The grid object.</span>
-<span class="sd">        real_dens (cparray):</span>
-<span class="sd">            The density grid.</span>
+<span class="sd">        real_dens</span>
+<span class="sd">            The density grid for which the pair correlation will be calculated.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        where_bins (cparray):</span>
-<span class="sd">            The distances of the shells.</span>
-<span class="sd">        g_1d (cparray):</span>
-<span class="sd">            The pair correlation function averaged over shells.</span>
-<span class="sd">        g_2d (cparray):</span>
+<span class="sd">        where_bins : cp.ndarray</span>
+<span class="sd">            The distance associated with the same indexed `g_1d`.</span>
+<span class="sd">        g_1d : cp.ndarray</span>
+<span class="sd">            The structure factor averaged over all points that have the same distance</span>
+<span class="sd">            stored in `where_bins`.</span>
+<span class="sd">        g_2d : cp.ndarray</span>
 <span class="sd">            The pair correlation function without averaging over shells.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1584,8 +1976,8 @@
 
     <span class="k">return</span> <span class="n">where_bins</span><span class="p">,</span> <span class="n">g_1d</span><span class="p">,</span> <span class="n">g_2d</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -1593,7 +1985,7 @@
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 
@@ -1642,12 +2034,12 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "navigation.instant"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
-        <script src="../javascripts/mathjax.js"></script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "navigation.instant"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

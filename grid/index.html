@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -48,7 +48,9 @@
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -93,12 +95,12 @@
     <a href=".." title="Polycomp" class="md-header__button md-logo" aria-label="Polycomp" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -130,30 +132,32 @@
       
     
     
-      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
@@ -161,7 +165,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -172,6 +176,7 @@
     </div>
   </div>
 </div>
+      
     
     
   </nav>
@@ -202,7 +207,7 @@
     <a href=".." title="Polycomp" class="md-nav__button md-logo" aria-label="Polycomp" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     Polycomp
@@ -220,8 +225,10 @@
       <a href=".." class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -240,8 +247,10 @@
       <a href="../getting_started/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Getting Started
+    
   </span>
   
 
@@ -260,8 +269,10 @@
       <a href="../examples/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
-    Examples
+    Example Usage
+    
   </span>
   
 
@@ -282,6 +293,7 @@
     
     
     
+    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
@@ -292,8 +304,10 @@
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
-    Detailed Documentation
+    API Documentation
+    
   </span>
   
 
@@ -303,7 +317,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Detailed Documentation
+            API Documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -326,8 +340,10 @@
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
+  
   <span class="md-ellipsis">
     Grid
+    
   </span>
   
 
@@ -337,8 +353,10 @@
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
+  
   <span class="md-ellipsis">
     Grid
+    
   </span>
   
 
@@ -369,20 +387,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#polycomp.grid.Grid.__init__" class="md-nav__link">
+  <a href="#polycomp.grid.Grid-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__
+      Functions
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.grid.Grid.update_l" class="md-nav__link">
     <span class="md-ellipsis">
       update_l
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -405,8 +429,10 @@
       <a href="../integrator/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Integration Schemes
+    
   </span>
   
 
@@ -426,8 +452,10 @@
       <a href="../mde/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Modified Diffusion Equation
+    
   </span>
   
 
@@ -447,8 +475,10 @@
       <a href="../polymersystem/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     PolySystem Method
+    
   </span>
   
 
@@ -468,8 +498,10 @@
       <a href="../inventory/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Species Inventory
+    
   </span>
   
 
@@ -489,8 +521,101 @@
       <a href="../observables/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Observables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Experimental Methods & Helpers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Experimental Methods & Helpers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../se_gibbs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gibbs Ensemble
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shape_utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shape Utilities
+    
   </span>
   
 
@@ -543,20 +668,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#polycomp.grid.Grid.__init__" class="md-nav__link">
+  <a href="#polycomp.grid.Grid-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__
+      Functions
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#polycomp.grid.Grid.update_l" class="md-nav__link">
     <span class="md-ellipsis">
       update_l
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -575,6 +706,7 @@
                   
 
 
+
 <h1 id="grid">Grid<a class="headerlink" href="#grid" title="Permanent link">🔗</a></h1>
 
 
@@ -583,145 +715,219 @@
 
 
 <a id="polycomp.grid.Grid"></a>
-  <div class="doc doc-contents first">
-          <p class="doc doc-class-bases">
-            Bases: <code>object</code></p>
-
-  
-      <p>Grid object for a polymer simulation.</p>
+    <div class="doc doc-contents first">
 
 
+        <p>This class manages the grids (real and k-space) needed for the field theoretic
+simulations. It stores and pre-computes useful quantities for the
+modified diffusion equation and integrators to use elsewhere.</p>
 
-  <p><strong>Attributes:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.grid_spec">grid_spec</span></code></td>
-          <td>
-                <code>tuple</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Number of grid points along each axis.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.ndims">ndims</span></code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Dimension of the system.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.l">l</span></code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>CPArray for the length of the box along each axis.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.dl">dl</span></code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>CPArray for the length of the box along each axis for the unit cell.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.V">V</span></code></td>
-          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Total box volume.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.dV">dV</span></code></td>
-          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Volume of the unit cell.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.grid">grid</span></code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Float array of the (x, ...) position at each grid point.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.kgrid">kgrid</span></code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Complex grid of (x, ...) k Fourier-transformed positions at each k point.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.k1">k1</span></code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Complex grid of (x, ...) L1 norm distances at each k point.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><code><span title="polycomp.grid.Grid.k2">k2</span></code></td>
-          <td>
-                <code>cparray</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Complex grid of (x, ...) L2 norm distances at each k point.</p>
-            </div>
-          </td>
-        </tr>
-    </tbody>
-  </table>
 
-            <details class="quote">
-              <summary>Source code in <code>polycomp/grid.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  4</span>
-<span class="normal">  5</span>
-<span class="normal">  6</span>
-<span class="normal">  7</span>
-<span class="normal">  8</span>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>box_length</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[<span title="float">float</span>, ...]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lengths of the simulation box along each axis <span class="arithmatex">\(L_i\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>grid_spec</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, ...]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of lattice points along each axis <span class="arithmatex">\(M_{Li}\)</span>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.grid_spec">grid_spec</span></code></td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, ...]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of lattice points along each axis <span class="arithmatex">\(M_{Li}\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.ndims">ndims</span></code></td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dimension of the system <span class="arithmatex">\(d\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.l">l</span></code></td>
+            <td>
+                  <code>cp.ndarray of float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lengths of the simulation box along each axis <span class="arithmatex">\(L_i\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.dl">dl</span></code></td>
+            <td>
+                  <code>cp.ndarray of float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lengths of the unit cell along each axis <span class="arithmatex">\(\Delta L_i\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.V">V</span></code></td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Total box volume <span class="arithmatex">\(V\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.dV">dV</span></code></td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Volume of the unit cell <span class="arithmatex">\(dV\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.grid">grid</span></code></td>
+            <td>
+                  <code>cp.ndarray of float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Real-space coordinates of each grid point.
+Shape is (<span class="arithmatex">\(d\)</span>, <span class="arithmatex">\(N_x\)</span>, <span class="arithmatex">\(N_y\)</span>, ...). grid[0] is a grid of all
+x-coordinates, same for other dimensions</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.kgrid">kgrid</span></code></td>
+            <td>
+                  <code>cp.ndarray of float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Grid of (x, ...) k Fourier-transformed positions at each k point.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.k1">k1</span></code></td>
+            <td>
+                  <code>cp.ndarray of float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Grid of (x, ...) L1 norm distances at each k point.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="polycomp.grid.Grid.k2">k2</span></code></td>
+            <td>
+                  <code>cp.ndarray of float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Grid of (x, ...) L2 norm distances at each k point.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Raises error if the box length is not a tuple</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>polycomp/grid.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  8</span>
 <span class="normal">  9</span>
 <span class="normal"> 10</span>
 <span class="normal"> 11</span>
@@ -824,72 +1030,88 @@
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Grid</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Grid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Grid object for a polymer simulation.</span>
+<span class="sd">    This class manages the grids (real and k-space) needed for the field theoretic</span>
+<span class="sd">    simulations. It stores and pre-computes useful quantities for the</span>
+<span class="sd">    modified diffusion equation and integrators to use elsewhere.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        grid_spec (tuple):</span>
-<span class="sd">            Number of grid points along each axis.</span>
-<span class="sd">        ndims (int):</span>
-<span class="sd">            Dimension of the system.</span>
-<span class="sd">        l (cparray):</span>
-<span class="sd">            CPArray for the length of the box along each axis.</span>
-<span class="sd">        dl (cparray):</span>
-<span class="sd">            CPArray for the length of the box along each axis for the unit cell.</span>
-<span class="sd">        V (float):</span>
-<span class="sd">            Total box volume.</span>
-<span class="sd">        dV (float):</span>
-<span class="sd">            Volume of the unit cell.</span>
-<span class="sd">        grid (cparray):</span>
-<span class="sd">            Float array of the (x, ...) position at each grid point.</span>
-<span class="sd">        kgrid (cparray):</span>
-<span class="sd">            Complex grid of (x, ...) k Fourier-transformed positions at each k point.</span>
-<span class="sd">        k1 (cparray):</span>
-<span class="sd">            Complex grid of (x, ...) L1 norm distances at each k point.</span>
-<span class="sd">        k2 (cparray):</span>
-<span class="sd">            Complex grid of (x, ...) L2 norm distances at each k point.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    box_length</span>
+<span class="sd">        Lengths of the simulation box along each axis $L_i$.</span>
+<span class="sd">    grid_spec</span>
+<span class="sd">        Number of lattice points along each axis $M_{Li}$.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    grid_spec : Tuple[int, ...]</span>
+<span class="sd">        Number of lattice points along each axis $M_{Li}$.</span>
+<span class="sd">    ndims : int</span>
+<span class="sd">        Dimension of the system $d$.</span>
+<span class="sd">    l : cp.ndarray of float</span>
+<span class="sd">        Lengths of the simulation box along each axis $L_i$.</span>
+<span class="sd">    dl : cp.ndarray of float</span>
+<span class="sd">        Lengths of the unit cell along each axis $\\Delta L_i$.</span>
+<span class="sd">    V : float</span>
+<span class="sd">        Total box volume $V$.</span>
+<span class="sd">    dV : float</span>
+<span class="sd">        Volume of the unit cell $dV$.</span>
+<span class="sd">    grid : cp.ndarray of float</span>
+<span class="sd">        Real-space coordinates of each grid point.</span>
+<span class="sd">        Shape is ($d$, $N_x$, $N_y$, ...). grid[0] is a grid of all</span>
+<span class="sd">        x-coordinates, same for other dimensions</span>
+<span class="sd">    kgrid : cp.ndarray of float</span>
+<span class="sd">        Grid of (x, ...) k Fourier-transformed positions at each k point.</span>
+<span class="sd">    k1 : cp.ndarray of float</span>
+<span class="sd">        Grid of (x, ...) L1 norm distances at each k point.</span>
+<span class="sd">    k2 : cp.ndarray of float</span>
+<span class="sd">        Grid of (x, ...) L2 norm distances at each k point.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+
+<span class="sd">    ValueError</span>
+<span class="sd">        Raises error if the box length is not a tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box_length</span><span class="p">,</span> <span class="n">grid_spec</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize Grid</span>
-
-<span class="sd">        Builds grid object for given input values</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            box_length (tuple): tuple of floats representing the length of each axis of box</span>
-<span class="sd">            grid_spec (tuple): tuple of ints representing the number of grid points along each axis</span>
-
-<span class="sd">        Raises:</span>
-
-<span class="sd">            ValueError:</span>
-<span class="sd">                Raises error if the box length is not a tuple</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">box_length</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">grid_spec</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_spec</span> <span class="o">=</span> <span class="n">grid_spec</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_spec</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">box_length</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box_length</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">box_length</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;box_length is not tuple&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_l</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">update_l</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_l</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_l</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_l</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set up everything inside the grid.</span>
+<span class="sd">        This function reconstructs the grid, using the previous gridding but for a new</span>
+<span class="sd">        box size. Performs required operations for all dependent parameters to be</span>
+<span class="sd">        correctly set for new grid.</span>
 
-<span class="sd">        Builds various useful structures that provide information about the</span>
-<span class="sd">        grid, including Fourier-transformed positions and real position arrays.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">            new_l (tuple of float): Tuple of floats representing the new box lengths.</span>
+<span class="sd">        new_l</span>
+<span class="sd">            New box lengths $L_i$ to be assigned</span>
 
-<span class="sd">        Raises:</span>
-
-<span class="sd">            ValueError: </span>
-<span class="sd">                Raises error if the box length is not a tuple</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_l</span><span class="p">)</span>
@@ -933,9 +1155,9 @@
 
         <span class="k">return</span>
 </code></pre></div></td></tr></table></div>
-            </details>
+              </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -946,192 +1168,58 @@
 
 
 
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="polycomp.grid.Grid.__init__" class="doc doc-heading">
-          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">box_length</span><span class="p">,</span> <span class="n">grid_spec</span><span class="p">)</span></code>
-
-<a href="#polycomp.grid.Grid.__init__" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Initialize Grid</p>
-<p>Builds grid object for given input values</p>
-
-
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>box_length</code></td>
-          <td>
-                <code>tuple</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>tuple of floats representing the length of each axis of box</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>grid_spec</code></td>
-          <td>
-                <code>tuple</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>tuple of ints representing the number of grid points along each axis</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-      <p>Raises:</p>
-<div class="highlight"><pre><span></span><code>ValueError:
-    Raises error if the box length is not a tuple
-</code></pre></div>
-
-          <details class="quote">
-            <summary>Source code in <code>polycomp/grid.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box_length</span><span class="p">,</span> <span class="n">grid_spec</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initialize Grid</span>
-
-<span class="sd">    Builds grid object for given input values</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">        box_length (tuple): tuple of floats representing the length of each axis of box</span>
-<span class="sd">        grid_spec (tuple): tuple of ints representing the number of grid points along each axis</span>
-
-<span class="sd">    Raises:</span>
-
-<span class="sd">        ValueError:</span>
-<span class="sd">            Raises error if the box length is not a tuple</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="bp">self</span><span class="o">.</span><span class="n">grid_spec</span> <span class="o">=</span> <span class="n">grid_spec</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_spec</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">box_length</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">box_length</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;box_length is not tuple&quot;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">update_l</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-          </details>
-  </div>
-
-</div>
-
+<h2 id="polycomp.grid.Grid-functions">Functions<a href="#polycomp.grid.Grid-functions" class="headerlink" title="Permanent link">🔗</a></h2>
 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="polycomp.grid.Grid.update_l" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">update_l</span><span class="p">(</span><span class="n">new_l</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
-<h2 id="polycomp.grid.Grid.update_l" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">update_l</span><span class="p">(</span><span class="n">new_l</span><span class="p">)</span></code>
-
-<a href="#polycomp.grid.Grid.update_l" class="headerlink" title="Permanent link">🔗</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Set up everything inside the grid.</p>
-<p>Builds various useful structures that provide information about the
-grid, including Fourier-transformed positions and real position arrays.</p>
+<a href="#polycomp.grid.Grid.update_l" class="headerlink" title="Permanent link">🔗</a></h3>
 
 
+    <div class="doc doc-contents ">
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
+        <p>This function reconstructs the grid, using the previous gridding but for a new
+box size. Performs required operations for all dependent parameters to be
+correctly set for new grid.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
         <tr>
-          <td><code>new_l</code></td>
-          <td>
-                <code>tuple of float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Tuple of floats representing the new box lengths.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
         </tr>
-    </tbody>
-  </table>
-      <p>Raises:</p>
-<div class="highlight"><pre><span></span><code>ValueError: 
-    Raises error if the box length is not a tuple
-</code></pre></div>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>new_l</code>
+            </td>
+            <td>
+                  <code><span title="polycomp.grid.ArrayLike">ArrayLike</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>New box lengths <span class="arithmatex">\(L_i\)</span> to be assigned</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-          <details class="quote">
-            <summary>Source code in <code>polycomp/grid.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
+
+            <details class="quote">
+              <summary>Source code in <code>polycomp/grid.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
 <span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
@@ -1174,20 +1262,28 @@ grid, including Fourier-transformed positions and real position arrays.</p>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_l</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_l</span><span class="p">):</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_l</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_l</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set up everything inside the grid.</span>
+<span class="sd">    This function reconstructs the grid, using the previous gridding but for a new</span>
+<span class="sd">    box size. Performs required operations for all dependent parameters to be</span>
+<span class="sd">    correctly set for new grid.</span>
 
-<span class="sd">    Builds various useful structures that provide information about the</span>
-<span class="sd">    grid, including Fourier-transformed positions and real position arrays.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        new_l (tuple of float): Tuple of floats representing the new box lengths.</span>
+<span class="sd">    new_l</span>
+<span class="sd">        New box lengths $L_i$ to be assigned</span>
 
-<span class="sd">    Raises:</span>
-
-<span class="sd">        ValueError: </span>
-<span class="sd">            Raises error if the box length is not a tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_l</span><span class="p">)</span>
@@ -1231,8 +1327,8 @@ grid, including Fourier-transformed positions and real position arrays.</p>
 
     <span class="k">return</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -1240,8 +1336,7 @@ grid, including Fourier-transformed positions and real position arrays.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -1290,12 +1385,12 @@ grid, including Fourier-transformed positions and real position arrays.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "navigation.instant"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
-        <script src="../javascripts/mathjax.js"></script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "navigation.instant"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
