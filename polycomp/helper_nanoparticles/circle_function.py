@@ -1,13 +1,52 @@
-import polycomp.grid as grid
-import matplotlib.pyplot as plt
+"""
+Little ditty of a function that generates an analytically exact circle on a grid where
+the value of each cell is the fraction of it enclosed by the the circle. Method does not
+generalize to 3D, best approach is just to sample the shell of the sphere.
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Tuple
+
 import cupy as cp
-import math
+
+if TYPE_CHECKING:
+    from grid import Grid
 
 
-def draw_circle(center, radius, grid):
-    # Probably one of the single most over-engineered pieces of code I've every
-    # written, this just takes a circle with a given center and radius and calculates
-    # the corresponding density on some grid
+def draw_circle(
+    center: cp.ndarray, radius: float, grid: Grid
+) -> Tuple[cp.ndarray, cp.ndarray]:
+    """
+    Generates an analytical, anti-aliased density profile of a 2D circle projected onto
+    a 2D square grid.
+
+    This function calculates the fractional area of each grid cell that is
+    covered by a circle of a given `radius` and `center`. It is analytically exact and
+    reasonably fast.
+
+    Parameters
+    ----------
+    center
+        A 1D array of shape (2,) specifying the (x, y) coordinates of the
+        circle's center.
+    radius
+        The radius of the circle.
+    grid
+        The `Grid` object on which the circle's density will be rendered.
+
+    Returns
+    -------
+    area : cp.ndarray
+        A 2D array with the same shape as the grid, where each element's value
+        is the fractional area of that grid cell covered by the circle. The
+        values are normalized such that the sum of the array is
+        equal to the true area of the circle ($\\pi r^2$).
+    chord : cp.ndarray
+        A 2D array containing the calculated length of the chord
+        intersecting each grid cell at the circle's boundary. Useful for computing
+        attachment points on circle's surface.
+    """
 
     # we are going to want the area and the arc length, but we will collect the
     # chord length for now
@@ -49,7 +88,7 @@ def draw_circle(center, radius, grid):
     # We are going to try to assign each gridpoint four intercepts one for each side
     # of the grid cell
     ints = cp.zeros((*grid.k2.shape, 4, 2))
-    ints_disp = cp.zeros((*grid.k2.shape, 4))
+    cp.zeros((*grid.k2.shape, 4))
     ints[:, :, 0, 0] = x_lines[:-1]
     ints[:, :, 0, 1] = cp.abs(y_ints[:-1])
     ints[:, :, 1, 0] = x_lines[1:]
@@ -116,7 +155,7 @@ def draw_circle(center, radius, grid):
 
     get_nan = cp.sum(cp.isnan(case_2), axis=1)
 
-    use_ints = cp.zeros((case_2.shape[0], 2, 2))
+    cp.zeros((case_2.shape[0], 2, 2))
     # General plan, determine whether the cell is to the side of the circle of over/
     # under. Then find the two intercepts and the bottom and use those to get the
     # area within the cell and the chord length
@@ -175,13 +214,10 @@ def draw_circle(center, radius, grid):
     chord[ind == 3] = chord_3
 
     # Use some simple trig to calculate the arc length
-    arc = rad * 2 * cp.arcsin(chord / (2 * rad))
+    rad * 2 * cp.arcsin(chord / (2 * rad))
     theta = 2 * cp.arcsin(chord / (2 * rad))
 
     # Add the segment area corresponding to each chord
     area += (1 / 2) * (theta - cp.sin(theta)) * rad**2
 
-    # Check against an analytical formula
-    # print(cp.sum(area / (math.pi * rad**2)))
-    # print(cp.sum(arc) / (math.pi * 2 * rad))
     return area, chord

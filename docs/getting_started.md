@@ -7,8 +7,6 @@ from our [github](https://github.com/rotskoff-group/polycomp) and installing loc
 
     pip install .
 
-We look forward to building a conda package for easier installation in the near future. 
-
 ## Managing dependencies
 
 You can find all of the required packages prepared in a single conda environment which
@@ -16,7 +14,7 @@ can be installed via
 
     conda env create --file polycomp.yml
 
-The package will also require a working CUDA installation. 
+The package will also require a working CUDA installation as polycomp only runs on GPUs
 
 ## Running the tests
 

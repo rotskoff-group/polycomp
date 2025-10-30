@@ -1,72 +1,82 @@
+from typing import Tuple, Union
+
 import cupy as cp
 
+ArrayLike = Union[Tuple[float, ...], list, cp.ndarray]
 
-class Grid(object):
+
+class Grid:
     """
-    Grid object for a polymer simulation.
+    This class manages the grids (real and k-space) needed for the field theoretic
+    simulations. It stores and pre-computes useful quantities for the
+    modified diffusion equation and integrators to use elsewhere.
 
-    Attributes:
-        grid_spec (tuple):
-            Number of grid points along each axis.
-        ndims (int):
-            Dimension of the system.
-        l (cparray):
-            CPArray for the length of the box along each axis.
-        dl (cparray):
-            CPArray for the length of the box along each axis for the unit cell.
-        V (float):
-            Total box volume.
-        dV (float):
-            Volume of the unit cell.
-        grid (cparray):
-            Float array of the (x, ...) position at each grid point.
-        kgrid (cparray):
-            Complex grid of (x, ...) k Fourier-transformed positions at each k point.
-        k1 (cparray):
-            Complex grid of (x, ...) L1 norm distances at each k point.
-        k2 (cparray):
-            Complex grid of (x, ...) L2 norm distances at each k point.
+    Parameters
+    ----------
+
+    box_length
+        Lengths of the simulation box along each axis $L_i$.
+    grid_spec
+        Number of lattice points along each axis $M_{Li}$.
+
+    Attributes
+    ----------
+
+    grid_spec : Tuple[int, ...]
+        Number of lattice points along each axis $M_{Li}$.
+    ndims : int
+        Dimension of the system $d$.
+    l : cp.ndarray of float
+        Lengths of the simulation box along each axis $L_i$.
+    dl : cp.ndarray of float
+        Lengths of the unit cell along each axis $\\Delta L_i$.
+    V : float
+        Total box volume $V$.
+    dV : float
+        Volume of the unit cell $dV$.
+    grid : cp.ndarray of float
+        Real-space coordinates of each grid point.
+        Shape is ($d$, $N_x$, $N_y$, ...). grid[0] is a grid of all
+        x-coordinates, same for other dimensions
+    kgrid : cp.ndarray of float
+        Grid of (x, ...) k Fourier-transformed positions at each k point.
+    k1 : cp.ndarray of float
+        Grid of (x, ...) L1 norm distances at each k point.
+    k2 : cp.ndarray of float
+        Grid of (x, ...) L2 norm distances at each k point.
+
+    Raises
+    ------
+
+    ValueError
+        Raises error if the box length is not a tuple
     """
 
-    def __init__(self, box_length, grid_spec):
-        """
-        Initialize Grid
-
-        Builds grid object for given input values
-
-        Parameters:
-            box_length (tuple): tuple of floats representing the length of each axis of box
-            grid_spec (tuple): tuple of ints representing the number of grid points along each axis
-
-        Raises:
-            
-            ValueError:
-                Raises error if the box length is not a tuple
-        """
-        super(Grid, self).__init__()
+    def __init__(
+        self, box_length: Tuple[float, ...], grid_spec: Tuple[int, ...]
+    ) -> None:
+        super().__init__()
 
         self.grid_spec = grid_spec
         self.ndims = len(self.grid_spec)
-        if type(box_length) is tuple:
+        if isinstance(box_length, tuple):
             self.l = cp.array(box_length)
         else:
             raise ValueError("box_length is not tuple")
         self.update_l(self.l)
 
-    def update_l(self, new_l):
+    def update_l(self, new_l: ArrayLike) -> None:
         """
-        Set up everything inside the grid.
+        This function reconstructs the grid, using the previous gridding but for a new
+        box size. Performs required operations for all dependent parameters to be
+        correctly set for new grid.
 
-        Builds various useful structures that provide information about the
-        grid, including Fourier-transformed positions and real position arrays.
+        Parameters
+        ----------
 
-        Parameters:
-            new_l (tuple of float): Tuple of floats representing the new box lengths.
+        new_l
+            New box lengths $L_i$ to be assigned
 
-        Raises:
-
-            ValueError: 
-                Raises error if the box length is not a tuple
         """
 
         self.l = cp.array(new_l)

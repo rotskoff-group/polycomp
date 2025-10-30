@@ -1,6 +1,6 @@
-import os
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.colors import ListedColormap
 
 # Directory where your data is stored
 data_directory = "raw_data/"
@@ -114,19 +114,6 @@ where_3 = np.where(
 )
 phase[where_3] = 3
 plt.subplot(224)
-## Define your custom colors for the 4 values
-# colors = ['salmon', 'skyblue', 'wheat', 'grey']
-
-# Create a ListedColormap with the custom colors
-# from matplotlib.colors import ListedColormap
-# cmap = ListedColormap(colors)
-
-# phase_plot = plt.imshow(phase, cmap=cmap, origin='lower', extent=[np.min(unique_b_values), np.max(unique_b_values), np.min(unique_s_values), np.max(unique_s_values)], aspect='auto')
-
-
-# cbar = plt.colorbar(phase_plot, ticks=[3/8.0, 9/8.0, 15/8.0, 21/8.0])
-# cbar.set_ticklabels(['Lamellar', 'Coacervate-Core', 'Lipid-Core', 'Homogeneous'], rotation=90, ha='center', va='center')
-from matplotlib.colors import ListedColormap
 
 colors = ["salmon", "skyblue", "wheat", "grey"]
 cmap = ListedColormap(colors)
