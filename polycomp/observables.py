@@ -1,27 +1,48 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import cupy as cp
 import cupyx.scipy.fft as cufft
 
+if TYPE_CHECKING:
+    from ft_system import PolymerSystem
+    from grid import Grid
+
 
 # TODO: Generalize to 3D
-def get_structure_factor(grid, real_dens, for_pair_corr=False):
+def get_structure_factor(
+    grid: Grid, real_dens: cp.ndarray, for_pair_corr: bool = False
+) -> tuple:
     """
-    Calculate the structure factor of a density grid.
+    Calculate the structure factor of a density grid. Only works for 2D systems at
+    present. Uses pseudospectral convolution. 1D structure factors can be
+    jagged due to discrete nature of shells.
 
-    Parameters:
-        grid (Grid):
-            The grid object.
-        real_dens (cparray):
-            The density grid.
-        for_pair_corr (bool):
-            If True, return the structure factor without averaging over shells.
+    Parameters
+    ----------
 
-    Returns:
-        struct_dists (cparray):
-            The distances of the shells.
-        s_fact_1d (cparray):
-            The structure factor averaged over shells.
-        s_fact_2d (cparray):
-            The structure factor without averaging over shells.
+    grid
+        The grid object.
+    real_dens
+        The density grid to compute the structure factor for.
+    for_pair_corr
+        If True, return the structure factor without averaging over shells.
+
+    Returns
+    -------
+
+    struct_dists : cp.ndarray
+        The distance associated with the same indexed `s_fact_1d`.
+
+        (Only returned if `for_pair_corr` is `False`)
+    s_fact_1d : cp.ndarray
+        The structure factor averaged over all points that have the same distance
+        stored in `struct_dists`.
+
+        (Only returned if `for_pair_corr` is `False`)
+    s_fact_2d : cp.ndarray
+        The structure factor without averaging over shells, same shape as k-space array.
     """
 
     # Normalize Densities
@@ -53,22 +74,24 @@ def get_structure_factor(grid, real_dens, for_pair_corr=False):
     return struct_dists, s_fact_1d, s_fact_2d
 
 
-def pair_correlation(grid, real_dens):
+def pair_correlation(grid: Grid, real_dens: cp.ndarray) -> tuple:
     """
-    Calculate the pair correlation function of a density grid.
+    Calculate the pair correlation function of a density grid, uses the structure
+    method and transforms back to real space. Currently only computes autocorrelation.
 
     Parameters:
-        grid (Grid):
+        grid
             The grid object.
-        real_dens (cparray):
-            The density grid.
+        real_dens
+            The density grid for which the pair correlation will be calculated.
 
     Returns:
-        where_bins (cparray):
-            The distances of the shells.
-        g_1d (cparray):
-            The pair correlation function averaged over shells.
-        g_2d (cparray):
+        where_bins : cp.ndarray
+            The distance associated with the same indexed `g_1d`.
+        g_1d : cp.ndarray
+            The structure factor averaged over all points that have the same distance
+            stored in `where_bins`.
+        g_2d : cp.ndarray
             The pair correlation function without averaging over shells.
     """
 
@@ -93,17 +116,45 @@ def pair_correlation(grid, real_dens):
     return where_bins, g_1d, g_2d
 
 
-def get_free_energy(polymer_system, E):
+def get_free_energy(polymer_system: PolymerSystem, E: float) -> float:
     """
-    Function to compute the free energy of the system.
 
-    Parameters:
-        E (float):
-            The scaled Bjerrum length for the system.
+    This function calculates the complete free energy, $F$, which includes
+    the ideal gas entropy of mixing and the field-theoretic Hamiltonian, $H$.
+    The total free energy is given by:
 
-    Returns:
-        total_free_energy (float):
-            The total free energy of the system.
+    $$
+    F = \\sum_{j} n_j (\\log C_j - 1) + \\langle H[\\{\\mu_i\\}, \\varphi] \\rangle_s
+    $$
+
+    where $n_j$ and $C_j$ are the number and concentration of species $j$,
+    respectively, and $\\langle H \\rangle_s$ is the spatially-averaged
+    Hamiltonian. The Hamiltonian itself is defined as:
+
+    $$
+    \\begin{align*}
+    H[\\{\\mu_i\\}, \\varphi] = &\\sum_{i=1}^{M} \\frac{\\gamma_i^2}{2B_i}
+    from ft_system import PolymerSystem
+    \\int_{\\Omega} d\\boldsymbol{r} \\mu_i^2(\\boldsymbol{r}) +
+    \\frac{1}{2E} \\int_{\\Omega}
+    d\\boldsymbol{r} |\\nabla\\varphi(\\boldsymbol{r})|^2 \\\\
+    &- \\sum_{j=1}^{P+S+2} n_j \\log Q_j[\\{\\mu_i\\}, \\varphi]
+    + \\frac{V\\boldsymbol{c}^T \\boldsymbol{\\chi} \\boldsymbol{c}}{2}.
+    \\end{align*}
+    $$
+
+    This only calculates the free energy for a single configuration, so to get a
+    proper value, sampling should be done over the free energy.
+
+    Parameters
+    ----------
+    E
+        The scaled Bjerrum length for the system.
+
+    Returns
+    -------
+    total_free_energy
+        The total free energy of the system.
     """
 
     polymer_system.update_normal_from_density()
@@ -200,13 +251,35 @@ def get_free_energy(polymer_system, E):
     # TODO: remove the contributions for the final outcome or institutionalize them
 
 
-def get_chemical_potential(polymer_system):
+def get_chemical_potential(polymer_system: PolymerSystem) -> None:
     """
     Function to compute the chemical potential of the system.
 
-    Returns:
-        chem_pot_dict (dict):
-            Dictionary of chemical potentials for each species.
+    This function calculates the chemical potential, $\\mu_j$, for each species $j$
+    according to the standard formula in polymer field theory:
+
+    $$
+    \\mu_j = \\log C_j - \\log Q_j +
+    \\vec{\\kappa}_j^T \\boldsymbol{\\chi} \\boldsymbol{c}
+    $$
+
+    where $C_j$ is the concentration, $Q_j$ is the partition function,
+    $\\vec{\\kappa}_j$ is the composition vector of species $j$,
+    $\\boldsymbol{\\chi}$ is the
+    Flory-Huggins interaction matrix, and $\\boldsymbol{c}$ is the vector of average
+    monomer concentrations.
+
+    Notes
+    -----
+    This function modifies the `polymer_system` object in-place by setting
+    the `chem_pot_dict` attribute.
+
+    Parameters
+    ----------
+    polymer_system : PolymerSystem
+        The system for which to calculate the chemical potentials. This object
+        will be modified.
+
     """
 
     polymer_system.chem_pot_dict = {}
@@ -238,7 +311,7 @@ def get_chemical_potential(polymer_system):
 
         elif species in polymer_system.solvent_dict:
             # simulation contribution
-            polymer_system.chem_pot_dict[species] += cp.log(
+            polymer_system.chem_pot_dict[species] -= cp.log(
                 polymer_system.Q_dict[species]
             )
             polymer_system.chem_pot_dict[species] += cp.log(
@@ -270,13 +343,35 @@ def get_chemical_potential(polymer_system):
             print("Bad Species:", species)
 
 
-def get_pressure(polymer_system):
+def get_pressure(polymer_system) -> complex:
     """
-    Function to compute the pressure of the system.
+    Function to compute the pressure of the system. Pressure is computed as
 
-    Returns:
-        pressure (float):
-            Pressure of the system.
+    $\\begin{align*}
+    \\beta\\Pi &= \\sum_{j}^{P+S+2} C_j - \\frac{\\mathbf{c}^T \\boldsymbol{\\chi}
+                                                 \\mathbf{c}}{2} \\\\
+    &+ \\sum_{j}^{P} \\frac{1}{V} \\int_{\\Omega} d\\mathbf{r}
+    \\int_{0}^{\\frac{N_j}{N}} ds \\left[ \\frac{2}{d}
+    \\rho_{\\nabla j}(\\mathbf{r},s) + \\rho_j(\\mathbf{r},s)
+    \\left( (\\Gamma_2 - \\frac{1}{2}\\Gamma) * (\\psi_{(l/j)}
+    - Z_{(l/j)}\\varphi)(\\mathbf{r},s) + (\\Gamma_2 - \\frac{1}{2d}\\Gamma)
+    * Z_j \\varphi(\\mathbf{r},s) \\right) \\right] \\\\
+    &+ \\sum_{j}^{S+2} \\frac{1}{NV} \\int_{\\Omega} d\\mathbf{r} \\rho_j(\\mathbf{r})
+    \\times \\left( (\\Gamma_2 - \\frac{1}{2}\\Gamma)
+    * (\\psi_{(l/j)} - Z_{(l/j)}\\varphi)(\\mathbf{r})
+    + (\\Gamma_2 - \\frac{1}{2d}\\Gamma) * Z_j \\varphi(\\mathbf{r}) \\right).
+    \\end{align*}$
+
+    For this function to operate properly, you **MUST** call
+    `PolySystem.get_densities()`
+    with `for_pressure=True` before calling this function. It is advised that you call
+    your integrator with the `for_pressure` flag set to avoid unnecessary computations
+    if you are computing pressure live during sampling or optimization.
+
+    Returns
+    -------
+    pressure
+        Pressure of the system.
     """
 
     # since the ideal mixture terms are extensive but their underlying
@@ -290,7 +385,7 @@ def get_pressure(polymer_system):
         polymer_system.reduce_phi_all(polymer_system.phi_all),
         axis=range(1, polymer_system.phi_all.ndim),
     )
-    print(avg_conc)
+    #    print(avg_conc)
     homo_contribution = (avg_conc @ polymer_system.red_FH_mat @ avg_conc).real / 2
 
     for poly in polymer_system.poly_dict:
@@ -307,13 +402,9 @@ def get_pressure(polymer_system):
             ideal_contribution += polymer_system.salt_concs[salt]
             Q_contribution += polymer_system.dQ_dV_dict[salt]
 
-    # TODO: Add salt
-    # in the alternative formulation we only need the partition function terms
-    # differs slightly from Villet because we need to solve segment by
-    # segment, but we will offload this into the density operator
-    print("Ideal gas: ", ideal_contribution)
-    print("Homogeneous: ", homo_contribution)
-    print("Q_change: ", Q_contribution)
+    #    print("Ideal gas: ", ideal_contribution)
+    #    print("Homogeneous: ", homo_contribution)
+    #    print("Q_change: ", Q_contribution)
     pressure = ideal_contribution + homo_contribution + Q_contribution
 
     return pressure
