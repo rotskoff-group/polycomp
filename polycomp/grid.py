@@ -26,23 +26,23 @@ class Grid:
         Number of lattice points along each axis $M_{Li}$.
     ndims : int
         Dimension of the system $d$.
-    l : cupy.ndarray of float
+    l : cp.ndarray of float
         Lengths of the simulation box along each axis $L_i$.
-    dl : cupy.ndarray of float
+    dl : cp.ndarray of float
         Lengths of the unit cell along each axis $\\Delta L_i$.
     V : float
         Total box volume $V$.
     dV : float
         Volume of the unit cell $dV$.
-    grid : cupy.ndarray of float
+    grid : cp.ndarray of float
         Real-space coordinates of each grid point.
         Shape is ($d$, $N_x$, $N_y$, ...). grid[0] is a grid of all
         x-coordinates, same for other dimensions
-    kgrid : cupy.ndarray of float
+    kgrid : cp.ndarray of float
         Grid of (x, ...) k Fourier-transformed positions at each k point.
-    k1 : cupy.ndarray of float
+    k1 : cp.ndarray of float
         Grid of (x, ...) L1 norm distances at each k point.
-    k2 : cupy.ndarray of float
+    k2 : cp.ndarray of float
         Grid of (x, ...) L2 norm distances at each k point.
 
     Raises

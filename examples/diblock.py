@@ -32,26 +32,27 @@ FH_terms = {
     frozenset({B_mon, S_mon}): tot + diff,
 }
 
-# Declare the reference polymer length for the system. In this case it will be the
-# same as the length of the only polymer in solution
+# Declare the reference polymer length for the system. In this case it will be
+# the same as the length of the only polymer in solution
 N = 5
 
-# Declare all the polymer types in solution. In this case we have a single "AB" diblock
-# copolymer that is half A and half B, with a total length of N.
+# Declare all the polymer types in solution. In this case we have a single
+# "AB" diblock copolymer that is half A and half B, with a total length of N.
 AB_poly = p.Polymer("AB", N, [(A_mon, 0.5), (B_mon, 0.5)])
 
 # Declare a list of all the polymers in simulation
 polymers = [AB_poly]
 
-# Declare a dictionary with all the species in the system (this will include polymers
-# and solvents, but here we just have one polymer). We also declare the concentration
-# of each species, in this case just 1.
+# Declare a dictionary with all the species in the system (this will include
+# polymers and solvents, but here we just have one polymer). We also declare the
+# concentration of each species, in this case just 1.
 spec_dict = {AB_poly: 0.5, S_mon: 0.5 * N}
-# Declare the number of grid points across each axis. This will be a 2D simulation
-# with 256 grid points along each dimension.
+# Declare the number of grid points across each axis. This will be a 2D
+# simulation with 256 grid points along each dimension.
 grid_spec = (256, 256)
 
-# Declare the side length of the box along each axis. Here we have 25x25 length square.
+# Declare the side length of the box along each axis. Here is a 25x25 length
+# square.
 box_length = (90, 90)
 
 # Declare the grid object as specified using our parameterss.
@@ -60,9 +61,9 @@ grid = p.Grid(box_length=box_length, grid_spec=grid_spec)
 # Declare the smearing length for the charge and density
 smear = 0.2
 
-# We can now declare the full polymer system. Read the full documentation for details,
-# but we use previously declared variables and specify salt concentration and
-# integration fineness along the polymer.
+# We can now declare the full polymer system. Read the full documentation for
+# details but we use previously declared variables and specify salt concentration
+# and integration fineness along the polymer.
 ps = p.PolymerSystem(
     monomers,
     polymers,
@@ -71,22 +72,22 @@ ps = p.PolymerSystem(
     grid,
     smear,
     salt_conc=0.0 * N,
-    integration_width=1 / 20,
+    integration_width=1 / 10,
 )
 
-# Now we move to our integration parameters. We need a timestep associated with each
-# field, but they'll all be the same here.
+# Now we move to our integration parameters. We need a timestep associated with
+# each field, but they'll all be the same here.
 relax_rates = cp.array([0.45] * (ps.w_all.shape[0]))
 
 # We also declare a temperature array which is the same shape
-temps = cp.array([0.001 + 0j] * (ps.w_all.shape[0]))
+temps = cp.array([0.01 + 0j] * (ps.w_all.shape[0]))
 
-# This temperature corresponds to using the "standard" CL integrator, but other versions
-# generally are valid
+# This temperature corresponds to using the "standard" CL integrator, but
+# other versions are also
 temps *= ps.gamma.real
 
-# Because this is an uncharged system, we set E to 0, and set all the electric field
-# rates to 0 as well
+# Because this is an uncharged system, we set E to 0, and set all the electric
+# field rates to 0 as well
 E = 0
 psi_rate = 0
 psi_temp = 0
@@ -94,12 +95,12 @@ psi_temp = 0
 # Now we actually declare the integrator
 integrator = p.CL_RK2(ps, relax_rates, temps, psi_rate, psi_temp, E)
 
-# These are all plotting parameters and will need to be changed if we want more or less
-# plots
+# These are all plotting parameters and will need to be changed if we want
+# more or less plots
 nrows = 2
 ncols = 2
 fig, axes = plt.subplots(nrows=nrows, ncols=ncols, dpi=170)
-fig.suptitle("Example of simple microphase separation")
+fig.suptitle("Phase separation between lamellar diblock and solvent")
 multi_cam = Camera(fig)
 
 # generate an initial density for the starting plot
@@ -136,20 +137,20 @@ dens_traj = []
 free_energy_traj = []
 
 # Set the number of steps per frame
-steps = 200
+steps = 300
 
 # Set the number of arrays to capture
 for i in range(40):
 
-    # We average over multiple views to reduce the noise for visualization, could just
-    # plot directly as well to simplify this
+    # We average over multiple views to reduce the noise for visualization, could
+    # just plot directly as well to simplify this
     hold_A = cp.zeros_like(ps.phi_all[0].real)
     hold_B = cp.zeros_like(ps.phi_all[0].real)
     hold_S = cp.zeros_like(ps.phi_all[0].real)
     hold_T = cp.zeros_like(ps.phi_all[0].real)
     for _ in range(steps):
 
-        # Collect the variables of interest every step and average over some of them
+        # Collect the variables we want every step and average over some of them
         free_energy_traj.append(get_free_energy(ps, E))
         integrator.ETD()
         hold_A += ps.phi_all[ps.monomers.index(A_mon)].real / steps
@@ -185,7 +186,7 @@ cp.save("dens_traj", dens_traj)
 cp.save("free_energy_traj", free_energy_traj)
 
 
-# The next section is all just to make relatively nice animations, mainly around
+# The next section is all to make relatively nice animations, mainly around
 # accurately handling color bar scales so the 2D plots are interpretable
 for ax in axes.flat:
     ax.set_xticks([])
