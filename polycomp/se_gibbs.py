@@ -1,24 +1,134 @@
+"""
+!!! warning "Experimental Module"
+
+    This module implements a Gibbs ensemble method for simulating phase
+    coexistence. It is considered semi-experimental. It successfully reproduces the
+    correct results for implicit solvent coacervation with 1 FH parameter, but all other
+    features are of unknown accuracy. Specifically it is known to incorrectly handle
+    pressure for semi-implicit solvents, and the advanced modules are not fully tested.
+
+    Use with caution and please validate your results carefully. This code is
+    provided as a starting point for advanced users wishing to implement Gibbs Ensemble
+    themselves.
+"""
+
+from __future__ import annotations
+
 import copy
+from typing import TYPE_CHECKING, Any, Tuple
 
 import cupy as cp
 
+if TYPE_CHECKING:
+    from .complex_langevin_ETD import CL_RK2
+    from .ft_system import PolymerSystem
+    from .grid import Grid
+
 
 class GibbsEnsemble(object):
-    """
-    Builds two systems with the same parameters but variable grids and concentrations
+    """Manages a two-box Gibbs Ensemble simulation for phase coexistence.
+
+    This class holds two `PolymerSystem` instances, allowing them to
+    exchange volume and particles to find phase equilibrium. It handles the
+    dynamics of the Gibbs ensemble moves based on differences in pressure and
+    chemical potentials between the two boxes.
+
+    Parameters
+    ----------
+    ps_1
+        A fully initialized `PolymerSystem` for the first box. Its parameters
+        (e.g., FH matrix) are used as a template for the second box.
+    integrator_1
+        A fully initialized integrator corresponding to `ps_1`.
+    del_t
+        The fictitious time step for mass transfer moves
+        between the boxes.
+    V_t
+        The fictitious time step for volume exchange moves
+        between the boxes.
+    spec_dict_2
+        Initial species concentrations for the second box. If `None`, the
+        concentrations from `ps_1` are copied. Default is `None`.
+    grid_2
+        An initial `Grid` object for the second box. If `None`, the grid from
+        `ps_1` is deep-copied. Default is `None`.
+    salt_conc_2
+        Initial salt concentration for the second box. If `None`, the value
+        from `ps_1` is used. Default is `None`.
+    integrator_2
+        An integrator for the second box. If `None`, the integrator from `ps_1`
+        is deep-copied. Default is `None`.
+
+    Attributes
+    ----------
+    part_1 : PolymerSystem
+        The `PolymerSystem` object for the first simulation box.
+    part_2 : PolymerSystem
+        The `PolymerSystem` object for the second simulation box.
+    int_1 : CL_RK2
+        The integrator for the first box.
+    int_2 : CL_RK2
+        The integrator for the second box.
+    gibbs_t : float
+        The fictitious time step for mass transfer moves.
+    V_t : float
+        The fictitious time step for volume exchange moves.
+    species : tuple
+        An ordered tuple of all species objects (`Monomer`, `Polymer`, `Salt`)
+        managed by the ensemble.
+    salted : bool
+        `True` if the system contains salt species.
+    mass_1 : cp.ndarray
+        A vector containing the total mass (volume fraction * box volume) of
+        each species in the first box. Indexed according to `self.species`.
+    mass_2 : cp.ndarray
+        A vector containing the total mass of each species in the second box.
+    total_mass : cp.ndarray
+        The conserved total mass of each species across both boxes
+    total_V : float
+        The conserved total volume of the two boxes (`part_1.grid.V` + `part_2.grid.V`).
+    C_1 : cp.ndarray
+        A vector of the concentrations of each species in the first box.
+    C_2 : cp.ndarray
+        A vector of the concentrations of each species in the second box.
+    charge_vector : cp.ndarray
+        A vector containing the charge of each species, used for ensuring
+        charge-neutral mass transfer moves.
+    sampled_flag : bool
+        An internal flag set to `True` after `sample_pot` has been run,
+        indicating that new chemical potential and pressure data is available.
+    d_mu : cp.ndarray
+        The calculated difference in chemical potentials (`mu_2 - mu_1`) for
+        each species after sampling. Used to drive the `gibbs_step`.
+    d_pi : float
+        The calculated difference in pressure (`pi_2 - pi_1`) after sampling.
+        Used to drive the `gibbs_step`.
+    sampled_pot_1 : cp.ndarray
+        The time-averaged chemical potential for each species in the first box,
+        calculated by `sample_pot`.
+    sampled_pot_2 : cp.ndarray
+        The time-averaged chemical potential for each species in the second box.
+    sampled_pressure_1 : float
+        The time-averaged pressure in the first box, calculated by `sample_pot`.
+    sampled_pressure_2 : float
+        The time-averaged pressure in the second box.
+    bound_list : list, optional
+        (Experimental) A list of binding matrices used by `bind_species` to
+        constrain mass transfer moves.
     """
 
     def __init__(
         self,
-        ps_1,
-        integrator_1,
-        del_t,
-        V_t,
-        spec_dict_2=None,
-        grid_2=None,
-        salt_conc_2=None,
-        integrator_2=None,
-    ):
+        ps_1: PolymerSystem,
+        integrator_1: CL_RK2,
+        del_t: float,
+        V_t: float,
+        spec_dict_2: dict | None = None,
+        grid_2: Grid | None = None,
+        salt_conc_2: float | None = None,
+        integrator_2: CL_RK2 | None = None,
+    ) -> None:
+
         self.gibbs_t = del_t
         self.V_t = V_t
         # take one system and copy it to retain same FH params,
@@ -82,8 +192,25 @@ class GibbsEnsemble(object):
     def __repr__(self):
         return NotImplemented
 
-    def get_current_state(self):
-        # Function to get the current "masses" (actually species specific volumes)
+    def get_current_state(self) -> None:
+        """Recalculates and updates the mass and concentration vectors for both boxes.
+
+        This method should be called if the underlying `PolymerSystem` objects
+        (`part_1` or `part_2`) have been modified externally. It reads the current
+        volumes and species concentrations to ensure the ensemble's internal
+        state is synchronized. It is called automatically by `gibbs_step`.
+
+        Notes
+        -----
+        This method modifies the `GibbsEnsemble` object in-place.
+
+        This method updates the following attributes:
+        - `self.mass_1`, `self.mass_2` (Total mass of each species in each box)
+        - `self.total_mass` (Conserved total mass of each species)
+        - `self.total_V` (Conserved total volume)
+        - `self.C_1`, `self.C_2` (Concentration of each species in each box)
+        """
+
         self.mass_1 = cp.zeros(len(self.species))
         self.mass_2 = cp.zeros(len(self.species))
         ps = self.part_1
@@ -115,8 +242,31 @@ class GibbsEnsemble(object):
         self.C_1 = self.mass_1 / self.part_1.grid.V
         self.C_2 = self.mass_2 / self.part_2.grid.V
 
-    def get_chemical_potential(self):
-        # get the update step for gibbs dynamics
+    def get_chemical_potential(self) -> None:
+        """Calculates pressure and chemical potential differences from sampled data.
+
+        This method processes the time-averaged values populated by `sample_pot` to
+        calculate the thermodynamic driving forces ($\\Delta\\mu$ and $\\Delta\\Pi$) for
+        the Gibbs ensemble moves.
+
+        This method updates the following attributes:
+
+        - `self.d_mu`
+        - `self.d_pi`
+        - `self.sampled_flag` (Resets to `False`)
+
+        Notes
+        -----
+        This method modifies the `GibbsEnsemble` object in-place. It is called
+        automatically by `gibbs_step` and requires `sample_pot` to have been
+        run first.
+
+        Raises
+        ------
+        RuntimeError
+            If `sample_pot` has not been called and no sampled data is available.
+
+        """
 
         # TODO: use average rather than last point to reduce noise
         self.d_mu = cp.zeros(len(self.species))
@@ -124,34 +274,54 @@ class GibbsEnsemble(object):
             self.d_mu = self.sampled_pot_2 - self.sampled_pot_1
             self.d_pi = self.sampled_pressure_2 - self.sampled_pressure_1
             self.sampled_flag = False
-            print("using sampled data")
+        #            print("using sampled data")
         else:
             return NotImplemented
 
         self.d_mu = self.d_mu.real
         self.d_pi = self.d_pi.real
-        print("d_mu")
-        print(self.d_mu)
-        print("raw mu")
-        print(self.sampled_pot_1)
-        print(self.sampled_pot_2)
-        print("d_pi")
-        print(self.d_pi)
-        print("raw pi")
-        print(self.sampled_pressure_1)
-        print(self.sampled_pressure_2)
+        #        print("d_mu")
+        #        print(self.d_mu)
+        #        print("raw mu")
+        #        print(self.sampled_pot_1)
+        #        print(self.sampled_pot_2)
+        #        print("d_pi")
+        #        print(self.d_pi)
+        #        print("raw pi")
+        #        print(self.sampled_pressure_1)
+        #        print(self.sampled_pressure_2)
 
         if hasattr(self, "bound_list"):
             for b in self.bound_list:
                 bound_mu = b * self.d_mu / cp.sum(b)
                 self.d_mu[b != 0] = bound_mu[b != 0]
-            print("Bound d_mu")
-            print(self.sampled_pot_1)
-            print(self.sampled_pot_2)
-            print(self.d_mu)
 
-    def gibbs_step(self):
-        # step to take the gibbs update steps
+    #            print("Bound d_mu")
+    #            print(self.sampled_pot_1)
+    #            print(self.sampled_pot_2)
+    #            print(self.d_mu)
+
+    def gibbs_step(self) -> Tuple[cp.ndarray, cp.ndarray]:
+        """
+        Performs one Gibbs ensemble move to update volumes and particle numbers.
+
+        This is the core method for evolving the Gibbs ensemble. It calls
+        `get_current_state` and `get_chemical_potential` to get the thermodynamic
+        driving forces, then proposes a move to exchange volume and mass between
+        the two boxes.
+
+        The method includes safety checks to prevent negative masses or volumes
+        and can use `neutral_charge_step` for charged systems. It modifies the
+        internal `part_1` and `part_2` `PolymerSystem` objects in-place.
+
+        Returns
+        -------
+        new_volumes : cp.ndarray
+            A CuPy array of shape (2,) containing the new volumes of box 1 and box 2.
+        new_concentrations : cp.ndarray
+            A CuPy array of shape (2, n_species) containing the new concentrations
+            for each species in each box.
+        """
 
         # Update all the current mass and mu before updating
         self.get_current_state()
@@ -246,15 +416,43 @@ class GibbsEnsemble(object):
         return cp.asarray([new_V_1, new_V_2]), cp.asarray([new_C_1, new_C_2])
         # TODO:Figure out how to handle salts
 
-    def burn(self, steps):
-        # run process for some time without sampling anything
+    def burn(self, steps: int) -> None:
+        """Runs the simulation for a number of steps without sampling.
+
+        This method is used for equilibration, allowing the system to relax
+        before data collection begins. It evolves both boxes using their
+        respective integrators. During this phase, pressure calculations are
+        enabled to prepare the system for potential `gibbs_step` moves.
+
+        Parameters
+        ----------
+        steps : int
+            The number of integration steps to perform.
+        """
 
         for i in range(steps):
             self.int_1.ETD(for_pressure=True)
             self.int_2.ETD(for_pressure=True)
 
-    def sample_pot(self, steps, sample_freq=1):
-        # run process and sample Q
+    def sample_pot(self, steps: int, sample_freq: int = 1) -> None:
+        """Runs the simulation and samples pressure and chemical potentials.
+
+        This method evolves both boxes and averages the chemical potentials and
+        pressures over a number of steps. The averaged results are stored
+        internally and are required by the `gibbs_step` method to calculate
+        the driving forces for mass and volume exchange.
+
+        This method modifies the object state by setting the `sampled_flag` to `True`
+        and populating the `sampled_pot_*` and `sampled_pressure_*` attributes.
+
+        Parameters
+        ----------
+        steps : int
+            The total number of integration steps to run.
+        sample_freq : int, optional
+            The frequency at which to sample data. For example, `sample_freq=10`
+            means data is collected every 10 steps. Default is 1.
+        """
 
         samples = 0
         tot_weighted_pot_1 = cp.zeros(len(self.total_mass), dtype=complex)
@@ -289,7 +487,20 @@ class GibbsEnsemble(object):
 
         self.sampled_flag = True
 
-    def get_charge_vector(self):
+    def get_charge_vector(self) -> None:
+        """Computes and stores the charge vector for all species in the ensemble.
+
+        This vector contains the total charge per molecule (or per solvent) for
+        each species. It is used by `neutral_charge_step` to enforce charge
+        neutrality during mass transfer moves.
+
+        This method modifies the `GibbsEnsemble` object in-place. It is called
+        automatically during initialization.
+
+        This method updates the following attribute:
+        - `self.charge_vector`
+        """
+
         # get vector of all species
 
         self.charge_vector = cp.zeros(len(self.species))
@@ -304,8 +515,25 @@ class GibbsEnsemble(object):
             if self.salted and species in self.part_1.salts:
                 self.charge_vector[self.species.index(species)] = species.charge
 
-    def neutral_charge_step(self, mu):
-        # ensure moves are charge neutral
+    def neutral_charge_step(self, mu: cp.ndarray) -> Tuple[cp.ndarray, cp.ndarray]:
+        """Calculates a charge-neutral mass transfer step for charged systems.
+
+        This method projects the proposed mass transfer vector (driven by `mu`)
+        onto the subspace of charge-neutral moves. It includes safety checks
+        to prevent species masses from becoming negative.
+
+        Parameters
+        ----------
+        mu : cp.ndarray
+            The vector of chemical potential differences driving the mass transfer.
+
+        Returns
+        -------
+        new_m_1 : cp.ndarray
+            The proposed new mass vector for box 1, guaranteed to be charge-neutral.
+        new_m_2 : cp.ndarray
+            The proposed new mass vector for box 2.
+        """
         if not hasattr(self, "charge_vector"):
             self.get_charge_vector()
         corr_term = cp.sum(mu * self.charge_vector) / cp.sum(self.charge_vector**2)
@@ -400,7 +628,25 @@ class GibbsEnsemble(object):
 
         return new_m_1, new_m_2
 
-    def charge_correction(self, mu, total_charge):
+    def charge_correction(self, mu: cp.ndarray, total_charge: float) -> cp.ndarray:
+        """(Experimental) Alternative method for enforcing charge neutrality.
+
+        This function attempts to correct the chemical potential differences to
+        ensure that the resulting mass transfer move is charge-neutral.
+
+        Parameters
+        ----------
+        mu : cp.ndarray
+            The vector of chemical potential differences driving the mass transfer.
+        total_charge : float
+            The target total charge for the correction (likely always 0).
+
+        Returns
+        -------
+        corr_mu : cp.ndarray
+            The corrected vector of chemical potential differences.
+        """
+
         corr_mu = cp.zeros_like(mu)
         for i in range(len(mu)):
             for j in range(i + 1, len(mu)):
@@ -422,10 +668,33 @@ class GibbsEnsemble(object):
                 )
         return corr_mu
 
-    def bind_species(self, species_1, species_2):
-        # require that two species move in concert
-        # check that the two species in question have the same relative concentration
-        # in each simulation
+    def bind_species(self, species_1: Any, species_2: Any) -> None:
+        """(Experimental) Constrains two species to move together during mass transfer.
+
+        This method imposes a constraint that the ratio of `species_1` to
+        `species_2` must remain constant in both boxes during Gibbs ensemble moves.
+        This is useful for simulating molecules that should not be separated, such as
+        polyions and their bound counterions, or for enforcing a fixed salt-to-polymer
+        ratio.
+
+        Multiple calls to this method will combine constraints if they share a
+        common species. For example, binding A to B, and then B to C, will result
+        in A, B, and C all being bound together.
+
+        Parameters
+        ----------
+        species_1
+            The first species object to bind (e.g., a `Monomer` or `Polymer`).
+        species_2
+            The second species object to bind.
+
+        Raises
+        ------
+        ValueError
+            If the two species do not have the same relative concentration in
+            both boxes at the time of binding, which would violate the
+            constraint from the start.
+        """
 
         if (
             self.C_1[self.species.index(species_1)]
@@ -472,9 +741,36 @@ class GibbsEnsemble(object):
         else:
             self.clean_binds()
 
-    def combine_binds(self, bind_1, bind_2):
-        # combine two binding matrices
-        # check that the two binding matrices are compatible
+    def combine_binds(self, bind_1: cp.ndarray, bind_2: cp.ndarray) -> cp.ndarray:
+        """(Internal) Merges two compatible binding matrices into a single constraint.
+
+        This helper method is called by `bind_species` when a new binding
+        constraint is added that overlaps with an existing one. It combines
+        them into a single, unified constraint vector.
+
+        Notes
+        -----
+        This is an experimental helper method and is not intended for direct use.
+
+        Parameters
+        ----------
+        bind_1 : cp.ndarray
+            The first binding constraint vector.
+        bind_2 : cp.ndarray
+            The second binding constraint vector.
+
+        Returns
+        -------
+        new_bind : cp.ndarray
+            The combined binding constraint vector.
+
+        Raises
+        ------
+        ValueError
+            If the two binding matrices are incompatible (e.g., have conflicting ratios)
+            or do not share any common species.
+        """
+
         if cp.all(bind_1 * bind_2 == 0):
             raise ValueError("Unrelated matrices cannot be combined")
             return
@@ -489,9 +785,22 @@ class GibbsEnsemble(object):
         new_bind /= cp.amin(new_bind[new_bind != 0])
         return new_bind
 
-    def clean_binds(self):
-        # combine any binding matrices that are linear combinations of other binding
-        # matrices
+    def clean_binds(self) -> None:
+        """(Internal) Consolidates the list of binding matrices.
+
+        This method iterates through the list of binding constraints and merges
+        any overlapping constraints until only a set of orthogonal constraints
+        remains.
+
+        .. warning::
+            This feature is totally untested and may contain bugs.
+
+        Notes
+        -----
+        This is an experimental helper method for `bind_species` and is not
+        intended for direct use. It modifies the `self.bound_list` attribute
+        in-place.
+        """
 
         # WARNING: Totally untested
 
