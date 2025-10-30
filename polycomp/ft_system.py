@@ -69,7 +69,7 @@ class PolymerSystem:
     dQ_dV_dict : dict
         Stores dQ/dV values of each polymer and monomer for pressure
         calculations $\\{P_i/S_i \\rightarrow \\frac{\\partial Q_j}{\\partial V}\\}$.
-    FH_matrix : cparray
+    FH_matrix : cp.ndarray
         Flory-Huggins matrix representing the interaction potentials between all
         species $\\boldsymbol{\\chi} N$.
     grid : Grid
@@ -108,12 +108,12 @@ class PolymerSystem:
         Dict listing the indices of species in the non-degenerate representation
         given their degenerate representation $\\{i \\rightarrow \\{m\\}_{degen}\\}$.
     normal_evalues : cp.ndarray
-        CPArray of floats representing the eigenvalues of the normal mode
+        CuPy Array of floats representing the eigenvalues of the normal mode
         decomposition $\\{B_i\\}$.
     normal_modes : cp.ndaray
         Same as normal modes. Plan to deprecate.
     A_ij : cp.ndarray
-        CPArray of floats representing the matrix of eigenvalues of the normal
+        CuPy Array of floats representing the matrix of eigenvalues of the normal
         mode decomposition, notated $\\boldsymbol{b}$ (sometimes $A_{ij}$).
     A_inv : cp.ndarray
         Inverse of A_ij, notated $\\boldsymbol{b}^{-1}$.
@@ -385,6 +385,7 @@ class PolymerSystem:
         - `self.red_FH_mat`
         - `self.degen_dict`
         - `self.rev_degen_dict`
+
         Raises
         ------
 
