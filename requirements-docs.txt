@@ -2,4 +2,4 @@ mkdocs
 mkdocs-material
 mkdocstrings[python]
 pymdown-extensions
-mkdocs-include-markdown-plugin  
+markdown-include
