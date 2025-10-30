@@ -91,7 +91,7 @@ def integrate_s(
     struct
         Monomer ordering along the polymer $m_p(s)$
     h_struct
-        cparray of floats containing the length of each segment along the polymer
+        CuPy array of floats containing the length of each segment along the polymer
         $\\Delta s (s)$.
     species_dict
         Dictionary of species to ints representing the mapping between monomer types
@@ -109,11 +109,11 @@ def integrate_s(
     -------
 
     q_r_s : cp.ndarray
-       Complex valued forward propagator along then entire segment chain
-       $q(\\boldsymbol{s},\\boldsymbol{r})$
+        Complex valued forward propagator along then entire segment chain
+        $q(\\boldsymbol{s},\\boldsymbol{r})$
     q_r_dag_s : cp.ndarray
-       Complex valued reverse propagator along the entire segment chain
-       $q^{\\dagger}(\\boldsymbol{s},\\boldsymbol{r})$
+        Complex valued reverse propagator along the entire segment chain
+        $q^{\\dagger}(\\boldsymbol{s},\\boldsymbol{r})$
     """
 
     # integrates using each point in struct as an integration point

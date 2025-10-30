@@ -1,10 +1,52 @@
+"""
+Little ditty of a function that generates an analytically exact circle on a grid where
+the value of each cell is the fraction of it enclosed by the the circle. Method does not
+generalize to 3D, best approach is just to sample the shell of the sphere.
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Tuple
+
 import cupy as cp
 
+if TYPE_CHECKING:
+    from grid import Grid
 
-def draw_circle(center, radius, grid):
-    # Probably one of the single most over-engineered pieces of code I've every
-    # written, this just takes a circle with a given center and radius and calculates
-    # the corresponding density on some grid
+
+def draw_circle(
+    center: cp.ndarray, radius: float, grid: Grid
+) -> Tuple[cp.ndarray, cp.ndarray]:
+    """
+    Generates an analytical, anti-aliased density profile of a 2D circle projected onto
+    a 2D square grid.
+
+    This function calculates the fractional area of each grid cell that is
+    covered by a circle of a given `radius` and `center`. It is analytically exact and
+    reasonably fast.
+
+    Parameters
+    ----------
+    center
+        A 1D array of shape (2,) specifying the (x, y) coordinates of the
+        circle's center.
+    radius
+        The radius of the circle.
+    grid
+        The `Grid` object on which the circle's density will be rendered.
+
+    Returns
+    -------
+    area : cp.ndarray
+        A 2D array with the same shape as the grid, where each element's value
+        is the fractional area of that grid cell covered by the circle. The
+        values are normalized such that the sum of the array is
+        equal to the true area of the circle ($\\pi r^2$).
+    chord : cp.ndarray
+        A 2D array containing the calculated length of the chord
+        intersecting each grid cell at the circle's boundary. Useful for computing
+        attachment points on circle's surface.
+    """
 
     # we are going to want the area and the arc length, but we will collect the
     # chord length for now
@@ -178,7 +220,4 @@ def draw_circle(center, radius, grid):
     # Add the segment area corresponding to each chord
     area += (1 / 2) * (theta - cp.sin(theta)) * rad**2
 
-    # Check against an analytical formula
-    # print(cp.sum(area / (math.pi * rad**2)))
-    # print(cp.sum(arc) / (math.pi * 2 * rad))
     return area, chord

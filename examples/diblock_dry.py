@@ -32,8 +32,8 @@ FH_terms = {
 # same as the length of the only polymer in solution
 N = 5
 
-# Declare all the polymer types in solution. In this case we have a single "AB" diblock
-# copolymer that is half A and half B, with a total length of N.
+# Declare all the polymer types in solution. In this case we have a single
+# "AB" diblock copolymer that is half A and half B, with a total length of N.
 AB_poly = p.Polymer("AB", N, [(A_mon, 0.5), (B_mon, 0.5)])
 
 # Declare a list of all the polymers in simulation
