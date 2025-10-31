@@ -1,0 +1,30 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "http://orcid.org/0009-0005-8763-3226",
+      "@type": "Person",
+      "email": "emmit.pert@gmail.com",
+      "name": "EmmitPert",
+      "affiliation": "Stanford University"
+    },
+    {
+      "@id": "http://orcid.org/0000-0002-7772-5179",
+      "@type": "Person",
+      "email": "grant.rotskoff@stanford.edu",
+      "name": "Grant M. Rotskoff",
+      "affiliation": "Stanford University"
+    }
+  ],
+  "identifier": "https://doi.org/10.5281/zenodo.17497823",
+  "codeRepository": "git@github.com:rotskoff-group/polycomp.git",
+  "datePublished": "2025-10-31",
+  "dateModified": "2025-10-31",
+  "dateCreated": "2025-10-31",
+  "description": "PolyComp computes configurations and observables of polymer blends using Field Theoretic Simulation with complex Langevin integration.",
+  "keywords": "polymer, coacervation, langevin, assembly",
+  "license": "MIT",
+  "title": "PolyComp",
+  "version": "v1.0.0"
+}
