@@ -57,7 +57,9 @@ development of machine-learned acceleration to general polymer field theories
 As the code is written entirely in Python, it provides an accessible platform for 
 performant polymer simulations for any researcher familiar with the language.
 The source code for PolyComp has been
-archived to Zenodo with the linked DOI: [@polycomp_zenodo]
+archived to Zenodo with the linked DOI: [@polycomp_zenodo], 
+and detailed derivations of methods are available in previous publication 
+[@pertCoacervationDrivesMorphological2025].
 
 # Acknowledgements
 
