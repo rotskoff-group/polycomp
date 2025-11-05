@@ -23,17 +23,17 @@ bibliography: paper.bib
 
 # Summary
 
-Polymer field theories are a powerful set of simulation tools for determining phase and
-structural information about polymer assemblies. 
-Polymer field theories represent the structure of polymer assemblies using fields for 
-polymer density and chemical potential, allowing for efficient computations that scale
-well to large systems because they do not require computing pairwise interactions. 
-This package computes densities in 1D, 2D, and 3D systems for mixtures of linear
-polymers and solvents, with explicit handling of charged species. 
-It also computes observables such as free energy, pressure, chemical potentials, and
-structure factors. 
-By sampling the underlying field theory, it correctly predicts charged interactions like
-coacervation that are important for biomolecular systems. 
+Field theoretic methods provide insight into the phase behavior of complex polymer 
+assemblies, but sophisticated numerical methods are required to efficiently simulate 
+nontrivial systems. 
+By representing the constituent polymers through their density and chemical potential 
+fields, the mesoscale organization can be determined without explicitly modeling the 
+microscopic degrees of freedom, which leads to superior scalability compared with 
+particle-based simulations. 
+Polymer field theories accurately model a wide variety of systems, but currently 
+open-source codes that implement state-of-the-art methods for field theoretic simulation
+are not broadly available. This software provides a flexible platform for numerical 
+simulations of polymer field theories, focused on applications to charged polymers.
 
 # Statement of need
 
@@ -57,8 +57,8 @@ development of machine-learned acceleration to general polymer field theories
 As the code is written entirely in Python, it provides an accessible platform for 
 performant polymer simulations for any researcher familiar with the language.
 The source code for PolyComp has been
-archived to Zenodo with the linked DOI: [@polycomp_zenodo], 
-and detailed derivations of methods are available in previous publication 
+archived to Zenodo with the linked DOI: [@polycomp_zenodo].
+Detailed derivations of methods are available in a previous publication 
 [@pertCoacervationDrivesMorphological2025].
 
 # Acknowledgements
