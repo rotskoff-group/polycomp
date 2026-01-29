@@ -1,5 +1,5 @@
 ---
-title: 'PolyComp: open source field theory for polymers'
+title: 'PolyComp: open-source field theory for polymers'
 tags:
   - Python
   - polymers
@@ -35,7 +35,7 @@ open-source codes that implement state-of-the-art methods for field theoretic si
 are not broadly available. This software provides a flexible platform for numerical 
 simulations of polymer field theories, focused on applications to charged polymers.
 
-# Statement of need
+# Statement of Need
 
 `PolyComp` is a Python-based implementation of Field Theoretic Simulation 
 for an Auxiliary Field Theory with Complex Langevin integration. 
@@ -48,7 +48,7 @@ implementation provides small modifications to the common polymer field theory m
 [@fredricksonEquilibriumTheoryInhomogeneous2006]
 [@fredricksonFieldTheoreticSimulationsSoft2023], mainly around the handling of the 
 system's incompressibility constraint. 
-Although the field is well-developed, the lack of open source code was a significant 
+Although the field is well-developed, the lack of open-source code was a significant 
 impediment to our work, and this release of a simpler, Python-based package will
 save significant time for those entering the field and looking to apply these methods.
 The source code for PolyComp has been
@@ -56,14 +56,34 @@ archived to Zenodo with the linked DOI: [@polycomp_zenodo].
 Detailed derivations of methods are available in a previous publication 
 [@pertCoacervationDrivesMorphological2025].
 
+# State of the Field
+
+The dominant group producing work in this space is the Fredrickson Group, but their
+codebase is currently closed-source, so this project was initiated as a way 
+to construct an open-source polymer field theory simulation package. 
+Another codebase,
+`langevin-fts` [@yongDynamicProgrammingChain2025], was developed independently and 
+concurrently with our work, which was highly developed by the time of the first 
+release.
+Today, these two packages have diverged into different specializations: whereas the
+Kim group focuses on efficient algorithms for branched polymers and 
+machine-learning integration, our work focuses on biological systems involving 
+linear polymers and the necessity for precise phase determination.
+There is sophisticated, open-source work for computing self-consistent field theories
+[@aroraBroadlyAccessibleSelfConsistent2016a]. 
+This code is not suitable for the coacervation-type problems we are
+interested in studying, as it cannot run Complex Langevin sampling. 
+We built this project in response to the lack of an open-source codebase in 
+the field.
+It will allow easier implementation by future researchers of the
+techniques described by existing field theory methods 
+[@fredricksonEquilibriumTheoryInhomogeneous2006], particularly those relevant
+for biological systems. 
+
+
 # Software Design
 
-`PolyComp`'s main differentiating feature upon development was its open source nature. 
-Developed concurrently, the only other fully open-source codebase we are aware of is 
-`langevin-fts` [@yongDynamicProgrammingChain2025], and we developed our own 
-open-source codebase to fill a gap in the literature for open implementations of 
-the techniques described by existing field theory methods 
-[@fredricksonEquilibriumTheoryInhomogeneous2006]. 
+`PolyComp`'s main differentiating feature upon development was its open-source nature. 
 The design principles for the codebase
 were transparency, functionality, and efficiency. 
 Because the math motivating field theory simulations is quite dense, the code is written
@@ -98,7 +118,7 @@ polymeric systems.
 # AI usage disclosure
 The core functionality of the code was primarily developed from 2020-2022, without the
 use of any AI assistance. Later Google Gemini was used to help develop unit tests, 
-proofread code, and build documentation to prepare for the full release. 
+proofread code, and build documentation to prepare for public release. 
 
 # Acknowledgements
 
