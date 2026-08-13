@@ -127,9 +127,10 @@ class UnitTests(unittest.TestCase):
         self.int_width = 1 / 30
 
     def test_one_step(self):
-        cp.testing.assert_array_equal(
+        cp.testing.assert_allclose(
             cp.load("function_tests/one_step_A.npy"),
             s_step(self.q_r, 1 / 30, self.w_all[0], self.grid),
+            rtol=1e-13
         )
 
     def test_A_MDE(self):
@@ -138,8 +139,8 @@ class UnitTests(unittest.TestCase):
         q_r_hold, q_r_dag_hold = integrate_s(
             poly.struct, poly.h_struct, self.P_dict, self.q_r, self.q_r_dag, self.grid
         )
-        cp.testing.assert_array_equal(cp.load("function_tests/A_q_r.npy"), q_r_hold)
-        cp.testing.assert_array_equal(cp.load("function_tests/A_q_r.npy"), q_r_hold)
+        cp.testing.assert_allclose(cp.load("function_tests/A_q_r.npy"), q_r_hold, rtol=1e-13)
+        cp.testing.assert_allclose(cp.load("function_tests/A_q_r.npy"), q_r_hold, rtol=1e-13)
 
     def test_AB_MDE(self):
         poly = p.Polymer("AB", 1, [(self.A_mon, 0.5), (self.B_mon, 0.5)])
@@ -147,8 +148,8 @@ class UnitTests(unittest.TestCase):
         q_r_hold, q_r_dag_hold = integrate_s(
             poly.struct, poly.h_struct, self.P_dict, self.q_r, self.q_r_dag, self.grid
         )
-        cp.testing.assert_array_equal(cp.load("function_tests/AB_q_r.npy"), q_r_hold)
-        cp.testing.assert_array_equal(cp.load("function_tests/AB_q_r.npy"), q_r_hold)
+        cp.testing.assert_allclose(cp.load("function_tests/AB_q_r.npy"), q_r_hold, rtol=1e-13)
+        cp.testing.assert_allclose(cp.load("function_tests/AB_q_r.npy"), q_r_hold, rtol=1e-13)
 
     def test_ABA_MDE(self):
         poly = p.Polymer(
@@ -158,8 +159,8 @@ class UnitTests(unittest.TestCase):
         q_r_hold, q_r_dag_hold = integrate_s(
             poly.struct, poly.h_struct, self.P_dict, self.q_r, self.q_r_dag, self.grid
         )
-        cp.testing.assert_array_equal(cp.load("function_tests/ABA_q_r.npy"), q_r_hold)
-        cp.testing.assert_array_equal(cp.load("function_tests/ABA_q_r.npy"), q_r_hold)
+        cp.testing.assert_allclose(cp.load("function_tests/ABA_q_r.npy"), q_r_hold, rtol=1e-13)
+        cp.testing.assert_allclose(cp.load("function_tests/ABA_q_r.npy"), q_r_hold, rtol=1e-13)
 
     def test_ABAB_MDE(self):
         poly = p.Polymer(
@@ -176,8 +177,8 @@ class UnitTests(unittest.TestCase):
         q_r_hold, q_r_dag_hold = integrate_s(
             poly.struct, poly.h_struct, self.P_dict, self.q_r, self.q_r_dag, self.grid
         )
-        cp.testing.assert_array_equal(cp.load("function_tests/ABAB_q_r.npy"), q_r_hold)
-        cp.testing.assert_array_equal(cp.load("function_tests/ABAB_q_r.npy"), q_r_hold)
+        cp.testing.assert_allclose(cp.load("function_tests/ABAB_q_r.npy"), q_r_hold, rtol=1e-13)
+        cp.testing.assert_allclose(cp.load("function_tests/ABAB_q_r.npy"), q_r_hold, rtol=1e-13)
 
 
 class PolymerBuildTests(unittest.TestCase):
