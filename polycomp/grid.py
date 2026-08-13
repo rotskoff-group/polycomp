@@ -101,13 +101,7 @@ class Grid:
         self.kgrid = cp.asarray(
             cp.meshgrid(
                 *[
-                    2
-                    * cp.pi
-                    / l
-                    * cp.concatenate(
-                        (cp.arange(0, n / 2 + 1), cp.arange(-n / 2 + 1, 0)),
-                        axis=None,
-                    )
+                    2 * cp.pi * cp.fft.fftfreq(n, d=l/n)
                     for n, l in zip(self.grid_spec, self.l)
                 ]
             )
