@@ -1073,7 +1073,7 @@ will be modified.</p>
 <span class="normal">341</span>
 <span class="normal">342</span>
 <span class="normal">343</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_chemical_potential</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">:</span> <span class="n">PolymerSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Function to compute the chemical potential of the system.</span>
 
 <span class="sd">    This function calculates the chemical potential, $\\mu_j$, for each species $j$</span>
@@ -1101,7 +1101,7 @@ will be modified.</p>
 <span class="sd">        The system for which to calculate the chemical potentials. This object</span>
 <span class="sd">        will be modified.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">polymer_system</span><span class="o">.</span><span class="n">chem_pot_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1161,7 +1161,7 @@ will be modified.</p>
                 <span class="n">polymer_system</span><span class="o">.</span><span class="n">salt_concs</span><span class="p">[</span><span class="n">species</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bad Species:&quot;</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Bad Species:"</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1391,7 +1391,7 @@ proper value, sampling should be done over the free energy.</p>
 <span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_free_energy</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">:</span> <span class="n">PolymerSystem</span><span class="p">,</span> <span class="n">E</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 
 <span class="sd">    This function calculates the complete free energy, $F$, which includes</span>
 <span class="sd">    the ideal gas entropy of mixing and the field-theoretic Hamiltonian, $H$.</span>
@@ -1429,7 +1429,7 @@ proper value, sampling should be done over the free energy.</p>
 <span class="sd">    -------</span>
 <span class="sd">    total_free_energy</span>
 <span class="sd">        The total free energy of the system.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">polymer_system</span><span class="o">.</span><span class="n">update_normal_from_density</span><span class="p">()</span>
     <span class="c1"># initialize free energy array</span>
@@ -1505,8 +1505,8 @@ proper value, sampling should be done over the free energy.</p>
             <span class="c1"># Ideal gas entropy contribution</span>
             <span class="n">ig_entropy</span> <span class="o">+=</span> <span class="n">salt_conc</span> <span class="o">*</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">salt_conc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bad Species:&quot;</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t find species in any dictionary&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Bad Species:"</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Couldn't find species in any dictionary"</span><span class="p">)</span>
     <span class="n">total_free_energy</span> <span class="o">+=</span> <span class="n">partition_energy</span> <span class="o">+</span> <span class="n">ig_entropy</span>
 
     <span class="n">avg_conc</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
@@ -1651,7 +1651,7 @@ if you are computing pressure live during sampling or optimization.</p>
 <span class="normal">408</span>
 <span class="normal">409</span>
 <span class="normal">410</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_pressure</span><span class="p">(</span><span class="n">polymer_system</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">complex</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Function to compute the pressure of the system. Pressure is computed as</span>
 
 <span class="sd">    $\\begin{align*}</span>
@@ -1679,10 +1679,10 @@ if you are computing pressure live during sampling or optimization.</p>
 <span class="sd">    -------</span>
 <span class="sd">    pressure</span>
 <span class="sd">        Pressure of the system.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># since the ideal mixture terms are extensive but their underlying</span>
-    <span class="c1"># functions don&#39;t (or weakly, depending on construction) depend on volume</span>
+    <span class="c1"># functions don't (or weakly, depending on construction) depend on volume</span>
     <span class="c1"># we will use their values divided by volume to get their contribution to pressure</span>
     <span class="c1"># TODO: functionalize this, it is used multiple times</span>
     <span class="n">ideal_contribution</span> <span class="o">=</span> <span class="mi">0</span><span class="n">j</span>
@@ -1709,9 +1709,9 @@ if you are computing pressure live during sampling or optimization.</p>
             <span class="n">ideal_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">salt_concs</span><span class="p">[</span><span class="n">salt</span><span class="p">]</span>
             <span class="n">Q_contribution</span> <span class="o">+=</span> <span class="n">polymer_system</span><span class="o">.</span><span class="n">dQ_dV_dict</span><span class="p">[</span><span class="n">salt</span><span class="p">]</span>
 
-    <span class="c1">#    print(&quot;Ideal gas: &quot;, ideal_contribution)</span>
-    <span class="c1">#    print(&quot;Homogeneous: &quot;, homo_contribution)</span>
-    <span class="c1">#    print(&quot;Q_change: &quot;, Q_contribution)</span>
+    <span class="c1">#    print("Ideal gas: ", ideal_contribution)</span>
+    <span class="c1">#    print("Homogeneous: ", homo_contribution)</span>
+    <span class="c1">#    print("Q_change: ", Q_contribution)</span>
     <span class="n">pressure</span> <span class="o">=</span> <span class="n">ideal_contribution</span> <span class="o">+</span> <span class="n">homo_contribution</span> <span class="o">+</span> <span class="n">Q_contribution</span>
 
     <span class="k">return</span> <span class="n">pressure</span>
@@ -1911,7 +1911,7 @@ stored in <code>struct_dists</code>.</p>
 <span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_structure_factor</span><span class="p">(</span>
     <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">for_pair_corr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculate the structure factor of a density grid. Only works for 2D systems at</span>
 <span class="sd">    present. Uses pseudospectral convolution. 1D structure factors can be</span>
 <span class="sd">    jagged due to discrete nature of shells.</span>
@@ -1940,7 +1940,7 @@ stored in <code>struct_dists</code>.</p>
 <span class="sd">        (Only returned if `for_pair_corr` is `False`)</span>
 <span class="sd">    s_fact_2d : cp.ndarray</span>
 <span class="sd">        The structure factor without averaging over shells, same shape as k-space array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Normalize Densities</span>
     <span class="n">work_dens</span> <span class="o">=</span> <span class="n">real_dens</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="n">cp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">real_dens</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
@@ -2045,7 +2045,7 @@ method and transforms back to real space. Currently only computes autocorrelatio
 <span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pair_correlation</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculate the pair correlation function of a density grid, uses the structure</span>
 <span class="sd">    method and transforms back to real space. Currently only computes autocorrelation.</span>
 
@@ -2063,7 +2063,7 @@ method and transforms back to real space. Currently only computes autocorrelatio
 <span class="sd">            stored in `where_bins`.</span>
 <span class="sd">        g_2d : cp.ndarray</span>
 <span class="sd">            The pair correlation function without averaging over shells.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">s2d</span> <span class="o">=</span> <span class="n">get_structure_factor</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">real_dens</span><span class="p">,</span> <span class="n">for_pair_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">real_dens</span><span class="p">)</span>

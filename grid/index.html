@@ -1129,7 +1129,7 @@ x-coordinates, same for other dimensions</p>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Grid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This class manages the grids (real and k-space) needed for the field theoretic</span>
 <span class="sd">    simulations. It stores and pre-computes useful quantities for the</span>
 <span class="sd">    modified diffusion equation and integrators to use elsewhere.</span>
@@ -1173,7 +1173,7 @@ x-coordinates, same for other dimensions</p>
 
 <span class="sd">    ValueError</span>
 <span class="sd">        Raises error if the box length is not a tuple</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">box_length</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">grid_spec</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
@@ -1185,11 +1185,11 @@ x-coordinates, same for other dimensions</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box_length</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">box_length</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;box_length is not tuple&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"box_length is not tuple"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_l</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">update_l</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_l</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        This function reconstructs the grid, using the previous gridding but for a new</span>
 <span class="sd">        box size. Performs required operations for all dependent parameters to be</span>
 <span class="sd">        correctly set for new grid.</span>
@@ -1200,7 +1200,7 @@ x-coordinates, same for other dimensions</p>
 <span class="sd">        new_l</span>
 <span class="sd">            New box lengths $L_i$ to be assigned</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_l</span><span class="p">)</span>
 
@@ -1349,7 +1349,7 @@ correctly set for new grid.</p>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_l</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_l</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This function reconstructs the grid, using the previous gridding but for a new</span>
 <span class="sd">    box size. Performs required operations for all dependent parameters to be</span>
 <span class="sd">    correctly set for new grid.</span>
@@ -1360,7 +1360,7 @@ correctly set for new grid.</p>
 <span class="sd">    new_l</span>
 <span class="sd">        New box lengths $L_i$ to be assigned</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_l</span><span class="p">)</span>
 

@@ -1150,7 +1150,7 @@ and the index for their corresponding density and potential
     <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">,</span>
     <span class="n">fastener</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Function to integrate one polymer.</span>
 
 <span class="sd">    Takes the polymer structure and underlying chemical potential and generates</span>
@@ -1197,7 +1197,7 @@ and the index for their corresponding density and potential
 <span class="sd">    q_r_dag_s : cp.ndarray</span>
 <span class="sd">        Complex valued reverse propagator along the entire segment chain</span>
 <span class="sd">        $q^{\\dagger}(\\boldsymbol{s},\\boldsymbol{r})$</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># integrates using each point in struct as an integration point</span>
     <span class="c1"># returns the q_r, q_r_dagger, and the key designating point along struct</span>
@@ -1428,7 +1428,7 @@ code, otherwise just products and Fourier transforms.</p>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">s_step</span><span class="p">(</span><span class="n">q_r</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w_P</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Function to run one step of modified diffusion integration using Trotter</span>
 <span class="sd">    decomposition.</span>
 
@@ -1459,7 +1459,7 @@ code, otherwise just products and Fourier transforms.</p>
 
 <span class="sd">    q_r_t : cp.ndarray</span>
 <span class="sd">        the propagator $q(s+\\Delta s )$ (or $q^{\\dagger}(s - \\Delta s)$).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Run a single step of Equation 13</span>
     <span class="n">q_k</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">q_r</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>

@@ -2379,7 +2379,7 @@ constrain mass transfer moves.</p>
 <span class="normal">818</span>
 <span class="normal">819</span>
 <span class="normal">820</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GibbsEnsemble</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages a two-box Gibbs Ensemble simulation for phase coexistence.</span>
+<span class="w">    </span><span class="sd">"""Manages a two-box Gibbs Ensemble simulation for phase coexistence.</span>
 
 <span class="sd">    This class holds two `PolymerSystem` instances, allowing them to</span>
 <span class="sd">    exchange volume and particles to find phase equilibrium. It handles the</span>
@@ -2468,7 +2468,7 @@ constrain mass transfer moves.</p>
 <span class="sd">    bound_list : list, optional</span>
 <span class="sd">        (Experimental) A list of binding matrices used by `bind_species` to</span>
 <span class="sd">        constrain mass transfer moves.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -2521,7 +2521,7 @@ constrain mass transfer moves.</p>
                     <span class="k">if</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span>
                         <span class="n">dic</span><span class="p">[</span><span class="n">spec</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec_dict_2</span><span class="p">[</span><span class="n">spec</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="p">,</span> <span class="s2">&quot;salts&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="p">,</span> <span class="s2">"salts"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">salted</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">salted</span> <span class="o">=</span> <span class="kc">False</span>
@@ -2546,11 +2546,11 @@ constrain mass transfer moves.</p>
         <span class="k">return</span> <span class="bp">NotImplemented</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_current_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recalculates and updates the mass and concentration vectors for both boxes.</span>
+<span class="w">        </span><span class="sd">"""Recalculates and updates the mass and concentration vectors for both boxes.</span>
 
 <span class="sd">        This method should be called if the underlying `PolymerSystem` objects</span>
 <span class="sd">        (`part_1` or `part_2`) have been modified externally. It reads the current</span>
-<span class="sd">        volumes and species concentrations to ensure the ensemble&#39;s internal</span>
+<span class="sd">        volumes and species concentrations to ensure the ensemble's internal</span>
 <span class="sd">        state is synchronized. It is called automatically by `gibbs_step`.</span>
 
 <span class="sd">        Notes</span>
@@ -2562,7 +2562,7 @@ constrain mass transfer moves.</p>
 <span class="sd">        - `self.total_mass` (Conserved total mass of each species)</span>
 <span class="sd">        - `self.total_V` (Conserved total volume)</span>
 <span class="sd">        - `self.C_1`, `self.C_2` (Concentration of each species in each box)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">))</span>
@@ -2596,7 +2596,7 @@ constrain mass transfer moves.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">C_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_2</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_chemical_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates pressure and chemical potential differences from sampled data.</span>
+<span class="w">        </span><span class="sd">"""Calculates pressure and chemical potential differences from sampled data.</span>
 
 <span class="sd">        This method processes the time-averaged values populated by `sample_pot` to</span>
 <span class="sd">        calculate the thermodynamic driving forces ($\\Delta\\mu$ and $\\Delta\\Pi$) for</span>
@@ -2619,7 +2619,7 @@ constrain mass transfer moves.</p>
 <span class="sd">        RuntimeError</span>
 <span class="sd">            If `sample_pot` has not been called and no sampled data is available.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># TODO: use average rather than last point to reduce noise</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">))</span>
@@ -2627,35 +2627,35 @@ constrain mass transfer moves.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pot_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pot_1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pressure_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pressure_1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sampled_flag</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="c1">#            print(&quot;using sampled data&quot;)</span>
+        <span class="c1">#            print("using sampled data")</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">NotImplemented</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="o">.</span><span class="n">real</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pi</span><span class="o">.</span><span class="n">real</span>
-        <span class="c1">#        print(&quot;d_mu&quot;)</span>
+        <span class="c1">#        print("d_mu")</span>
         <span class="c1">#        print(self.d_mu)</span>
-        <span class="c1">#        print(&quot;raw mu&quot;)</span>
+        <span class="c1">#        print("raw mu")</span>
         <span class="c1">#        print(self.sampled_pot_1)</span>
         <span class="c1">#        print(self.sampled_pot_2)</span>
-        <span class="c1">#        print(&quot;d_pi&quot;)</span>
+        <span class="c1">#        print("d_pi")</span>
         <span class="c1">#        print(self.d_pi)</span>
-        <span class="c1">#        print(&quot;raw pi&quot;)</span>
+        <span class="c1">#        print("raw pi")</span>
         <span class="c1">#        print(self.sampled_pressure_1)</span>
         <span class="c1">#        print(self.sampled_pressure_2)</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bound_list&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"bound_list"</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound_list</span><span class="p">:</span>
                 <span class="n">bound_mu</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">/</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="p">[</span><span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">bound_mu</span><span class="p">[</span><span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1">#            print(&quot;Bound d_mu&quot;)</span>
+    <span class="c1">#            print("Bound d_mu")</span>
     <span class="c1">#            print(self.sampled_pot_1)</span>
     <span class="c1">#            print(self.sampled_pot_2)</span>
     <span class="c1">#            print(self.d_mu)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">gibbs_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Performs one Gibbs ensemble move to update volumes and particle numbers.</span>
 
 <span class="sd">        This is the core method for evolving the Gibbs ensemble. It calls</span>
@@ -2674,7 +2674,7 @@ constrain mass transfer moves.</p>
 <span class="sd">        new_concentrations : cp.ndarray</span>
 <span class="sd">            A CuPy array of shape (2, n_species) containing the new concentrations</span>
 <span class="sd">            for each species in each box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Update all the current mass and mu before updating</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_current_state</span><span class="p">()</span>
@@ -2693,12 +2693,12 @@ constrain mass transfer moves.</p>
                 <span class="n">where</span> <span class="o">=</span> <span class="n">new_m_1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span> <span class="o">*</span> <span class="n">safety_minimum</span>
                 <span class="n">new_m_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span>
                 <span class="n">new_m_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_mass</span> <span class="o">-</span> <span class="n">new_m_1</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">):</span>
                 <span class="n">where</span> <span class="o">=</span> <span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span>
                 <span class="n">new_m_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span>
                 <span class="n">new_m_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_mass</span> <span class="o">-</span> <span class="n">new_m_2</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">new_m_1</span><span class="p">,</span> <span class="n">new_m_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutral_charge_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="p">)</span>
 
@@ -2707,13 +2707,13 @@ constrain mass transfer moves.</p>
         <span class="k">if</span> <span class="n">new_V_1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">:</span>
             <span class="n">new_V_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">new_V_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_V</span> <span class="o">-</span> <span class="n">new_V_1</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Volume safety triggered&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Volume safety triggered"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_V_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_2</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">:</span>
             <span class="n">new_V_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_2</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">new_V_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_V</span> <span class="o">-</span> <span class="n">new_V_2</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Volume safety triggered&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Volume safety triggered"</span><span class="p">)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Volumes:&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_1</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_2</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Volumes:"</span><span class="p">,</span> <span class="s2">"</span><span class="si">{:.3f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_1</span><span class="p">),</span> <span class="s2">"</span><span class="si">{:.3f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_2</span><span class="p">))</span>
 
         <span class="c1"># calculate concentrations</span>
         <span class="c1">#        new_C_1 = (new_m_1 / new_V_1)[:-2]</span>
@@ -2722,17 +2722,17 @@ constrain mass transfer moves.</p>
         <span class="n">new_C_1</span> <span class="o">=</span> <span class="n">new_m_1</span> <span class="o">/</span> <span class="n">new_V_1</span>
         <span class="n">new_C_2</span> <span class="o">=</span> <span class="n">new_m_2</span> <span class="o">/</span> <span class="n">new_V_2</span>
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mass changes&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Mass changes"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">new_m_1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">new_m_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">)</span>
         <span class="c1"># exit()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Concentrations:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Concentrations:"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">new_C_1</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">new_C_2</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Actual mass:&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total&quot;</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span> <span class="o">+</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1:&quot;</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2:&quot;</span><span class="p">,</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Actual mass:"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Total"</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span> <span class="o">+</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"1:"</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"2:"</span><span class="p">,</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
         <span class="c1"># update grid side lengths</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">update_l</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ndims</span> <span class="o">*</span> <span class="p">[</span><span class="n">new_V_1</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ndims</span><span class="p">)]</span>
@@ -2770,7 +2770,7 @@ constrain mass transfer moves.</p>
         <span class="c1"># TODO:Figure out how to handle salts</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">burn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the simulation for a number of steps without sampling.</span>
+<span class="w">        </span><span class="sd">"""Runs the simulation for a number of steps without sampling.</span>
 
 <span class="sd">        This method is used for equilibration, allowing the system to relax</span>
 <span class="sd">        before data collection begins. It evolves both boxes using their</span>
@@ -2781,14 +2781,14 @@ constrain mass transfer moves.</p>
 <span class="sd">        ----------</span>
 <span class="sd">        steps : int</span>
 <span class="sd">            The number of integration steps to perform.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">int_1</span><span class="o">.</span><span class="n">ETD</span><span class="p">(</span><span class="n">for_pressure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">int_2</span><span class="o">.</span><span class="n">ETD</span><span class="p">(</span><span class="n">for_pressure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">sample_pot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_freq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the simulation and samples pressure and chemical potentials.</span>
+<span class="w">        </span><span class="sd">"""Runs the simulation and samples pressure and chemical potentials.</span>
 
 <span class="sd">        This method evolves both boxes and averages the chemical potentials and</span>
 <span class="sd">        pressures over a number of steps. The averaged results are stored</span>
@@ -2805,7 +2805,7 @@ constrain mass transfer moves.</p>
 <span class="sd">        sample_freq : int, optional</span>
 <span class="sd">            The frequency at which to sample data. For example, `sample_freq=10`</span>
 <span class="sd">            means data is collected every 10 steps. Default is 1.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">samples</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">tot_weighted_pot_1</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_mass</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
@@ -2841,7 +2841,7 @@ constrain mass transfer moves.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">sampled_flag</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_charge_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes and stores the charge vector for all species in the ensemble.</span>
+<span class="w">        </span><span class="sd">"""Computes and stores the charge vector for all species in the ensemble.</span>
 
 <span class="sd">        This vector contains the total charge per molecule (or per solvent) for</span>
 <span class="sd">        each species. It is used by `neutral_charge_step` to enforce charge</span>
@@ -2852,7 +2852,7 @@ constrain mass transfer moves.</p>
 
 <span class="sd">        This method updates the following attribute:</span>
 <span class="sd">        - `self.charge_vector`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># get vector of all species</span>
 
@@ -2869,7 +2869,7 @@ constrain mass transfer moves.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species</span><span class="p">)]</span> <span class="o">=</span> <span class="n">species</span><span class="o">.</span><span class="n">charge</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">neutral_charge_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates a charge-neutral mass transfer step for charged systems.</span>
+<span class="w">        </span><span class="sd">"""Calculates a charge-neutral mass transfer step for charged systems.</span>
 
 <span class="sd">        This method projects the proposed mass transfer vector (driven by `mu`)</span>
 <span class="sd">        onto the subspace of charge-neutral moves. It includes safety checks</span>
@@ -2886,13 +2886,13 @@ constrain mass transfer moves.</p>
 <span class="sd">            The proposed new mass vector for box 1, guaranteed to be charge-neutral.</span>
 <span class="sd">        new_m_2 : cp.ndarray</span>
 <span class="sd">            The proposed new mass vector for box 2.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;charge_vector&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"charge_vector"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_charge_vector</span><span class="p">()</span>
         <span class="n">corr_term</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">)</span> <span class="o">/</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">corr_mu_old</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">corr_term</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span>
         <span class="n">corr_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_correction</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Comparing methods&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Comparing methods"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">corr_mu_old</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">corr_mu</span><span class="p">)</span>
 
@@ -2923,7 +2923,7 @@ constrain mass transfer moves.</p>
                     <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">safety_passed</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">):</span>
                 <span class="n">where</span> <span class="o">=</span> <span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span>
                 <span class="n">forced_move_check</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -2931,7 +2931,7 @@ constrain mass transfer moves.</p>
                     <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">safety_passed</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">safety_passed</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                 <span class="n">counts</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="c1"># we need to resolve the problem of the forbidden moves while</span>
@@ -2955,14 +2955,14 @@ constrain mass transfer moves.</p>
 
             <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">forced_move_check</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>  <span class="c1"># noqa: E712</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Move finder has failed, all moves are forced &quot;</span>
-                    <span class="s2">&quot;and charge is unbalanced&quot;</span>
+                    <span class="s2">"Move finder has failed, all moves are forced "</span>
+                    <span class="s2">"and charge is unbalanced"</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">counts</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Move finder failed, infinite loop broken&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Move finder failed, infinite loop broken"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cp</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proposed_move</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">),</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Proposed charge imbalanced move that was not corrected&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Proposed charge imbalanced move that was not corrected"</span><span class="p">)</span>
 
         <span class="c1"># if the mass safeties are triggered then we must recalculate the best possible</span>
         <span class="c1"># move subject to the further constraint that the forbidden moves are returned</span>
@@ -2982,7 +2982,7 @@ constrain mass transfer moves.</p>
         <span class="k">return</span> <span class="n">new_m_1</span><span class="p">,</span> <span class="n">new_m_2</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">charge_correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">total_charge</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;(Experimental) Alternative method for enforcing charge neutrality.</span>
+<span class="w">        </span><span class="sd">"""(Experimental) Alternative method for enforcing charge neutrality.</span>
 
 <span class="sd">        This function attempts to correct the chemical potential differences to</span>
 <span class="sd">        ensure that the resulting mass transfer move is charge-neutral.</span>
@@ -2998,7 +2998,7 @@ constrain mass transfer moves.</p>
 <span class="sd">        -------</span>
 <span class="sd">        corr_mu : cp.ndarray</span>
 <span class="sd">            The corrected vector of chemical potential differences.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">corr_mu</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mu</span><span class="p">)):</span>
@@ -3015,14 +3015,14 @@ constrain mass transfer moves.</p>
                 <span class="n">corr_mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
                 <span class="n">corr_mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Should be 0: &quot;</span><span class="p">,</span>
+                    <span class="s2">"Should be 0: "</span><span class="p">,</span>
                     <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                     <span class="o">+</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">j</span><span class="p">],</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">corr_mu</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">bind_species</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">species_2</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;(Experimental) Constrains two species to move together during mass transfer.</span>
+<span class="w">        </span><span class="sd">"""(Experimental) Constrains two species to move together during mass transfer.</span>
 
 <span class="sd">        This method imposes a constraint that the ratio of `species_1` to</span>
 <span class="sd">        `species_2` must remain constant in both boxes during Gibbs ensemble moves.</span>
@@ -3047,7 +3047,7 @@ constrain mass transfer moves.</p>
 <span class="sd">            If the two species do not have the same relative concentration in</span>
 <span class="sd">            both boxes at the time of binding, which would violate the</span>
 <span class="sd">            constraint from the start.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">C_1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species_1</span><span class="p">)]</span>
@@ -3064,7 +3064,7 @@ constrain mass transfer moves.</p>
                 <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_2</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species_2</span><span class="p">)]</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Cannot bind species with different concentrations in each simulation&quot;</span>
+                <span class="s2">"Cannot bind species with different concentrations in each simulation"</span>
             <span class="p">)</span>
             <span class="k">return</span>
 
@@ -3075,8 +3075,8 @@ constrain mass transfer moves.</p>
             <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species_2</span><span class="p">)]</span>
         <span class="p">)</span>
         <span class="n">binding_matrix</span> <span class="o">/=</span> <span class="n">cp</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">binding_matrix</span><span class="p">[</span><span class="n">binding_matrix</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="c1"># declare an empty list to store the binding matrix if it doesn&#39;t already exist</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bound_list&quot;</span><span class="p">):</span>
+        <span class="c1"># declare an empty list to store the binding matrix if it doesn't already exist</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"bound_list"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bound_list</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bound_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">binding_matrix</span><span class="p">)</span>
             <span class="k">return</span>
@@ -3095,7 +3095,7 @@ constrain mass transfer moves.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">clean_binds</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">combine_binds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bind_1</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">bind_2</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;(Internal) Merges two compatible binding matrices into a single constraint.</span>
+<span class="w">        </span><span class="sd">"""(Internal) Merges two compatible binding matrices into a single constraint.</span>
 
 <span class="sd">        This helper method is called by `bind_species` when a new binding</span>
 <span class="sd">        constraint is added that overlaps with an existing one. It combines</span>
@@ -3122,14 +3122,14 @@ constrain mass transfer moves.</p>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the two binding matrices are incompatible (e.g., have conflicting ratios)</span>
 <span class="sd">            or do not share any common species.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">bind_1</span> <span class="o">*</span> <span class="n">bind_2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrelated matrices cannot be combined&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unrelated matrices cannot be combined"</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">bind_1</span> <span class="o">/</span> <span class="n">bind_2</span><span class="p">)[</span><span class="n">bind_1</span> <span class="o">*</span> <span class="n">bind_2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">ratio</span> <span class="o">==</span> <span class="n">ratio</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Tried to combine incompatible binding matrices&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Tried to combine incompatible binding matrices"</span><span class="p">)</span>
             <span class="k">return</span>
 
         <span class="n">new_bind</span> <span class="o">=</span> <span class="n">bind_1</span> <span class="o">/</span> <span class="n">ratio</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bind_2</span> <span class="o">*</span> <span class="p">(</span>
@@ -3139,7 +3139,7 @@ constrain mass transfer moves.</p>
         <span class="k">return</span> <span class="n">new_bind</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">clean_binds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;(Internal) Consolidates the list of binding matrices.</span>
+<span class="w">        </span><span class="sd">"""(Internal) Consolidates the list of binding matrices.</span>
 
 <span class="sd">        This method iterates through the list of binding constraints and merges</span>
 <span class="sd">        any overlapping constraints until only a set of orthogonal constraints</span>
@@ -3153,7 +3153,7 @@ constrain mass transfer moves.</p>
 <span class="sd">        This is an experimental helper method for `bind_species` and is not</span>
 <span class="sd">        intended for direct use. It modifies the `self.bound_list` attribute</span>
 <span class="sd">        in-place.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># WARNING: Totally untested</span>
 
@@ -3355,7 +3355,7 @@ constraint from the start.</p>
 <span class="normal">740</span>
 <span class="normal">741</span>
 <span class="normal">742</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bind_species</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species_1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">species_2</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(Experimental) Constrains two species to move together during mass transfer.</span>
+<span class="w">    </span><span class="sd">"""(Experimental) Constrains two species to move together during mass transfer.</span>
 
 <span class="sd">    This method imposes a constraint that the ratio of `species_1` to</span>
 <span class="sd">    `species_2` must remain constant in both boxes during Gibbs ensemble moves.</span>
@@ -3380,7 +3380,7 @@ constraint from the start.</p>
 <span class="sd">        If the two species do not have the same relative concentration in</span>
 <span class="sd">        both boxes at the time of binding, which would violate the</span>
 <span class="sd">        constraint from the start.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">C_1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species_1</span><span class="p">)]</span>
@@ -3397,7 +3397,7 @@ constraint from the start.</p>
             <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_2</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species_2</span><span class="p">)]</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Cannot bind species with different concentrations in each simulation&quot;</span>
+            <span class="s2">"Cannot bind species with different concentrations in each simulation"</span>
         <span class="p">)</span>
         <span class="k">return</span>
 
@@ -3408,8 +3408,8 @@ constraint from the start.</p>
         <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">species_2</span><span class="p">)]</span>
     <span class="p">)</span>
     <span class="n">binding_matrix</span> <span class="o">/=</span> <span class="n">cp</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">binding_matrix</span><span class="p">[</span><span class="n">binding_matrix</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="c1"># declare an empty list to store the binding matrix if it doesn&#39;t already exist</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bound_list&quot;</span><span class="p">):</span>
+    <span class="c1"># declare an empty list to store the binding matrix if it doesn't already exist</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"bound_list"</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bound_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bound_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">binding_matrix</span><span class="p">)</span>
         <span class="k">return</span>
@@ -3500,7 +3500,7 @@ enabled to prepare the system for potential <code>gibbs_step</code> moves.</p>
 <span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">burn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the simulation for a number of steps without sampling.</span>
+<span class="w">    </span><span class="sd">"""Runs the simulation for a number of steps without sampling.</span>
 
 <span class="sd">    This method is used for equilibration, allowing the system to relax</span>
 <span class="sd">    before data collection begins. It evolves both boxes using their</span>
@@ -3511,7 +3511,7 @@ enabled to prepare the system for potential <code>gibbs_step</code> moves.</p>
 <span class="sd">    ----------</span>
 <span class="sd">    steps : int</span>
 <span class="sd">        The number of integration steps to perform.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">int_1</span><span class="o">.</span><span class="n">ETD</span><span class="p">(</span><span class="n">for_pressure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -3649,7 +3649,7 @@ ensure that the resulting mass transfer move is charge-neutral.</p>
 <span class="normal">667</span>
 <span class="normal">668</span>
 <span class="normal">669</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">charge_correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">total_charge</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(Experimental) Alternative method for enforcing charge neutrality.</span>
+<span class="w">    </span><span class="sd">"""(Experimental) Alternative method for enforcing charge neutrality.</span>
 
 <span class="sd">    This function attempts to correct the chemical potential differences to</span>
 <span class="sd">    ensure that the resulting mass transfer move is charge-neutral.</span>
@@ -3665,7 +3665,7 @@ ensure that the resulting mass transfer move is charge-neutral.</p>
 <span class="sd">    -------</span>
 <span class="sd">    corr_mu : cp.ndarray</span>
 <span class="sd">        The corrected vector of chemical potential differences.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">corr_mu</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mu</span><span class="p">)):</span>
@@ -3682,7 +3682,7 @@ ensure that the resulting mass transfer move is charge-neutral.</p>
             <span class="n">corr_mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
             <span class="n">corr_mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">&quot;Should be 0: &quot;</span><span class="p">,</span>
+                <span class="s2">"Should be 0: "</span><span class="p">,</span>
                 <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="o">+</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">corr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">[</span><span class="n">j</span><span class="p">],</span>
             <span class="p">)</span>
@@ -3754,7 +3754,7 @@ in-place.</p>
 <span class="normal">818</span>
 <span class="normal">819</span>
 <span class="normal">820</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">clean_binds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(Internal) Consolidates the list of binding matrices.</span>
+<span class="w">    </span><span class="sd">"""(Internal) Consolidates the list of binding matrices.</span>
 
 <span class="sd">    This method iterates through the list of binding constraints and merges</span>
 <span class="sd">    any overlapping constraints until only a set of orthogonal constraints</span>
@@ -3768,7 +3768,7 @@ in-place.</p>
 <span class="sd">    This is an experimental helper method for `bind_species` and is not</span>
 <span class="sd">    intended for direct use. It modifies the `self.bound_list` attribute</span>
 <span class="sd">    in-place.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># WARNING: Totally untested</span>
 
@@ -3953,7 +3953,7 @@ or do not share any common species.</p>
 <span class="normal">784</span>
 <span class="normal">785</span>
 <span class="normal">786</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">combine_binds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bind_1</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">bind_2</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;(Internal) Merges two compatible binding matrices into a single constraint.</span>
+<span class="w">    </span><span class="sd">"""(Internal) Merges two compatible binding matrices into a single constraint.</span>
 
 <span class="sd">    This helper method is called by `bind_species` when a new binding</span>
 <span class="sd">    constraint is added that overlaps with an existing one. It combines</span>
@@ -3980,14 +3980,14 @@ or do not share any common species.</p>
 <span class="sd">    ValueError</span>
 <span class="sd">        If the two binding matrices are incompatible (e.g., have conflicting ratios)</span>
 <span class="sd">        or do not share any common species.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">bind_1</span> <span class="o">*</span> <span class="n">bind_2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrelated matrices cannot be combined&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unrelated matrices cannot be combined"</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">bind_1</span> <span class="o">/</span> <span class="n">bind_2</span><span class="p">)[</span><span class="n">bind_1</span> <span class="o">*</span> <span class="n">bind_2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">ratio</span> <span class="o">==</span> <span class="n">ratio</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Tried to combine incompatible binding matrices&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Tried to combine incompatible binding matrices"</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="n">new_bind</span> <span class="o">=</span> <span class="n">bind_1</span> <span class="o">/</span> <span class="n">ratio</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bind_2</span> <span class="o">*</span> <span class="p">(</span>
@@ -4051,7 +4051,7 @@ automatically during initialization.</p>
 <span class="normal">514</span>
 <span class="normal">515</span>
 <span class="normal">516</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_charge_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes and stores the charge vector for all species in the ensemble.</span>
+<span class="w">    </span><span class="sd">"""Computes and stores the charge vector for all species in the ensemble.</span>
 
 <span class="sd">    This vector contains the total charge per molecule (or per solvent) for</span>
 <span class="sd">    each species. It is used by `neutral_charge_step` to enforce charge</span>
@@ -4062,7 +4062,7 @@ automatically during initialization.</p>
 
 <span class="sd">    This method updates the following attribute:</span>
 <span class="sd">    - `self.charge_vector`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># get vector of all species</span>
 
@@ -4191,7 +4191,7 @@ run first.</p>
 <span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_chemical_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates pressure and chemical potential differences from sampled data.</span>
+<span class="w">    </span><span class="sd">"""Calculates pressure and chemical potential differences from sampled data.</span>
 
 <span class="sd">    This method processes the time-averaged values populated by `sample_pot` to</span>
 <span class="sd">    calculate the thermodynamic driving forces ($\\Delta\\mu$ and $\\Delta\\Pi$) for</span>
@@ -4214,7 +4214,7 @@ run first.</p>
 <span class="sd">    RuntimeError</span>
 <span class="sd">        If `sample_pot` has not been called and no sampled data is available.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># TODO: use average rather than last point to reduce noise</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">))</span>
@@ -4222,24 +4222,24 @@ run first.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pot_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pot_1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pressure_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_pressure_1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sampled_flag</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="c1">#            print(&quot;using sampled data&quot;)</span>
+    <span class="c1">#            print("using sampled data")</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">NotImplemented</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="o">.</span><span class="n">real</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">d_pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pi</span><span class="o">.</span><span class="n">real</span>
-    <span class="c1">#        print(&quot;d_mu&quot;)</span>
+    <span class="c1">#        print("d_mu")</span>
     <span class="c1">#        print(self.d_mu)</span>
-    <span class="c1">#        print(&quot;raw mu&quot;)</span>
+    <span class="c1">#        print("raw mu")</span>
     <span class="c1">#        print(self.sampled_pot_1)</span>
     <span class="c1">#        print(self.sampled_pot_2)</span>
-    <span class="c1">#        print(&quot;d_pi&quot;)</span>
+    <span class="c1">#        print("d_pi")</span>
     <span class="c1">#        print(self.d_pi)</span>
-    <span class="c1">#        print(&quot;raw pi&quot;)</span>
+    <span class="c1">#        print("raw pi")</span>
     <span class="c1">#        print(self.sampled_pressure_1)</span>
     <span class="c1">#        print(self.sampled_pressure_2)</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bound_list&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"bound_list"</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound_list</span><span class="p">:</span>
             <span class="n">bound_mu</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span> <span class="o">/</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="p">[</span><span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">bound_mu</span><span class="p">[</span><span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
@@ -4328,11 +4328,11 @@ state is synchronized. It is called automatically by <code>gibbs_step</code>.</p
 <span class="normal">241</span>
 <span class="normal">242</span>
 <span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_current_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recalculates and updates the mass and concentration vectors for both boxes.</span>
+<span class="w">    </span><span class="sd">"""Recalculates and updates the mass and concentration vectors for both boxes.</span>
 
 <span class="sd">    This method should be called if the underlying `PolymerSystem` objects</span>
 <span class="sd">    (`part_1` or `part_2`) have been modified externally. It reads the current</span>
-<span class="sd">    volumes and species concentrations to ensure the ensemble&#39;s internal</span>
+<span class="sd">    volumes and species concentrations to ensure the ensemble's internal</span>
 <span class="sd">    state is synchronized. It is called automatically by `gibbs_step`.</span>
 
 <span class="sd">    Notes</span>
@@ -4344,7 +4344,7 @@ state is synchronized. It is called automatically by <code>gibbs_step</code>.</p
 <span class="sd">    - `self.total_mass` (Conserved total mass of each species)</span>
 <span class="sd">    - `self.total_V` (Conserved total volume)</span>
 <span class="sd">    - `self.C_1`, `self.C_2` (Concentration of each species in each box)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">))</span>
@@ -4552,7 +4552,7 @@ for each species in each box.</p>
 <span class="normal">414</span>
 <span class="normal">415</span>
 <span class="normal">416</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">gibbs_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Performs one Gibbs ensemble move to update volumes and particle numbers.</span>
 
 <span class="sd">    This is the core method for evolving the Gibbs ensemble. It calls</span>
@@ -4571,7 +4571,7 @@ for each species in each box.</p>
 <span class="sd">    new_concentrations : cp.ndarray</span>
 <span class="sd">        A CuPy array of shape (2, n_species) containing the new concentrations</span>
 <span class="sd">        for each species in each box.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Update all the current mass and mu before updating</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">get_current_state</span><span class="p">()</span>
@@ -4590,12 +4590,12 @@ for each species in each box.</p>
             <span class="n">where</span> <span class="o">=</span> <span class="n">new_m_1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">new_m_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">new_m_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_mass</span> <span class="o">-</span> <span class="n">new_m_1</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">):</span>
             <span class="n">where</span> <span class="o">=</span> <span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">new_m_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">new_m_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_mass</span> <span class="o">-</span> <span class="n">new_m_2</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">new_m_1</span><span class="p">,</span> <span class="n">new_m_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutral_charge_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="p">)</span>
 
@@ -4604,13 +4604,13 @@ for each species in each box.</p>
     <span class="k">if</span> <span class="n">new_V_1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">:</span>
         <span class="n">new_V_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span>
         <span class="n">new_V_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_V</span> <span class="o">-</span> <span class="n">new_V_1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Volume safety triggered&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Volume safety triggered"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">new_V_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_2</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">:</span>
         <span class="n">new_V_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_2</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">safety_minimum</span>
         <span class="n">new_V_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_V</span> <span class="o">-</span> <span class="n">new_V_2</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Volume safety triggered&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Volume safety triggered"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Volumes:&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_1</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Volumes:"</span><span class="p">,</span> <span class="s2">"</span><span class="si">{:.3f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_1</span><span class="p">),</span> <span class="s2">"</span><span class="si">{:.3f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_V_2</span><span class="p">))</span>
 
     <span class="c1"># calculate concentrations</span>
     <span class="c1">#        new_C_1 = (new_m_1 / new_V_1)[:-2]</span>
@@ -4619,17 +4619,17 @@ for each species in each box.</p>
     <span class="n">new_C_1</span> <span class="o">=</span> <span class="n">new_m_1</span> <span class="o">/</span> <span class="n">new_V_1</span>
     <span class="n">new_C_2</span> <span class="o">=</span> <span class="n">new_m_2</span> <span class="o">/</span> <span class="n">new_V_2</span>
     <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d_mu</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mass changes&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Mass changes"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">new_m_1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">new_m_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">)</span>
     <span class="c1"># exit()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Concentrations:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Concentrations:"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">new_C_1</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">new_C_2</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Actual mass:&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total&quot;</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span> <span class="o">+</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1:&quot;</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2:&quot;</span><span class="p">,</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Actual mass:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Total"</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span> <span class="o">+</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"1:"</span><span class="p">,</span> <span class="n">new_C_1</span> <span class="o">*</span> <span class="n">new_V_1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"2:"</span><span class="p">,</span> <span class="n">new_C_2</span> <span class="o">*</span> <span class="n">new_V_2</span><span class="p">)</span>
     <span class="c1"># update grid side lengths</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">update_l</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ndims</span> <span class="o">*</span> <span class="p">[</span><span class="n">new_V_1</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_1</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ndims</span><span class="p">)]</span>
@@ -4865,7 +4865,7 @@ to prevent species masses from becoming negative.</p>
 <span class="normal">627</span>
 <span class="normal">628</span>
 <span class="normal">629</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">neutral_charge_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates a charge-neutral mass transfer step for charged systems.</span>
+<span class="w">    </span><span class="sd">"""Calculates a charge-neutral mass transfer step for charged systems.</span>
 
 <span class="sd">    This method projects the proposed mass transfer vector (driven by `mu`)</span>
 <span class="sd">    onto the subspace of charge-neutral moves. It includes safety checks</span>
@@ -4882,13 +4882,13 @@ to prevent species masses from becoming negative.</p>
 <span class="sd">        The proposed new mass vector for box 1, guaranteed to be charge-neutral.</span>
 <span class="sd">    new_m_2 : cp.ndarray</span>
 <span class="sd">        The proposed new mass vector for box 2.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;charge_vector&quot;</span><span class="p">):</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"charge_vector"</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_charge_vector</span><span class="p">()</span>
     <span class="n">corr_term</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">)</span> <span class="o">/</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">corr_mu_old</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">corr_term</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span>
     <span class="n">corr_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_correction</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Comparing methods&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Comparing methods"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">corr_mu_old</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">corr_mu</span><span class="p">)</span>
 
@@ -4919,7 +4919,7 @@ to prevent species masses from becoming negative.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">[</span><span class="n">where</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="n">safety_passed</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span><span class="p">):</span>
             <span class="n">where</span> <span class="o">=</span> <span class="n">new_m_2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span> <span class="o">*</span> <span class="n">safety_minimum</span>
             <span class="n">forced_move_check</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -4927,7 +4927,7 @@ to prevent species masses from becoming negative.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="o">*</span> <span class="n">safety_minimum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_2</span><span class="p">[</span><span class="n">where</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="n">safety_passed</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Mass safety triggered&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: Mass safety triggered"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">safety_passed</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">counts</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="c1"># we need to resolve the problem of the forbidden moves while</span>
@@ -4951,14 +4951,14 @@ to prevent species masses from becoming negative.</p>
 
         <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">forced_move_check</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>  <span class="c1"># noqa: E712</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Move finder has failed, all moves are forced &quot;</span>
-                <span class="s2">&quot;and charge is unbalanced&quot;</span>
+                <span class="s2">"Move finder has failed, all moves are forced "</span>
+                <span class="s2">"and charge is unbalanced"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">counts</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_1</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Move finder failed, infinite loop broken&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Move finder failed, infinite loop broken"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cp</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proposed_move</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge_vector</span><span class="p">),</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Proposed charge imbalanced move that was not corrected&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Proposed charge imbalanced move that was not corrected"</span><span class="p">)</span>
 
     <span class="c1"># if the mass safeties are triggered then we must recalculate the best possible</span>
     <span class="c1"># move subject to the further constraint that the forbidden moves are returned</span>
@@ -5104,7 +5104,7 @@ means data is collected every 10 steps. Default is 1.</p>
 <span class="normal">486</span>
 <span class="normal">487</span>
 <span class="normal">488</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sample_pot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_freq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the simulation and samples pressure and chemical potentials.</span>
+<span class="w">    </span><span class="sd">"""Runs the simulation and samples pressure and chemical potentials.</span>
 
 <span class="sd">    This method evolves both boxes and averages the chemical potentials and</span>
 <span class="sd">    pressures over a number of steps. The averaged results are stored</span>
@@ -5121,7 +5121,7 @@ means data is collected every 10 steps. Default is 1.</p>
 <span class="sd">    sample_freq : int, optional</span>
 <span class="sd">        The frequency at which to sample data. For example, `sample_freq=10`</span>
 <span class="sd">        means data is collected every 10 steps. Default is 1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">samples</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">tot_weighted_pot_1</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_mass</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>

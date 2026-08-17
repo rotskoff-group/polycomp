@@ -1175,7 +1175,7 @@ the fixed segment of the polymer.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Brush</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class to store the location of a brushed surface. The brush density denotes the</span>
 <span class="sd">    density of the affixed end of the polymer in space.</span>
 
@@ -1196,7 +1196,7 @@ the fixed segment of the polymer.</p>
 <span class="sd">    density : cp.ndarray</span>
 <span class="sd">        Spatial density of the attached brush end</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">density</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -1437,7 +1437,7 @@ the fixed segment of the polymer.</p>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Monomer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class for the monomer of one species in the simulation.</span>
 
 <span class="sd">    Parameters</span>
@@ -1463,13 +1463,13 @@ the fixed segment of the polymer.</p>
 <span class="sd">        Identity of the monomer, usually {polymer, solvent, salt, Nanoparticle}.</span>
 <span class="sd">    has_volume : bool</span>
 <span class="sd">        Whether the monomer occupies volume.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">charge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">identity</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;solvent&quot;</span><span class="p">,</span>
+        <span class="n">identity</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"solvent"</span><span class="p">,</span>
         <span class="n">has_volume</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -1696,7 +1696,7 @@ purposes).</p>
 <span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Nanoparticle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 
 <span class="sd">    Defines an inert nanoparticle with a fixed spatial density.</span>
 
@@ -1723,20 +1723,20 @@ purposes).</p>
 <span class="sd">    type : Monomer</span>
 <span class="sd">        Monomer identity (for FH interaction purposes) of the nanoparticle.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">monomer_type</span><span class="p">:</span> <span class="n">Monomer</span><span class="p">,</span> <span class="n">density</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">density</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">monomer_type</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="s2">&quot;Nanoparticle&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="s2">"Nanoparticle"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">place_nps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Updates the density of the nanoparticle position</span>
 
 <span class="sd">        Parameters</span>
@@ -1744,7 +1744,7 @@ purposes).</p>
 
 <span class="sd">        positions</span>
 <span class="sd">            Desired new density profile for the nanoparticles in the system.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">positions</span>
 </code></pre></div></td></tr></table></div>
@@ -1822,7 +1822,7 @@ purposes).</p>
 <span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">place_nps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Updates the density of the nanoparticle position</span>
 
 <span class="sd">    Parameters</span>
@@ -1830,7 +1830,7 @@ purposes).</p>
 
 <span class="sd">    positions</span>
 <span class="sd">        Desired new density profile for the nanoparticles in the system.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">positions</span>
 </code></pre></div></td></tr></table></div>
@@ -2127,7 +2127,7 @@ on the leading end.</p>
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Polymer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class to store all the information for one type of polymer.</span>
 
 <span class="sd">    Parameters</span>
@@ -2162,7 +2162,7 @@ on the leading end.</p>
 <span class="sd">        Brush object indicating where the sequence is fastened. Fastening always occurs</span>
 <span class="sd">        on the leading end.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">total_length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">block_structure</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">fastener</span><span class="o">=</span><span class="kc">None</span>
@@ -2176,17 +2176,17 @@ on the leading end.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># Identify which species are in any polymer</span>
         <span class="k">for</span> <span class="n">monomer</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_structure</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">monomer</span><span class="o">.</span><span class="n">identity</span> <span class="o">!=</span> <span class="s2">&quot;polymer&quot;</span><span class="p">:</span>
-                <span class="n">monomer</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="s2">&quot;polymer&quot;</span>
+            <span class="k">if</span> <span class="n">monomer</span><span class="o">.</span><span class="n">identity</span> <span class="o">!=</span> <span class="s2">"polymer"</span><span class="p">:</span>
+                <span class="n">monomer</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="s2">"polymer"</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="s2">&quot;entire_polymer&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="s2">"entire_polymer"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fastener</span> <span class="o">=</span> <span class="n">fastener</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_structure</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">build_working_polymer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">total_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build the polymer structure that will be used for integration.</span>
 
 <span class="sd">        Built-in method to construct a working polymer during integration</span>
@@ -2208,11 +2208,11 @@ on the leading end.</p>
 <span class="sd">            Raises an error if the polymer already has a built structure. At</span>
 <span class="sd">            present, there is no reason that a polymer structure should be built</span>
 <span class="sd">            more than once in a single simulation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Used to generate a string of h lengths and polymer species identities</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;polymer structure should only be built once&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"polymer structure should only be built once"</span><span class="p">)</span>
         <span class="n">hold_struct</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">hold_h_struct</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">end</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -2228,7 +2228,7 @@ on the leading end.</p>
             <span class="n">hold_h_struct</span> <span class="o">=</span> <span class="n">hold_h_struct</span> <span class="o">+</span> <span class="p">([</span><span class="n">end</span> <span class="o">/</span> <span class="n">units</span><span class="p">]</span> <span class="o">*</span> <span class="n">units</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hold_struct</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">h_struct</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hold_h_struct</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_struct</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hold_h_struct</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float64"</span><span class="p">)</span>
         <span class="k">return</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -2382,7 +2382,7 @@ more than once in a single simulation.</p>
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build_working_polymer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">total_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Build the polymer structure that will be used for integration.</span>
 
 <span class="sd">    Built-in method to construct a working polymer during integration</span>
@@ -2404,11 +2404,11 @@ more than once in a single simulation.</p>
 <span class="sd">        Raises an error if the polymer already has a built structure. At</span>
 <span class="sd">        present, there is no reason that a polymer structure should be built</span>
 <span class="sd">        more than once in a single simulation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Used to generate a string of h lengths and polymer species identities</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;polymer structure should only be built once&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"polymer structure should only be built once"</span><span class="p">)</span>
     <span class="n">hold_struct</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">hold_h_struct</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">end</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -2424,7 +2424,7 @@ more than once in a single simulation.</p>
         <span class="n">hold_h_struct</span> <span class="o">=</span> <span class="n">hold_h_struct</span> <span class="o">+</span> <span class="p">([</span><span class="n">end</span> <span class="o">/</span> <span class="n">units</span><span class="p">]</span> <span class="o">*</span> <span class="n">units</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hold_struct</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">h_struct</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hold_h_struct</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">h_struct</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hold_h_struct</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float64"</span><span class="p">)</span>
     <span class="k">return</span>
 </code></pre></div></td></tr></table></div>
             </details>

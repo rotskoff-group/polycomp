@@ -1752,7 +1752,7 @@ of poly_sys.</p>
 <span class="normal">472</span>
 <span class="normal">473</span>
 <span class="normal">474</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CL_RK2</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class used to update the state of a polymer field system using the complex langevin</span>
 <span class="sd">    integrator with exponential time differencing. SCFT behavior can be recovered by</span>
 <span class="sd">    setting noise to zero, though the integrators are less efficient than state of the</span>
@@ -1810,9 +1810,9 @@ of poly_sys.</p>
 <span class="sd">    ------</span>
 
 <span class="sd">    ValueError</span>
-<span class="sd">        Raised if the shape of the relax rates doesn&#39;t match the shape</span>
+<span class="sd">        Raised if the shape of the relax rates doesn't match the shape</span>
 <span class="sd">        of poly_sys.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1828,7 +1828,7 @@ of poly_sys.</p>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">poly_sys</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">w_all</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">relax_rates</span><span class="p">)})</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Wrong sized relax rate or temperature&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Wrong sized relax rate or temperature"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relax_rates</span> <span class="o">=</span> <span class="n">relax_rates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relax_temps</span> <span class="o">=</span> <span class="n">relax_temps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">psi_relax_rate</span> <span class="o">=</span> <span class="n">psi_relax_rate</span>
@@ -1839,7 +1839,7 @@ of poly_sys.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">ETD</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">for_pressure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_inverse_problem</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Call to integrate the attached polymer system by one time step with the</span>
 <span class="sd">        specified ETD integration parameters.</span>
 
@@ -1879,17 +1879,17 @@ of poly_sys.</p>
 <span class="sd">            calculations. This adds about 25% to the runtime, so it should not be set</span>
 <span class="sd">            unless pressure is desired.</span>
 <span class="sd">        for_inverse_problem</span>
-<span class="sd">            Boolean for whether the method doesn&#39;t calculate new densities to allow</span>
+<span class="sd">            Boolean for whether the method doesn't calculate new densities to allow</span>
 <span class="sd">            for solving the inverse field problem - SCF solution for finding fields</span>
 <span class="sd">            corresponding to a given density.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Get the densities</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">for_inverse_problem</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">get_densities</span><span class="p">(</span><span class="n">for_pressure</span><span class="o">=</span><span class="n">for_pressure</span><span class="p">)</span>
 
-        <span class="c1"># This is a temporary solution to handle the c_k term, which doesn&#39;t really</span>
-        <span class="c1"># matter, but we&#39;ll just use the first entry of the smearing matrix as the</span>
+        <span class="c1"># This is a temporary solution to handle the c_k term, which doesn't really</span>
+        <span class="c1"># matter, but we'll just use the first entry of the smearing matrix as the</span>
         <span class="c1"># generic smear term for c_k</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">smear_const</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">smear_arr</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
@@ -2014,7 +2014,7 @@ of poly_sys.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">psi</span> <span class="o">=</span> <span class="n">new_psi</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">fourier_along_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fourier transform each grid separately along the first axis.</span>
 
 <span class="sd">        Needed when each grid is stored as a stacked array. Uses cufft for</span>
@@ -2033,7 +2033,7 @@ of poly_sys.</p>
 
 <span class="sd">        f_array : cp.ndarray</span>
 <span class="sd">            Stacked array that is the fourier transform of the input array</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">f_array</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
 
@@ -2045,7 +2045,7 @@ of poly_sys.</p>
         <span class="k">return</span> <span class="n">f_array</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse_fourier_along_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Inverse Fourier transform each grid separately along the first axis.</span>
 
 <span class="sd">        Needed when each grid is stored as a stacked array. Uses cufft for</span>
@@ -2064,7 +2064,7 @@ of poly_sys.</p>
 
 <span class="sd">        inf_array : cp.ndarray</span>
 <span class="sd">            Stacked array that is the inverse Fourier transform of the input array</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">inf_array</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
 
@@ -2078,7 +2078,7 @@ of poly_sys.</p>
         <span class="k">return</span> <span class="n">inf_array</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">debye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k2</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generates the Debye function on a discrete grid according to</span>
 
 <span class="sd">        $\\hat{g}_{D}(k^2) = \\frac{2}{k^4} \\left( e^{-k^2} + k^2 - 1 \\right)$.</span>
@@ -2094,13 +2094,13 @@ of poly_sys.</p>
 
 <span class="sd">        debye : cp.ndarray</span>
 <span class="sd">            The array for the Debye function at all points in space</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">debye</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">k2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">k2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">debye</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">draw_gauss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draws Gaussian distribution independently at each point in space.</span>
 
 <span class="sd">        Parameters</span>
@@ -2114,11 +2114,11 @@ of poly_sys.</p>
 
 <span class="sd">        gaussian_array : cp.ndarray</span>
 <span class="sd">            Array of random values</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">variance</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">build_c_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u0_eig</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">debye_k</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generates $c(\\boldsymbol{k})$ for all the polymer structures in the</span>
 <span class="sd">        system given the FH matrix. Sets them as the matching appropriate internal</span>
 <span class="sd">        variables for all fields.</span>
@@ -2131,7 +2131,7 @@ of poly_sys.</p>
 <span class="sd">        debye_k</span>
 <span class="sd">            Fourier-transformed Debye function.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">normal_w</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">c_k_psi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span>
@@ -2147,7 +2147,7 @@ of poly_sys.</p>
             <span class="n">fract</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">polymer</span><span class="p">]</span>
             <span class="n">alphk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polymer</span><span class="o">.</span><span class="n">block_structure</span><span class="p">)):</span>
-                <span class="c1"># Reference for full derivation is present in Emmit Pert&#39;s PhD thesis</span>
+                <span class="c1"># Reference for full derivation is present in Emmit Pert's PhD thesis</span>
 
                 <span class="c1"># This is the leading g_jj term</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="p">(</span>
@@ -2207,7 +2207,7 @@ of poly_sys.</p>
         <span class="n">insert_u0</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">u0_eig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span><span class="o">.</span><span class="n">ndim</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">sl</span><span class="p">)]</span> <span class="o">=</span> <span class="n">insert_u0</span>
 
-        <span class="c1"># In this case psi is going to get wiped anyways but we don&#39;t want division by</span>
+        <span class="c1"># In this case psi is going to get wiped anyways but we don't want division by</span>
         <span class="c1"># zero</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
@@ -2496,7 +2496,7 @@ corresponding to a given density.</p>
 <span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ETD</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">for_pressure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_inverse_problem</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Call to integrate the attached polymer system by one time step with the</span>
 <span class="sd">    specified ETD integration parameters.</span>
 
@@ -2536,17 +2536,17 @@ corresponding to a given density.</p>
 <span class="sd">        calculations. This adds about 25% to the runtime, so it should not be set</span>
 <span class="sd">        unless pressure is desired.</span>
 <span class="sd">    for_inverse_problem</span>
-<span class="sd">        Boolean for whether the method doesn&#39;t calculate new densities to allow</span>
+<span class="sd">        Boolean for whether the method doesn't calculate new densities to allow</span>
 <span class="sd">        for solving the inverse field problem - SCF solution for finding fields</span>
 <span class="sd">        corresponding to a given density.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Get the densities</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">for_inverse_problem</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">get_densities</span><span class="p">(</span><span class="n">for_pressure</span><span class="o">=</span><span class="n">for_pressure</span><span class="p">)</span>
 
-    <span class="c1"># This is a temporary solution to handle the c_k term, which doesn&#39;t really</span>
-    <span class="c1"># matter, but we&#39;ll just use the first entry of the smearing matrix as the</span>
+    <span class="c1"># This is a temporary solution to handle the c_k term, which doesn't really</span>
+    <span class="c1"># matter, but we'll just use the first entry of the smearing matrix as the</span>
     <span class="c1"># generic smear term for c_k</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">smear_const</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">smear_arr</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
@@ -2837,7 +2837,7 @@ variables for all fields.</p>
 <span class="normal">472</span>
 <span class="normal">473</span>
 <span class="normal">474</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build_c_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u0_eig</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">debye_k</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generates $c(\\boldsymbol{k})$ for all the polymer structures in the</span>
 <span class="sd">    system given the FH matrix. Sets them as the matching appropriate internal</span>
 <span class="sd">    variables for all fields.</span>
@@ -2850,7 +2850,7 @@ variables for all fields.</p>
 <span class="sd">    debye_k</span>
 <span class="sd">        Fourier-transformed Debye function.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">normal_w</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">c_k_psi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span>
@@ -2866,7 +2866,7 @@ variables for all fields.</p>
         <span class="n">fract</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">poly_dict</span><span class="p">[</span><span class="n">polymer</span><span class="p">]</span>
         <span class="n">alphk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">k2</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polymer</span><span class="o">.</span><span class="n">block_structure</span><span class="p">)):</span>
-            <span class="c1"># Reference for full derivation is present in Emmit Pert&#39;s PhD thesis</span>
+            <span class="c1"># Reference for full derivation is present in Emmit Pert's PhD thesis</span>
 
             <span class="c1"># This is the leading g_jj term</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="p">(</span>
@@ -2926,7 +2926,7 @@ variables for all fields.</p>
     <span class="n">insert_u0</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">u0_eig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span><span class="o">.</span><span class="n">ndim</span><span class="p">)))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">c_k_w</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">sl</span><span class="p">)]</span> <span class="o">=</span> <span class="n">insert_u0</span>
 
-    <span class="c1"># In this case psi is going to get wiped anyways but we don&#39;t want division by</span>
+    <span class="c1"># In this case psi is going to get wiped anyways but we don't want division by</span>
     <span class="c1"># zero</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span>
@@ -3031,7 +3031,7 @@ variables for all fields.</p>
 <span class="normal">356</span>
 <span class="normal">357</span>
 <span class="normal">358</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">debye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k2</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generates the Debye function on a discrete grid according to</span>
 
 <span class="sd">    $\\hat{g}_{D}(k^2) = \\frac{2}{k^4} \\left( e^{-k^2} + k^2 - 1 \\right)$.</span>
@@ -3047,7 +3047,7 @@ variables for all fields.</p>
 
 <span class="sd">    debye : cp.ndarray</span>
 <span class="sd">        The array for the Debye function at all points in space</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">debye</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">k2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">k2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">debye</span>
@@ -3144,7 +3144,7 @@ variables for all fields.</p>
 <span class="normal">374</span>
 <span class="normal">375</span>
 <span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">draw_gauss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Draws Gaussian distribution independently at each point in space.</span>
 
 <span class="sd">    Parameters</span>
@@ -3158,7 +3158,7 @@ variables for all fields.</p>
 
 <span class="sd">    gaussian_array : cp.ndarray</span>
 <span class="sd">        Array of random values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">variance</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3284,7 +3284,7 @@ Fourier transforms.</p>
 <span class="normal">301</span>
 <span class="normal">302</span>
 <span class="normal">303</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fourier_along_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fourier transform each grid separately along the first axis.</span>
 
 <span class="sd">    Needed when each grid is stored as a stacked array. Uses cufft for</span>
@@ -3303,7 +3303,7 @@ Fourier transforms.</p>
 
 <span class="sd">    f_array : cp.ndarray</span>
 <span class="sd">        Stacked array that is the fourier transform of the input array</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">f_array</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
 
@@ -3439,7 +3439,7 @@ inverse Fourier transforms.</p>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inverse_fourier_along_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Inverse Fourier transform each grid separately along the first axis.</span>
 
 <span class="sd">    Needed when each grid is stored as a stacked array. Uses cufft for</span>
@@ -3458,7 +3458,7 @@ inverse Fourier transforms.</p>
 
 <span class="sd">    inf_array : cp.ndarray</span>
 <span class="sd">        Stacked array that is the inverse Fourier transform of the input array</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">inf_array</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
 

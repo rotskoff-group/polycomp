@@ -1156,7 +1156,7 @@ attachment points on circle's surface.</p>
 <span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">draw_circle</span><span class="p">(</span>
     <span class="n">center</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">Grid</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generates an analytical, anti-aliased density profile of a 2D circle projected onto</span>
 <span class="sd">    a 2D square grid.</span>
 
@@ -1168,24 +1168,24 @@ attachment points on circle's surface.</p>
 <span class="sd">    ----------</span>
 <span class="sd">    center</span>
 <span class="sd">        A 1D array of shape (2,) specifying the (x, y) coordinates of the</span>
-<span class="sd">        circle&#39;s center.</span>
+<span class="sd">        circle's center.</span>
 <span class="sd">    radius</span>
 <span class="sd">        The radius of the circle.</span>
 <span class="sd">    grid</span>
-<span class="sd">        The `Grid` object on which the circle&#39;s density will be rendered.</span>
+<span class="sd">        The `Grid` object on which the circle's density will be rendered.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    area : cp.ndarray</span>
-<span class="sd">        A 2D array with the same shape as the grid, where each element&#39;s value</span>
+<span class="sd">        A 2D array with the same shape as the grid, where each element's value</span>
 <span class="sd">        is the fractional area of that grid cell covered by the circle. The</span>
 <span class="sd">        values are normalized such that the sum of the array is</span>
 <span class="sd">        equal to the true area of the circle ($\\pi r^2$).</span>
 <span class="sd">    chord : cp.ndarray</span>
 <span class="sd">        A 2D array containing the calculated length of the chord</span>
-<span class="sd">        intersecting each grid cell at the circle&#39;s boundary. Useful for computing</span>
-<span class="sd">        attachment points on circle&#39;s surface.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        intersecting each grid cell at the circle's boundary. Useful for computing</span>
+<span class="sd">        attachment points on circle's surface.</span>
+<span class="sd">    """</span>
 
     <span class="c1"># we are going to want the area and the arc length, but we will collect the</span>
     <span class="c1"># chord length for now</span>
@@ -1250,8 +1250,8 @@ attachment points on circle's surface.</p>
         <span class="n">cp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
         <span class="n">cp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">&lt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
     <span class="p">)</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">x_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">][</span><span class="n">x_nan_finder</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
-    <span class="n">y_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][</span><span class="n">y_nan_finder</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
+    <span class="n">x_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">][</span><span class="n">x_nan_finder</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)</span>
+    <span class="n">y_ints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][</span><span class="n">y_nan_finder</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)</span>
     <span class="c1"># At this point any intercept that is not within the grid lines is the negative</span>
     <span class="c1"># of the correct value, so we are going to flip the sign on all of those</span>
     <span class="n">bad_x</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span>
