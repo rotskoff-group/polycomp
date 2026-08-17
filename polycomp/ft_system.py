@@ -336,6 +336,60 @@ class PolymerSystem:
 
         return
 
+    def load_state(
+        self,
+        w_all: cp.ndarray | np.ndarray | None = None,
+        psi: cp.ndarray | np.ndarray | None = None,
+        calculate_densities: bool = True,
+    ) -> None:
+        """
+        Loads saved field arrays into the system, synchronizes the normal mode
+        basis, and updates the system densities and partition functions.
+
+        This is the recommended method for restarting simulations from checkpoints.
+
+        Parameters
+        ----------
+        w_all : cp.ndarray or np.ndarray, optional
+            Chemical potential field array to load.
+        psi : cp.ndarray or np.ndarray, optional
+            Electrostatic potential field array to load.
+        calculate_densities : bool, optional
+            Whether to immediately compute the single-chain partition functions
+            and species densities corresponding to the loaded fields. Default is True.
+            Operation is expensive and can be disabled for speed.
+
+        Raises
+        ------
+        ValueError
+            If the shape of the provided arrays does not match the system grid
+            or number of species.
+        """
+        if w_all is not None:
+            w_all_cp = cp.asarray(w_all, dtype=complex)
+            if w_all_cp.shape != self.w_all.shape:
+                raise ValueError(
+                    f"Shape mismatch for w_all: expected {self.w_all.shape}, "
+                    f"got {w_all_cp.shape}"
+                )
+            self.w_all = w_all_cp
+            # Synchronize the normal mode representation used by the ETD integrator
+            self.update_normal_from_density()
+
+        if psi is not None:
+            psi_cp = cp.asarray(psi, dtype=complex)
+            if psi_cp.shape != self.psi.shape:
+                raise ValueError(
+                    f"Shape mismatch for psi: expected {self.psi.shape}, "
+                    f"got {psi_cp.shape}"
+                )
+            self.psi = psi_cp
+
+        # Populate smeared fields, partition functions, and densities
+        if calculate_densities:
+            self.get_densities()
+
+
     def set_monomer_order(self, monomers: list) -> None:
         """
         Permanently affixes the order of the monomers.
