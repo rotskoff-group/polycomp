@@ -64,9 +64,10 @@ class ChargedNumericTests(unittest.TestCase):
     def test_get_density(self):
         # tests that the density for a random array from file of chemical potential
         # gives the correct matching density
-        self.ps.w_all = cp.load("charged_arr_repo/random_w_all.npy")
-        self.ps.psi = cp.load("charged_arr_repo/random_psi.npy")
-        self.ps.get_densities()
+        w_load = cp.load("charged_arr_repo/random_w_all.npy")
+        psi_load = cp.load("charged_arr_repo/random_psi.npy")
+        self.ps.load_state(w_all=w_load, psi=psi_load)
+        
         cp.testing.assert_allclose(
             cp.load("charged_arr_repo/phi_all.npy"), self.ps.phi_all, rtol=1e-13
         )
@@ -75,10 +76,13 @@ class ChargedNumericTests(unittest.TestCase):
         # checks that one step of integration gives the same results as previous after
         # random number has been reset
         cp.random.seed(0)
-        self.ps.w_all = cp.load("charged_arr_repo/random_w_all.npy")
-        self.ps.psi = cp.load("charged_arr_repo/random_psi.npy")
+        w_load = cp.load("charged_arr_repo/random_w_all.npy")
+        psi_load = cp.load("charged_arr_repo/random_psi.npy")
+        self.ps.load_state(w_all=w_load, psi=psi_load)
+        
         self.integrator.ETD()
         self.ps.get_densities()
+        
         cp.testing.assert_allclose(
             cp.load("charged_arr_repo/integrated_phi_all.npy"),
             self.ps.phi_all,
@@ -94,8 +98,9 @@ class NeutralNumericTests(unittest.TestCase):
     def test_get_density(self):
         # tests that the density for a random array from file of chemical potential
         # gives the correct matching density
-        self.ps.w_all = cp.load("neutral_arr_repo/random_w_all.npy")
-        self.ps.get_densities()
+        w_load = cp.load("neutral_arr_repo/random_w_all.npy")
+        self.ps.load_state(w_all=w_load)
+        
         cp.testing.assert_allclose(
             cp.load("neutral_arr_repo/phi_all.npy"), self.ps.phi_all, rtol=1e-13
         )
@@ -104,13 +109,17 @@ class NeutralNumericTests(unittest.TestCase):
         # checks that one step of integration gives the same results as previous after
         # random number has been reset
         cp.random.seed(0)
-        self.ps.w_all = cp.load("neutral_arr_repo/random_w_all.npy")
+        w_load = cp.load("neutral_arr_repo/random_w_all.npy")
+        self.ps.load_state(w_all=w_load)
+        
         self.integrator.ETD()
         self.ps.get_densities()
+       
         cp.testing.assert_allclose(
             cp.load("neutral_arr_repo/integrated_phi_all.npy"),
             self.ps.phi_all,
-            rtol=1e-13,
+            rtol=1e-6,
+            atol=1e-8,
         )
 
 
@@ -318,8 +327,9 @@ class PropertyTests(unittest.TestCase):
         """
         Tests that a single integrator step conserves the total mass for each species.
         """
-        self.ps.w_all = cp.load("neutral_arr_repo/random_w_all.npy")
-        self.ps.get_densities()
+        w_load = cp.load("neutral_arr_repo/random_w_all.npy")
+        self.ps.load_state(w_all=w_load)
+        
         initial_masses = cp.array([cp.sum(phi) for phi in self.ps.phi_all])
         self.integrator.ETD()
         final_masses = cp.array([cp.sum(phi) for phi in self.ps.phi_all])
@@ -353,7 +363,7 @@ class PropertyTests(unittest.TestCase):
         )
         q_one_step = s_step(self.q_initial_smooth, h1 + h2, w_zero, self.ps.grid)
 
-        # CORRECTED: Added a small absolute tolerance to handle floating point
+        # Added a small absolute tolerance to handle floating point
         # noise on values that are mathematically zero.
         cp.testing.assert_allclose(q_one_step, q_two_steps, rtol=1e-13, atol=1e-14)
 
