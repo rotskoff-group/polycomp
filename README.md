@@ -41,7 +41,7 @@ You can also try out some of the examples, all of which should run with a succes
 
 We welcome contributions, bug reports, and questions! Please review our [Contributing Guidelines](CONTRIBUTING.md) for instructions on how to submit code, report issues, or seek support. If you encounter a problem, please [open an issue](https://github.com/rotskoff-group/polycomp/issues) on GitHub.
 
-### References & Further Reading
+## References & Further Reading
 
 * **Primary Methodological Reference:** 
   Pert, E. K., Hurst, P. J., Waymouth, R. M., & Rotskoff, G. M. (2025). *"Coacervation drives morphological diversity of mRNA encapsulating nanoparticles"*, The Journal of Chemical Physics, 162(7), 074902. https://doi.org/10.1063/5.0235799
@@ -49,7 +49,7 @@ We welcome contributions, bug reports, and questions! Please review our [Contrib
 
 * **Open-Access Technical Derivation:** 
   Pert, E. K. (2025). *"Polymer Field Theories for Biological Condensates"*, PhD Thesis, Stanford University. https://searchworks.stanford.edu/view/in00000866764
-  *(Open-source Thesis with full description of underlying methods, including nanoparticles).*
+  *(Open-source thesis with full description of underlying methods, including nanoparticles).*
 
 * **Foundational Literature:** 
   Fredrickson, G. H. (2006). *The Equilibrium Theory of Inhomogeneous Polymers*. Oxford University Press.
