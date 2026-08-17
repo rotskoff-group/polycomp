@@ -161,11 +161,11 @@ class UnitTests(unittest.TestCase):
             poly.struct, poly.h_struct, self.P_dict, self.q_r, self.q_r_dag, self.grid
         )
         cp.testing.assert_allclose(cp.load("function_tests/ABA_q_r.npy"), q_r_hold, rtol=1e-13)
-        cp.testing.assert_allclose(cp.load("function_tests/ABA_q_r.npy"), q_r_hold, rtol=1e-13)
+        cp.testing.assert_allclose(cp.load("function_tests/ABA_q_r_dag.npy"), q_r_dag_hold, rtol=1e-13)
 
     def test_ABAB_MDE(self):
         poly = p.Polymer(
-            "ABA",
+            "ABAB",
             1,
             [
                 (self.A_mon, 0.1),
