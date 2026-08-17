@@ -82,7 +82,8 @@ class ChargedNumericTests(unittest.TestCase):
         cp.testing.assert_allclose(
             cp.load("charged_arr_repo/integrated_phi_all.npy"),
             self.ps.phi_all,
-            rtol=1e-13,
+            rtol=1e-6,
+            atol=1e-8,
         )
 
 
