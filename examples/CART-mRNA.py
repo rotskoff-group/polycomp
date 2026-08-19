@@ -132,7 +132,7 @@ im[0][2] = axes[2].imshow(ps.phi_all[ps.monomers.index(Ani_mon)].real.get(), cma
 axes[2].set_title("Anion Dens")
 im[0][3] = axes[3].imshow(ps.phi_all[ps.monomers.index(Solv_mon)].real.get(), cmap="Purples")
 axes[3].set_title("Solvent Dens")
-im[0][4] = axes[4].imshow(ps.phi_all[ps.monomers.index(Solv_mon)].real.get(), cmap="Greys")
+im[0][4] = axes[4].imshow(cp.sum(ps.phi_all, axis=0).real.get(), cmap="Greys")
 axes[4].set_title("Total Dens")
 
 # Declare some empty arrays to store our variables
@@ -154,6 +154,8 @@ for i in range(30):
     hold_Lipid = cp.zeros_like(ps.phi_all[0].real)
     hold_Cat = cp.zeros_like(ps.phi_all[0].real)
     hold_Ani = cp.zeros_like(ps.phi_all[0].real)
+    hold_Sol = cp.zeros_like(ps.phi_all[0].real)
+    hold_Tot = cp.zeros_like(ps.phi_all[0].real)
     
     for _ in range(steps):
 
@@ -163,6 +165,8 @@ for i in range(30):
         hold_Lipid += ps.phi_all[ps.monomers.index(Lipid_mon)].real / steps
         hold_Cat += ps.phi_all[ps.monomers.index(Cat_mon)].real / steps
         hold_Ani += ps.phi_all[ps.monomers.index(Ani_mon)].real / steps
+        hold_Sol += ps.phi_all[ps.monomers.index(Solv_mon)].real / steps
+        hold_Tot += cp.sum(ps.phi_all, axis=0).real / steps
 
     # Save intermediate results here
     #    cp.save("free_energy_traj", cp.array(free_energy_traj))
@@ -172,6 +176,8 @@ for i in range(30):
     im[0][0] = axes[0].imshow(hold_Lipid.get(), cmap="Greens", vmin=0)
     im[0][1] = axes[1].imshow(hold_Cat.get(), cmap="Blues", vmin=0)
     im[0][2] = axes[2].imshow(hold_Ani.get(), cmap="Reds", vmin=0)
+    im[0][3] = axes[3].imshow(hold_Sol.get(), cmap="Purples", vmin=0)
+    im[0][4] = axes[4].imshow(hold_Tot.get(), cmap="Greys", vmin=0)
     multi_cam.snap()
 
     # Save data needed to restart simulation
