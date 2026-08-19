@@ -415,16 +415,124 @@ class PropertyTests(unittest.TestCase):
             f"Error ratio is {error_ratio:.2f}, should be ~8. Scaling is unexpected.",
         )
 
+class NanoparticleBrushTests(unittest.TestCase):
+    """
+    Tests the creation and integration of Nanoparticle and Brush objects, 
+    ensuring they correctly update system densities and integrate with the MDE.
+    """
+
+    def setUp(self):
+        self.np_mon = p.Monomer("NP", 0)
+        self.A_mon = p.Monomer("A", 0)
+        
+        # Create a generic density grid for testing
+        self.raw_density = cp.zeros((10, 10))
+        self.raw_density[0:2, :] = 5.0
+
+    def test_nanoparticle_creation_and_placement(self):
+        """
+        Tests that Nanoparticles are correctly instantiated and that their 
+        spatial densities can be updated.
+        """
+        np_obj = p.Nanoparticle("TestNP", self.np_mon, self.raw_density)
+        
+        self.assertEqual(np_obj.name, "TestNP")
+        self.assertEqual(self.np_mon.identity, "Nanoparticle")
+        cp.testing.assert_allclose(np_obj.density, self.raw_density)
+        
+        # Test placement update
+        new_dens = cp.ones((10, 10))
+        np_obj.place_nps(new_dens)
+        cp.testing.assert_allclose(np_obj.density, new_dens)
+
+    def test_brush_creation_and_normalization(self):
+        """
+        Tests that Brush density is automatically normalized by its spatial average.
+        """
+        brush = p.Brush("TestBrush", self.raw_density)
+        
+        self.assertEqual(brush.name, "TestBrush")
+        expected_avg = cp.average(self.raw_density)
+        cp.testing.assert_allclose(brush.density, self.raw_density / expected_avg)
+
+    def test_polysystem_nanoparticle_integration(self):
+        """
+        Tests that nanoparticles are correctly registered by the PolymerSystem 
+        and their density is correctly mapped to phi_all during get_densities.
+        """
+        poly = p.Polymer("A_poly", 1.0, [(self.A_mon, 1.0)])
+        
+        # Distinct FH terms to prevent degeneracy combining
+        FH_terms = {
+            frozenset({self.A_mon}): 1,
+            frozenset({self.np_mon}): 2,
+            frozenset({self.A_mon, self.np_mon}): 3,
+        }
+        
+        grid = p.Grid(box_length=(10, 10), grid_spec=(10, 10))
+        np_obj = p.Nanoparticle("TestNP", self.np_mon, self.raw_density)
+        
+        ps = p.PolymerSystem(
+            monomers=[self.A_mon, self.np_mon],
+            polymers=[poly],
+            spec_dict={poly: 1.0},
+            FH_dict=FH_terms,
+            grid=grid,
+            smear=0.1,
+            nanoparticles=[np_obj],
+        )
+        
+        self.assertTrue(ps.has_nanps)
+        self.assertIn(np_obj, ps.nanps)
+        
+        # Execute density computation
+        ps.get_densities()
+        
+        # The NP monomer density should exactly match the provided spatial density
+        idx = ps.monomers.index(self.np_mon)
+        cp.testing.assert_allclose(ps.phi_all[idx].real, self.raw_density)
+
+    def test_integrate_s_with_brush_fastener(self):
+        """
+        Tests that the MDE integration applies the brush fastener condition 
+        at the start of the forward propagator.
+        """
+        # Create a localized brush
+        brush_dens = cp.zeros((10, 10))
+        brush_dens[5, 5] = 100.0
+        brush = p.Brush("TestBrush", brush_dens)
+        
+        poly = p.Polymer("A_poly", 1.0, [(self.A_mon, 1.0)], fastener=brush)
+        poly.build_working_polymer(h=0.1, total_h=1.0)
+        
+        grid = p.Grid(box_length=(10, 10), grid_spec=(10, 10))
+        P_dict = {self.A_mon: cp.zeros((10, 10), dtype=complex)}
+        q_r_start = cp.ones((10, 10), dtype=complex)
+        q_r_dag_start = cp.ones((10, 10), dtype=complex)
+        
+        q_r_s, q_r_dag_s = integrate_s(
+            poly.struct, 
+            poly.h_struct, 
+            P_dict, 
+            q_r_start, 
+            q_r_dag_start, 
+            grid, 
+            fastener=poly.fastener
+        )
+        
+        # The propagator should be anchored dynamically to the brush density
+        expected_q_r_0 = cp.array(brush.density, dtype=complex) / q_r_dag_s[-1]
+        cp.testing.assert_allclose(q_r_s[0], expected_q_r_0, rtol=1e-13)
+
 
 if __name__ == "__main__":
     # Create test suites from all test classes
     charged_suite = unittest.TestLoader().loadTestsFromTestCase(ChargedNumericTests)
     neutral_suite = unittest.TestLoader().loadTestsFromTestCase(NeutralNumericTests)
     unit_suite = unittest.TestLoader().loadTestsFromTestCase(UnitTests)
-
-    # Import the new test classes
     build_suite = unittest.TestLoader().loadTestsFromTestCase(PolymerBuildTests)
     property_suite = unittest.TestLoader().loadTestsFromTestCase(PropertyTests)
+    np_brush_suite = unittest.TestLoader().loadTestsFromTestCase(NanoparticleBrushTests)
 
     # Create a test runner
     runner = unittest.TextTestRunner(verbosity=1)
@@ -435,8 +543,9 @@ if __name__ == "__main__":
             charged_suite,
             neutral_suite,
             unit_suite,
-            build_suite,  # Add the new polymer build tests
-            property_suite,  # Add the new property tests
+            build_suite,  
+            property_suite, 
+            np_brush_suite
         ]
     )
 

@@ -47,7 +47,7 @@ spec_dict = {
 }
 # Declare the number of grid points across each axis. This will be a 2D simulation
 # with 256 grid points along each dimension.
-grid_spec = (256, 256)
+grid_spec = (255, 255)
 
 # Declare the side length of the box along each axis. Here we have 25x25 length square.
 box_length = (25, 25)
@@ -203,5 +203,5 @@ for i in range(nrows):
 # Final plotting and saving the figures
 fig.tight_layout()
 multimation = multi_cam.animate()
-# multimation.save("movie_traj.gif", writer="pillow")
+multimation.save("movie_traj.gif", writer="pillow")
 plt.show()
