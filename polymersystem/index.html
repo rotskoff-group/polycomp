@@ -3228,7 +3228,8 @@ the species dictionary.</p>
 <span class="normal">1264</span>
 <span class="normal">1265</span>
 <span class="normal">1266</span>
-<span class="normal">1267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PolymerSystem</span><span class="p">:</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PolymerSystem</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for the overall method. Includes function for computing density and</span>
 <span class="sd">    the system state is stored in this object.</span>
@@ -4358,6 +4359,12 @@ the species dictionary.</p>
                     <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
                 <span class="p">)</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_nanps</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nanp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nanps</span><span class="p">:</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">monomers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">nanp</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+                <span class="n">dens</span> <span class="o">=</span> <span class="n">nanp</span><span class="o">.</span><span class="n">density</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">phi_all</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dens</span>
+
         <span class="c1"># check if we are using salts</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_salts</span><span class="p">:</span>
             <span class="k">return</span>
@@ -4388,11 +4395,6 @@ the species dictionary.</p>
                     <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
                 <span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_nanps</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">nanp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nanps</span><span class="p">:</span>
-                <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">monomers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">nanp</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
-                <span class="n">dens</span> <span class="o">=</span> <span class="n">nanp</span><span class="o">.</span><span class="n">density</span> <span class="o">*</span> <span class="mi">1</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">phi_all</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dens</span>
         <span class="k">return</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_salt_concs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -5616,7 +5618,8 @@ can transiently violate this rule.</p>
 <span class="normal">1198</span>
 <span class="normal">1199</span>
 <span class="normal">1200</span>
-<span class="normal">1201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_densities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_pressure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">1201</span>
+<span class="normal">1202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_densities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_pressure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Function to get the densities from a given set of potentials.</span>
 
@@ -5856,6 +5859,12 @@ can transiently violate this rule.</p>
                 <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
             <span class="p">)</span>
 
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_nanps</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">nanp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nanps</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">monomers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">nanp</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="n">dens</span> <span class="o">=</span> <span class="n">nanp</span><span class="o">.</span><span class="n">density</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_all</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dens</span>
+
     <span class="c1"># check if we are using salts</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_salts</span><span class="p">:</span>
         <span class="k">return</span>
@@ -5886,11 +5895,6 @@ can transiently violate this rule.</p>
                 <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">V</span>
             <span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_nanps</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">nanp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nanps</span><span class="p">:</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">monomers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">nanp</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
-            <span class="n">dens</span> <span class="o">=</span> <span class="n">nanp</span><span class="o">.</span><span class="n">density</span> <span class="o">*</span> <span class="mi">1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">phi_all</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dens</span>
     <span class="k">return</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -6081,8 +6085,7 @@ imbalance.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>polycomp/ft_system.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1203</span>
-<span class="normal">1204</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1204</span>
 <span class="normal">1205</span>
 <span class="normal">1206</span>
 <span class="normal">1207</span>
@@ -6115,7 +6118,8 @@ imbalance.</p>
 <span class="normal">1234</span>
 <span class="normal">1235</span>
 <span class="normal">1236</span>
-<span class="normal">1237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_salt_concs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">1237</span>
+<span class="normal">1238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_salt_concs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Computes and assigns the non-FH salt concentrations needed to maintain charge</span>
 <span class="sd">    balance.</span>
@@ -7331,8 +7335,7 @@ continuous Gaussian chain.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>polycomp/ft_system.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1239</span>
-<span class="normal">1240</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1240</span>
 <span class="normal">1241</span>
 <span class="normal">1242</span>
 <span class="normal">1243</span>
@@ -7359,7 +7362,8 @@ continuous Gaussian chain.</p>
 <span class="normal">1264</span>
 <span class="normal">1265</span>
 <span class="normal">1266</span>
-<span class="normal">1267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reindex_Q_c</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q_c</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reindex_Q_c</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q_c</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Function to reindex Q_c to correctly handle edges of polymers.</span>
 

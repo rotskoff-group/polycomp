@@ -1141,7 +1141,9 @@ and the index for their corresponding density and potential
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">integrate_s</span><span class="p">(</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">integrate_s</span><span class="p">(</span>
     <span class="n">struct</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">h_struct</span><span class="p">:</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">species_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
@@ -1213,11 +1215,33 @@ and the index for their corresponding density and potential
     <span class="n">q_r_dag_s</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">s_seg</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">q_r</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
 
     <span class="c1"># index to ensure sampling happened at the correct places</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
 
     <span class="c1"># itialize q_r_s at q_r_start</span>
     <span class="n">q_r_s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r</span>
     <span class="n">q_r_dag_s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r_dag</span>
+
+    <span class="c1"># retreat, integrate, and write q_r_dag_s</span>
+    <span class="k">for</span> <span class="n">bead</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">struct</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">q_r_dag_1</span> <span class="o">=</span> <span class="n">s_step</span><span class="p">(</span><span class="n">q_r_dag</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">species_dict</span><span class="p">[</span><span class="n">bead</span><span class="p">],</span> <span class="n">grid</span><span class="p">)</span>
+        <span class="n">q_r_dag_2</span> <span class="o">=</span> <span class="n">s_step</span><span class="p">(</span><span class="n">q_r_dag</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">species_dict</span><span class="p">[</span><span class="n">bead</span><span class="p">],</span> <span class="n">grid</span><span class="p">)</span>
+        <span class="n">q_r_dag_2</span> <span class="o">=</span> <span class="n">s_step</span><span class="p">(</span><span class="n">q_r_dag_2</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">species_dict</span><span class="p">[</span><span class="n">bead</span><span class="p">],</span> <span class="n">grid</span><span class="p">)</span>
+        <span class="n">q_r_dag</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">q_r_dag_2</span> <span class="o">-</span> <span class="n">q_r_dag_1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
+        <span class="n">q_r_dag_s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r_dag</span>
+
+    <span class="c1"># If the polymer is symmetric, we can use the symmetry to save time</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">cp</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">struct</span><span class="p">))</span>
+        <span class="ow">and</span> <span class="n">cp</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">h_struct</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">h_struct</span><span class="p">))</span>
+        <span class="ow">and</span> <span class="n">fastener</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">q_r_s</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">q_r_dag_s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">q_r_s</span><span class="p">,</span> <span class="n">q_r_dag_s</span>
+
+    <span class="k">if</span> <span class="n">fastener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">q_r_s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fastener</span><span class="o">.</span><span class="n">density</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">/</span> <span class="n">q_r_dag_s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
 
     <span class="c1"># advance, integrate and write key and q_r_s</span>
     <span class="k">for</span> <span class="n">bead</span> <span class="ow">in</span> <span class="n">struct</span><span class="p">:</span>
@@ -1228,27 +1252,7 @@ and the index for their corresponding density and potential
         <span class="n">q_r</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">q_r_2</span> <span class="o">-</span> <span class="n">q_r_1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">q_r_s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r</span>
-
-    <span class="c1"># If the polymer is symmetric, we can use the symmetry to save time</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="n">cp</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">struct</span><span class="p">))</span>
-        <span class="ow">and</span> <span class="n">cp</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">h_struct</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">h_struct</span><span class="p">))</span>
-        <span class="ow">and</span> <span class="n">fastener</span> <span class="ow">is</span> <span class="kc">None</span>
-    <span class="p">):</span>
-        <span class="n">q_r_dag_s</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">q_r_s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">q_r_s</span><span class="p">,</span> <span class="n">q_r_dag_s</span>
-
-    <span class="k">if</span> <span class="n">fastener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">q_r_s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fastener</span><span class="o">.</span><span class="n">density</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">/</span> <span class="n">q_r_dag_s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="c1"># retreat, integrate, and write q_r_dag_s</span>
-    <span class="k">for</span> <span class="n">bead</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">struct</span><span class="p">):</span>
-        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
-        <span class="n">q_r_dag_1</span> <span class="o">=</span> <span class="n">s_step</span><span class="p">(</span><span class="n">q_r_dag</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">species_dict</span><span class="p">[</span><span class="n">bead</span><span class="p">],</span> <span class="n">grid</span><span class="p">)</span>
-        <span class="n">q_r_dag_2</span> <span class="o">=</span> <span class="n">s_step</span><span class="p">(</span><span class="n">q_r_dag</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">species_dict</span><span class="p">[</span><span class="n">bead</span><span class="p">],</span> <span class="n">grid</span><span class="p">)</span>
-        <span class="n">q_r_dag_2</span> <span class="o">=</span> <span class="n">s_step</span><span class="p">(</span><span class="n">q_r_dag_2</span><span class="p">,</span> <span class="n">h_struct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">species_dict</span><span class="p">[</span><span class="n">bead</span><span class="p">],</span> <span class="n">grid</span><span class="p">)</span>
-        <span class="n">q_r_dag</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">q_r_dag_2</span> <span class="o">-</span> <span class="n">q_r_dag_1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
-        <span class="n">q_r_dag_s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_r_dag</span>
+<span class="c1">#        print(q_r[0,0])</span>
 
     <span class="k">return</span> <span class="n">q_r_s</span><span class="p">,</span> <span class="n">q_r_dag_s</span>
 </code></pre></div></td></tr></table></div>
