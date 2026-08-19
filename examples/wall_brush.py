@@ -6,6 +6,13 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import polycomp.ft_system as p
 from polycomp.observables import get_free_energy
 
+'''
+This code produces a 2D simulation of a solid wall with attached brushed polymer on half of the 
+wall. Generating other types of nanoparticle/fixed polymer simuations can be directly derived 
+by changing the masks [brush_density/np_density] to the desired states, as well as standard
+modifications to the polymers themselves. 
+'''
+
 # Set a seed for reproducibility
 cp.random.seed(0)
 
