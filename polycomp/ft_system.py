@@ -1163,6 +1163,12 @@ class PolymerSystem:
                     / self.grid.V
                 )
 
+        if self.has_nanps:
+            for nanp in self.nanps:
+                idx = self.monomers.index(nanp.type)
+                dens = nanp.density 
+                self.phi_all[idx] += dens
+
         # check if we are using salts
         if not self.use_salts:
             return
@@ -1193,11 +1199,6 @@ class PolymerSystem:
                     / self.grid.V
                 )
 
-        if self.has_nanps:
-            for nanp in self.nanps:
-                idx = self.monomers.index(nanp.type)
-                dens = nanp.density * 1
-                self.phi_all[idx] += dens
         return
 
     def get_salt_concs(self) -> None:
