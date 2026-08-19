@@ -145,3 +145,25 @@ template even for complex calculations like proteins or coacervates.
 {!../examples/diblock.py!}
 ```
 
+
+There are two other simulation files in examples for specialized types of simulations.
+One of them is a simulation of the CART-mRNA system from the Pert et al. 2025 paper. 
+The plot for that figure should look something like this. 
+
+![Simulation Trajectory](CART_mRNA.gif)
+
+This shows microphase separation between coacervates, lipids and solvent. Note that this
+simulation will likely take over an hour to run, and the full size ones are even longer. 
+This additional time is due to the decreased stability of coacervate systems requiring 
+shorter integration time steps and finer grids. 
+
+The other specialized simulation type is for grafted nanoparticles. The example simulation
+demonstrates a non-reactive wall with a brushed diblock copolymer grafted onto it. The 
+simulation result should look something like this. 
+
+![Simulation Trajectory](wall_brush.gif)
+
+Note the solvent depletion near the grafting and the shape of the attached polymers. For 
+simulating custom grafts or nanoparticle shapes, all that is necessary is to declare the 
+volume of space that contains either the grafting region (in this case the region just on
+the edge of the center of the wall) and the nanoparticle (in this case the wall). 

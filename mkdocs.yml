@@ -25,7 +25,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [.]
+          paths: ["."]
           options:
             docstring_style: numpy
             show_root_heading: False
@@ -63,9 +63,9 @@ nav:
   - Home: 'index.md'
   - Getting Started: 'getting_started.md'
   - Example Usage: 'examples.md'
-    #  - Conceptual Basis:
-    #      - Overview: 'math_overview.md'
-    #      - Complex Langevin: 'math_CL.md'
+  - Conceptual Basis:
+      - Overview: 'math_overview.md'
+      - Complex Langevin: 'math_CL.md'
   - API Documentation: 
       - Grid: 'grid.md'
       - Integration Schemes: 'integrator.md'
