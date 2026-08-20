@@ -12,10 +12,10 @@ All physical parameters are non-dimensionalized relative to a reference polymer 
 
 !!! important "Important note: correctly setting polymer length"
     Each polymer has a rated length $N$ and an absolute length which is $N$ times the sum of the fractional length along the chain. 
-    The system will scale the polymer by length N, and will by default set $N$ to the greatest $N$ value among polymers.
+    The system will scale the polymer by length $N$, and will by default set $N$ to the greatest $N$ value among polymers.
     Using polymers with fractional lengths that do not sum to 1 can lead to unintentionally modeling parameter values that are different than what is expected because the system
     continues to use $N$ as the reference length. 
-    If this warning does not make sense, ensure that the sum of length fraction parameters is always 1, and adjust polymer lengths by setting their N values, which is a safe
+    If this warning does not make sense, ensure that the sum of length fraction parameters is always 1, and adjust polymer lengths by setting their $N$ values, which is a safe
     general practice.
 
 !!! important "Conserving parameters across simulations"
@@ -23,7 +23,7 @@ All physical parameters are non-dimensionalized relative to a reference polymer 
     if you want to model the same underlying physics. 
     Because many parameters are set in terms of $N$, such as the FH matrix, changing that parameter can lead to many changes in the system you are modeling, with little to no 
     apparent change in density profile (because all parameters were rescaled together). 
-    If you need to compare between the same system at different polymer lengths in different systems, the best practice is to set $N$ manually to be the same value for both systems.
+    If you need to compare the same system at different polymer lengths in different systems, the best practice is to set $N$ manually to be the same value for both systems.
     
 
 ## 2. System Thermodynamics
@@ -68,3 +68,50 @@ To evolve the simulation, place the integrator's evaluation method (`integrator.
 Data collection, density visualization, and trajectory saving can be executed at regular intervals within this loop to monitor the equilibration of the system.
 To track convergence you can plot the free energy and observe how the density changes over time, both should reach a stable state as the system equilibrates. 
 Examples of working systems are present in the examples file and are a good starting point for building your own simulations. 
+
+
+## 6. Restarting and Continuing Simulations
+The chemical potential fields provide the information to generate all other parameters, and thus simulations can be restarted from a given set of 
+chemical and electrostatic potentials. 
+Computing the chemical potential fields for a given density is a non-trivial operation and requires repeatedly updating the chemical potential fields for the target density 
+until convergence is reached. 
+Thus, the system is designed to be restarted only from chemical potential and electrostatic fields, not densities. 
+
+### Saving the Simulation State
+
+To create a checkpoint during your integration loop, save the complex-valued field arrays directly from the `PolymerSystem` object to the disk. Standard NumPy or CuPy binary formats (`.npy`) are recommended.
+
+*   **Chemical Potential Field:** Save the `ps.w_all` array.
+*   **Electrostatic Field:** Save the `ps.psi` array (if modeling a charged system).
+
+### Resuming from a Checkpoint
+
+To continue a simulation, initialize a new `PolymerSystem` and `CL_RK2` integrator with the exact same physical parameters, grid resolution, and species dictionaries as the original run. Once initialized, inject the saved arrays using the built-in `load_state` method.
+
+*   **`w_all`:** Pass the loaded chemical potential array.
+*   **`psi`:** Pass the loaded electrostatic potential array.
+*   **`calculate_densities`:** Set this flag to `True` (the default behavior). This instructs the system to immediately evaluate the Modified Diffusion Equation (MDE) for the loaded fields, completely reconstructing the single-chain partition functions and species densities required to safely resume integration.
+
+### Implementation Example
+
+```python
+# 1. Load the saved arrays from disk
+saved_w_all = cp.load("checkpoint_w_all.npy")
+saved_psi = cp.load("checkpoint_psi.npy")
+
+# 2. Inject the state into the initialized PolymerSystem
+ps.load_state(w_all=saved_w_all, psi=saved_psi, calculate_densities=True)
+
+# 3. Resume the integration loop
+for i in range(remaining_steps):
+    integrator.ETD(for_pressure=True)
+```
+
+### Constraints for Restarting
+
+*   **Grid Consistency:** The shape of the imported `w_all` and `psi` arrays must exactly match the grid dimensions
+and the number of non-degenerate species of the newly initialized system. A shape mismatch will immediately trigger a `ValueError`.
+*   **Basis Synchronization:** The `load_state` method automatically calls `update_normal_from_density()` to map 
+the loaded real-space arrays back into the normal mode basis required by the ETD integrator. Manual basis transformation is not necessary.
+
+

@@ -2,6 +2,10 @@
 
 Polycomp should be useable for a wide array of useful simulation regimes. This section includes tips and expectations for efficient use of the code. 
 
+!!! important "Precision"
+    `polycomp` runs exclusively in complex double precision. The code is not consistently stable in lower precision due to the tight convergence required for computing
+    the partition function. 
+
 ## General principle: Most cost is FFT
 
 The most expensive operation is the FFT block, which has $O(n\log(n))$ scaling in the number of grid points, and which will usually comprise $>85\%$ of 
@@ -42,3 +46,8 @@ This leaves grid resolution—and thereby VRAM capacity—as the primary lever f
 
 Complex parameter sweeps used to map phase behavior scale efficiently by deploying independent simulation instances across multiple GPUs. 
 For standard development and benchmarking in 2D, reasonable, well-parameterized simulations can be expected to complete within a single afternoon.
+
+## Observables and Pressure evaluations
+
+Computing the pressure observable requires propogating an additional derivative through the modified diffusion equation, and thus increases the cost of density computations by 
+$25-50\%$ per cycle. As such, this operator should only be called when needed for optimal performance. 
