@@ -19,9 +19,10 @@ The package will also require a working CUDA installation as polycomp only runs 
 ## Running the tests
 
 You can make sure that your installation has worked by running 
-
+    
+    cd tests
     python tests.py
 
-from the tests directory. 
+from the main directory directory. 
 
 You can also try try running some of the [examples](examples.md). 

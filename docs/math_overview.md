@@ -7,7 +7,7 @@ the mean-field answer is incorrect, such as coacervation.
 ## 1. The Field-Theoretic Transformation
 
 Field theory approaches start from standard, particle-based models of a type that could be implemented in traditional molecular dynamics software. 
-These models need to be mapped from a discrete point-based system to a continuous, field based one. 
+These models need to be mapped from a discrete point-based system to a continuous, field-based one. 
 This mapping produces density profiles in space of the underlying chemical species.
 The chain must be represented mathematically, which is done by using a continuous Gaussian chain model. 
 The stretching energy for an isolated Gaussian chain is given by:
@@ -24,7 +24,7 @@ between the density and auxiliary fields, which simplifies the calculations.
 ## 2. Regularization and Smeared Densities
 
 Field theories are known to suffer from ultraviolet divergences if not regularized. 
-`polycomp` coduncts this regularization via a Gaussian smearing kernel that distributes their density over some spatial extent:
+`polycomp` conducts this regularization via a Gaussian smearing kernel that distributes their density over some spatial extent:
 
 $$\Gamma(\boldsymbol{r}) = (2\pi a^2)^{-d/2} \exp\left(-\frac{|\boldsymbol{r}|^2}{2a^2}\right)$$
 
@@ -62,8 +62,8 @@ Where:
 ## 4. The Modified Diffusion Equation (MDE)
 
 To evaluate the Hamiltonian, we must compute the single-chain partition functions $Q_j$ and the local densities. 
-Because we have decoupled the interactions, we can compute the single chain partition function to find the density. 
-For a guassian chain subject to a chemical potential $\psi(\boldsymbol{r}, s)$, this can be solved via the Modified Diffusion Equation (MDE):
+Because we have decoupled the interactions, we can compute the single-chain partition function to find the density. 
+For a Guassian chain subject to a chemical potential $\psi(\boldsymbol{r}, s)$, this can be solved via the Modified Diffusion Equation (MDE):
 
 $$\frac{\partial q_j(\boldsymbol{r}, s)}{\partial s} = \nabla^2 q_j(\boldsymbol{r}, s) - \psi_j(\boldsymbol{r}, s) q_j(\boldsymbol{r}, s)$$
 
@@ -83,16 +83,16 @@ $$\rho(\boldsymbol{r}) = \frac{C_j}{Q_j} \int_0^{N_j/N} ds \, q_j(\boldsymbol{r}
 
 `polycomp` solves the MDE numerically using a pseudospectral method. 
 The $\nabla^2$ operator is evaluated efficiently in Fourier space ($k$-space) using `cufft`, while the spatial field operator $\psi(\boldsymbol{r})$ is applied in real space. 
-A fourth-order Richardson Extrapolation scheme applied to a Trotter decomposition is used to accurately integrate steps of $\Delta s$.
+A fourth-order Richardson extrapolation scheme applied to a Trotter decomposition is used to accurately integrate steps of $\Delta s$.
 
 ## 5. Complex Langevin Dynamics
 
-Formally, getting the correct values of out this method requires sampling over all possible fields in $H[\{\mu_i\}, \varphi]$. 
+Formally, getting the correct values out of this method requires sampling over all possible fields in $H[\{\mu_i\}, \varphi]$. 
 However, we can find a tractable approximation by either finding the self-consistent mean field solution or by sampling around that solution. 
 Because we are interested in observing coacervation, for which the mean-field solution is incorrect, we must turn to the sampling approach, implemented here as
 complex Langevin (CL) sampling. 
 
-All fields are sampled in their full, complex formuation and evolved in a fictitious time $t$ according to the Langevin equations:
+All fields are sampled in their full, complex formulation and evolved in a fictitious time $t$ according to the Langevin equations:
 
 $$\frac{\partial \mu(t, \boldsymbol{k})}{\partial t} = -\lambda_\mu \frac{\delta H}{\delta \mu(t, \boldsymbol{k})} + \gamma \odot \eta_\mu(t, \boldsymbol{k})$$
 
@@ -105,7 +105,7 @@ $$\frac{\delta H}{\delta \boldsymbol{\mu}} = \frac{\boldsymbol{\gamma}^2}{\bolds
 
 $$\frac{\delta H}{\delta \varphi} = -\frac{1}{E} \nabla^2 \varphi(\boldsymbol{r}) - \rho_C(\boldsymbol{r})$$
 
-The noise terms, work to sample around that state. 
+The noise terms work to sample around that state. 
 
 To address the numerical stiffness inherent in high-frequency Fourier modes, `polycomp` utilizes a first-order Exponential Time Differencing (ETD1) scheme. 
 This explicitly integrates the linear response of the forces using an analytical approximation derived from the weak inhomogeneity expansion (Debye function), 
