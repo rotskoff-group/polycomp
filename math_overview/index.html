@@ -23,7 +23,7 @@
     
     
       
-        <title>Overview - Polycomp</title>
+        <title>Conceptual Basis - Polycomp</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mathematical-background" class="md-skip">
+        <a href="#conceptual-overview" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Conceptual Basis
             
           </span>
         </div>
@@ -445,55 +445,6 @@
   
   
   
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Conceptual Basis
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Conceptual Basis
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -509,7 +460,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
+    Conceptual Basis
   
 
     
@@ -527,7 +478,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
+    Conceptual Basis
   
 
     
@@ -607,45 +558,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#references-further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References &amp; Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../math_CL.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Complex Langevin
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
     </li>
   
@@ -1064,6 +990,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#references-further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References &amp; Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1081,7 +1018,7 @@
 
 
 
-<h1 id="mathematical-background">Mathematical Background<a class="headerlink" href="#mathematical-background" title="Permanent link">🔗</a></h1>
+<h1 id="conceptual-overview">Conceptual Overview<a class="headerlink" href="#conceptual-overview" title="Permanent link">🔗</a></h1>
 <p>The polycomp package implements the CL-FTS method. This section provides a brief overview of the concepts behind the method and how they are implemented here. 
 This package samples fluctuations of the field theory, rather than solving for the mean field solution, making it suitable for solving certain problems where 
 the mean-field answer is incorrect, such as coacervation.</p>
@@ -1157,9 +1094,27 @@ The gradients of the Hamiltonian with respect to the fields provide effective fo
 <p>To address the numerical stiffness inherent in high-frequency Fourier modes, <code>polycomp</code> utilizes a first-order Exponential Time Differencing (ETD1) scheme. 
 This explicitly integrates the linear response of the forces using an analytical approximation derived from the weak inhomogeneity expansion (Debye function), 
 allowing the Langevin trajectories to be stable at larger integration time steps.</p>
-<hr />
-<p><em>Full mathematical descriptions of the underlying methods are available in: Pert, E. K., Hurst, P. J., Waymouth, R. M., &amp; Rotskoff, G. M. (2025). 
-"Coacervation drives morphological diversity of mRNA encapsulating nanoparticles", <a href="https://doi.org/10.1063/5.0235799">The Journal of Chemical Physics, 162(7), 074902</a>.</em></p>
+<h2 id="references-further-reading">References &amp; Further Reading<a class="headerlink" href="#references-further-reading" title="Permanent link">🔗</a></h2>
+<p>The field theory literature is quite rich, and there are many other approaches than the one provided by this package. 
+The following resources should be good starting points for understand the details of the method as implemented in this codebase as well the foundations of the field in general, 
+the implementation of which here would not have been possible without the work of other researchers. </p>
+<ul>
+<li>
+<p><strong>Primary Methodological Reference:</strong> 
+  Pert, E. K., Hurst, P. J., Waymouth, R. M., &amp; Rotskoff, G. M. (2025). <em>"Coacervation drives morphological diversity of mRNA encapsulating nanoparticles"</em>, The Journal of Chemical Physics, 162(7), 074902. https://doi.org/10.1063/5.0235799
+  <em>(Full mathematical description of main underlying methods).</em></p>
+</li>
+<li>
+<p><strong>Open-Access Technical Derivation:</strong> 
+  Pert, E. K. (2025). <em>"Polymer Field Theories for Biological Condensates"</em>, PhD Thesis, Stanford University. https://searchworks.stanford.edu/view/in00000866764
+  <em>(Open-source thesis with full description of underlying methods, including nanoparticles).</em></p>
+</li>
+<li>
+<p><strong>Foundational Literature:</strong> 
+  Fredrickson, G. H. (2006). <em>The Equilibrium Theory of Inhomogeneous Polymers</em>. Oxford University Press.
+  <em>(Full description of original derivation of underlying methods, best refernce for general information about polymer field theories).</em></p>
+</li>
+</ul>
 
 
 
