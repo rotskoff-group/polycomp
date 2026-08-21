@@ -67,9 +67,7 @@ nav:
       - Running Efficiently: 'efficiency.md'
       - Troubleshooting: 'troubleshooting.md'
   - Example Usage: 'examples.md'
-  - Conceptual Basis:
-      - Overview: 'math_overview.md'
-      - Complex Langevin: 'math_CL.md'
+  - Conceptual Basis: 'math_overview.md'
   - API Documentation: 
       - Grid: 'grid.md'
       - Integration Schemes: 'integrator.md'
