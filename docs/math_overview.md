@@ -1,4 +1,4 @@
-# Mathematical Background
+# Conceptual Overview
 
 The polycomp package implements the CL-FTS method. This section provides a brief overview of the concepts behind the method and how they are implemented here. 
 This package samples fluctuations of the field theory, rather than solving for the mean field solution, making it suitable for solving certain problems where 
@@ -112,7 +112,20 @@ This explicitly integrates the linear response of the forces using an analytical
 allowing the Langevin trajectories to be stable at larger integration time steps.
 
 
-***
+## References & Further Reading
 
-*Full mathematical descriptions of the underlying methods are available in: Pert, E. K., Hurst, P. J., Waymouth, R. M., & Rotskoff, G. M. (2025). 
-"Coacervation drives morphological diversity of mRNA encapsulating nanoparticles", [The Journal of Chemical Physics, 162(7), 074902](https://doi.org/10.1063/5.0235799).*
+The field theory literature is quite rich, and there are many other approaches than the one provided by this package. 
+The following resources should be good starting points for understand the details of the method as implemented in this codebase as well the foundations of the field in general, 
+the implementation of which here would not have been possible without the work of other researchers. 
+
+* **Primary Methodological Reference:** 
+  Pert, E. K., Hurst, P. J., Waymouth, R. M., & Rotskoff, G. M. (2025). *"Coacervation drives morphological diversity of mRNA encapsulating nanoparticles"*, The Journal of Chemical Physics, 162(7), 074902. https://doi.org/10.1063/5.0235799
+  *(Full mathematical description of main underlying methods).*
+
+* **Open-Access Technical Derivation:** 
+  Pert, E. K. (2025). *"Polymer Field Theories for Biological Condensates"*, PhD Thesis, Stanford University. https://searchworks.stanford.edu/view/in00000866764
+  *(Open-source thesis with full description of underlying methods, including nanoparticles).*
+
+* **Foundational Literature:** 
+  Fredrickson, G. H. (2006). *The Equilibrium Theory of Inhomogeneous Polymers*. Oxford University Press.
+  *(Full description of original derivation of underlying methods, best refernce for general information about polymer field theories).*

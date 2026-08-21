@@ -11,22 +11,5 @@ of charged linear polymers, but the platform is flexible and we plan to continue
 development on many systems. The code runs only on GPUs due to the computational cost
 of the simulations, and has been optimized for those systems. 
 
-For those interested in the underlying methods, the attached references are the best technical description
-of the underlying equations that this code is designed to solve. The first two references provide direct
-explanations of the implementation present in this codebase, while the third is the primary general reference 
-work for field theory methods in general and was indispensable in creating the codebase, though not directly
-affiliated with this project. 
-
-## References & Further Reading
-
-* **Primary Methodological Reference:** 
-  Pert, E. K., Hurst, P. J., Waymouth, R. M., & Rotskoff, G. M. (2025). *"Coacervation drives morphological diversity of mRNA encapsulating nanoparticles"*, The Journal of Chemical Physics, 162(7), 074902. https://doi.org/10.1063/5.0235799
-  *(Full mathematical description of main underlying methods).*
-
-* **Open-Access Technical Derivation:** 
-  Pert, E. K. (2025). *"Polymer Field Theories for Biological Condensates"*, PhD Thesis, Stanford University. https://searchworks.stanford.edu/view/in00000866764
-  *(Open-source thesis with full description of underlying methods, including nanoparticles).*
-
-* **Foundational Literature:** 
-  Fredrickson, G. H. (2006). *The Equilibrium Theory of Inhomogeneous Polymers*. Oxford University Press.
-  *(Full description of original derivation of underlying methods, best refernce for general information about polymer field theories).*
+For those interested in the underlying methods, the Conceptual Basis section provides a good primer, alongside the references set within. 
+This project is indebted to the extensive work of those who first developed field theory methods, and we hope to help enable future researchers to push them further. 
