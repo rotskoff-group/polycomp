@@ -14,7 +14,7 @@ authors:
     corresponding: true
     affiliation: 1
 affiliations:
- - name: Stanford University
+ - name: Stanford University, Stanford, California, United States
    index: 1
 date: 3 Nov 2025
 bibliography: paper.bib
